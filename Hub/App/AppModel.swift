@@ -8,6 +8,8 @@ final class AppModel {
     let settings: SettingsStore
     let vault: VaultService
     let notes: NotesViewModel
+    let calendar: CalendarService
+    let calendarState = CalendarViewModel()
 
     var sidebarSelection: SidebarItem? = .notes
     /// Ausgeklappte Ordner in der Seitenleiste.
@@ -15,16 +17,17 @@ final class AppModel {
     /// Wird erhöht, wenn das Suchfeld den Fokus bekommen soll (Cmd+F).
     private(set) var searchFocusRequest = 0
 
-    init(settings: SettingsStore, vault: VaultService) {
+    init(settings: SettingsStore, vault: VaultService, calendar: CalendarService) {
         self.settings = settings
         self.vault = vault
+        self.calendar = calendar
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
     }
 
     convenience init() {
         let settings = SettingsStore(fileURL: SettingsStore.defaultFileURL)
-        self.init(settings: settings, vault: VaultService(layout: settings.layout))
+        self.init(settings: settings, vault: VaultService(layout: settings.layout), calendar: CalendarService())
     }
 
     // MARK: - Vault
@@ -149,6 +152,8 @@ final class AppModel {
     /// Letzter Fehler beim Schreiben; wird unten in der Seitenleiste angezeigt.
     var writeError: String?
     var isShowingNewNote = false
+    /// Vorbelegung für die nächste neue Notiz (z. B. Notiz zu einem Termin).
+    var newNotePrefill: NewNotePrefill?
     /// Elternordner, in dem gerade ein neuer Ordner angelegt wird ("" = oberste Ebene). Zeigt den Dialog.
     var newFolderParent: String?
 
@@ -157,6 +162,39 @@ final class AppModel {
         if let path = sidebarSelection?.folderPath { return path }
         if let note = notes.selectedNote { return note.folderPath }
         return ""
+    }
+
+    /// Öffnet „Neue Notiz“ mit Titel und Verweis auf einen Termin im Frontmatter.
+    func createNote(for event: CalendarEventInfo) {
+        let date = HubDateFormat.string(from: event.start, includingTime: !event.isAllDay)
+        newNotePrefill = NewNotePrefill(
+            title: event.title,
+            extraProperties: [
+                .init(key: "termin", value: .string(event.title)),
+                .init(key: "termin-datum", value: .string(date)),
+            ]
+        )
+        isShowingNewNote = true
+    }
+
+    func setCalendarHidden(_ id: String, hidden: Bool) {
+        settings.update {
+            if hidden { $0.hiddenCalendarIDs.insert(id) } else { $0.hiddenCalendarIDs.remove(id) }
+        }
+    }
+
+    /// Legt einen Termin an; Rückgängig entfernt ihn wieder.
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?, undoManager: UndoManager?) throws {
+        let id = try calendar.createEvent(title: title, start: start, end: end, isAllDay: isAllDay, calendarID: calendarID, notes: notes)
+        settings.update { $0.hiddenCalendarIDs.remove(calendarID) }
+        undoManager?.registerUndo(withTarget: self) { model in
+            do {
+                try model.calendar.removeEvent(withID: id)
+            } catch {
+                model.writeError = "Termin konnte nicht entfernt werden: \(error.localizedDescription)"
+            }
+        }
+        undoManager?.setActionName("Termin anlegen")
     }
 
     func openInObsidian(_ note: Note) {
@@ -169,10 +207,10 @@ final class AppModel {
     }
 
     /// Legt eine Notiz an, öffnet sie im Bearbeiten-Modus und macht das Anlegen rückgängig-fähig.
-    func createNote(title: String, folder: String, undoManager: UndoManager?) async throws {
+    func createNote(title: String, folder: String, extraProperties: [Frontmatter.Entry] = [], undoManager: UndoManager?) async throws {
         guard let writer else { return }
         let (area, topic) = settings.layout.classify(folder: folder)
-        let content = NoteTemplate.content(area: area, topic: topic, created: .now, body: "")
+        let content = NoteTemplate.content(area: area, topic: topic, created: .now, extraProperties: extraProperties, body: "")
         let relativePath = try writer.createNote(folder: folder, title: title, content: content)
         await vault.rescan()
 
@@ -231,4 +269,10 @@ final class AppModel {
             writeError = "\(kind) konnte nicht in den Papierkorb gelegt werden: \(error.localizedDescription)"
         }
     }
+}
+
+/// Vorbelegung für das Blatt „Neue Notiz“.
+struct NewNotePrefill: Equatable {
+    var title: String
+    var extraProperties: [Frontmatter.Entry]
 }

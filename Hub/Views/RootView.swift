@@ -26,7 +26,11 @@ struct RootView: View {
                 NavigationSplitView {
                     sidebar
                 } detail: {
-                    sectionPlaceholder
+                    if model.sidebarSelection == .calendar {
+                        CalendarView()
+                    } else {
+                        sectionPlaceholder
+                    }
                 }
             }
         }

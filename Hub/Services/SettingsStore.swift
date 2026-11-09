@@ -11,6 +11,9 @@ struct AppSettings: Codable, Equatable {
     var areas: [String] = VaultLayout.defaultAreas
     /// Ordner auf oberster Ebene automatisch als Bereiche verwenden (Struktur aus Obsidian übernehmen).
     var automaticAreas = true
+    /// Ausgeblendete Kalender. Neue Kalender sind damit automatisch sichtbar.
+    var hiddenCalendarIDs: Set<String> = []
+    var calendarScope: CalendarScope = .week
 
     init() {}
 
@@ -21,6 +24,8 @@ struct AppSettings: Codable, Equatable {
         vaultPath = try container.decodeIfPresent(String.self, forKey: .vaultPath)
         areas = try container.decodeIfPresent([String].self, forKey: .areas) ?? VaultLayout.defaultAreas
         automaticAreas = try container.decodeIfPresent(Bool.self, forKey: .automaticAreas) ?? true
+        hiddenCalendarIDs = try container.decodeIfPresent(Set<String>.self, forKey: .hiddenCalendarIDs) ?? []
+        calendarScope = try container.decodeIfPresent(CalendarScope.self, forKey: .calendarScope) ?? .week
     }
 }
 

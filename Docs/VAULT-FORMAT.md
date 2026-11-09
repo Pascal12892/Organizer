@@ -54,3 +54,11 @@ Aufgelöst wird wie in Obsidian: zuerst über den Pfad, dann über den Dateiname
   Andernfalls fragt Hub, welche Version gelten soll.
 - **Rückgängig (⌘Z)** nach dem Anlegen einer Notiz oder eines Themas legt sie in den Papierkorb. Sie ist dort wiederherstellbar.
 - **Neuer Ordner (⌥⌘N, Rechtsklick „Neuer Unterordner“):** legt nur einen Ordner an. Ein Unterordner eines Bereichs ist ein Thema.
+
+## Kalender (ab Phase 3)
+
+Termine kommen aus dem Apple Kalender (EventKit) und bleiben dort. Hub legt Termine nur an, wenn du es willst
+(⌘N in der Kalenderansicht). Eine **Notiz zum Termin** bekommt zusätzlich im Frontmatter:
+
+    termin: Vorlesung Data Science
+    termin-datum: 2026-11-10T10:00

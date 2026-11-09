@@ -6,11 +6,31 @@ enum PreviewData {
     static func model(withVault: Bool = true) -> AppModel {
         let settings = SettingsStore.inMemory()
         let vault = withVault ? VaultService.preview(snapshot) : VaultService()
-        let model = AppModel(settings: settings, vault: vault)
+        let model = AppModel(settings: settings, vault: vault, calendar: calendar)
         if withVault {
             model.notes.selectedNoteID = snapshot.notes.first?.id
         }
         return model
+    }
+
+    static var calendar: CalendarService {
+        let calendars = [
+            CalendarInfo(id: "uni", title: "Uni", color: .blue, sourceTitle: "iCloud", allowsModifications: true),
+            CalendarInfo(id: "arbeit", title: "Arbeit", color: .orange, sourceTitle: "iCloud", allowsModifications: true),
+            CalendarInfo(id: "feiertage", title: "Feiertage", color: .green, sourceTitle: "Abonnements", allowsModifications: false),
+        ]
+        let day = Calendar.current.startOfDay(for: .now)
+        func at(_ dayOffset: Int, _ hour: Double) -> Date {
+            Calendar.current.date(byAdding: .day, value: dayOffset, to: day)!.addingTimeInterval(hour * 3600)
+        }
+        let events = [
+            CalendarEventInfo(id: "1", title: "Vorlesung Data Science", start: at(0, 10), end: at(0, 11.5), calendarID: "uni", location: "Hörsaal 3"),
+            CalendarEventInfo(id: "2", title: "Team-Meeting", start: at(0, 11), end: at(0, 12), calendarID: "arbeit"),
+            CalendarEventInfo(id: "3", title: "Abgabe Übungsblatt", start: at(1, 0), end: at(2, 0), isAllDay: true, calendarID: "uni"),
+            CalendarEventInfo(id: "4", title: "Sprint-Review", start: at(2, 14), end: at(2, 15), calendarID: "arbeit"),
+            CalendarEventInfo(id: "5", title: "Tutorium", start: at(-1, 16), end: at(-1, 17.5), calendarID: "uni"),
+        ]
+        return CalendarService(previewCalendars: calendars, events: events)
     }
 
     static let snapshot: VaultSnapshot = {

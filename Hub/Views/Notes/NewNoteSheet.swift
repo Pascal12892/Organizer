@@ -10,6 +10,7 @@ struct NewNoteSheet: View {
 
     @State private var title = ""
     @State private var folder = ""
+    @State private var extraProperties: [Frontmatter.Entry] = []
     @State private var errorMessage: String?
     @State private var isCreating = false
     @FocusState private var titleFocused: Bool
@@ -56,6 +57,11 @@ struct NewNoteSheet: View {
         .navigationTitle("Neue Notiz")
         .onAppear {
             folder = model.defaultFolder
+            if let prefill = model.newNotePrefill {
+                title = prefill.title
+                extraProperties = prefill.extraProperties
+                model.newNotePrefill = nil
+            }
             titleFocused = true
         }
     }
@@ -63,11 +69,15 @@ struct NewNoteSheet: View {
     /// Zeigt, was ins Frontmatter geschrieben wird.
     private var propertiesPreview: String {
         let (area, topic) = model.settings.layout.classify(folder: folder)
-        switch (area, topic) {
-        case let (area?, topic?): return "Bereich \(area) · Thema \(topic)"
-        case let (area?, nil): return "Bereich \(area)"
-        default: return "Kein Bereich"
+        var parts: [String] = switch (area, topic) {
+        case let (area?, topic?): ["Bereich \(area)", "Thema \(topic)"]
+        case let (area?, nil): ["Bereich \(area)"]
+        default: ["Kein Bereich"]
         }
+        if let event = extraProperties.first(where: { $0.key == "termin" })?.value.stringValue {
+            parts.append("Termin „\(event)“")
+        }
+        return parts.joined(separator: " · ")
     }
 
     private func create() {
@@ -77,6 +87,7 @@ struct NewNoteSheet: View {
                 try await model.createNote(
                     title: title.trimmingCharacters(in: .whitespaces),
                     folder: folder,
+                    extraProperties: extraProperties,
                     undoManager: undoManager
                 )
                 dismiss()

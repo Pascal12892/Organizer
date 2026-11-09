@@ -8,9 +8,19 @@ struct HubCommands: Commands {
 
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
-            Button("Neue Notiz …") { model.isShowingNewNote = true }
+            if model.sidebarSelection == .calendar {
+                Button("Neuer Termin …") {
+                    model.calendarState.newEventStart = model.calendarState.suggestedStart()
+                }
                 .keyboardShortcut("n")
-                .disabled(!vaultReady)
+                .disabled(model.calendar.access != .fullAccess || model.calendar.writableCalendars.isEmpty)
+                Button("Neue Notiz …") { model.isShowingNewNote = true }
+                    .disabled(!vaultReady)
+            } else {
+                Button("Neue Notiz …") { model.isShowingNewNote = true }
+                    .keyboardShortcut("n")
+                    .disabled(!vaultReady)
+            }
             Button("Neuer Ordner …") {
                 model.newFolderParent = model.sidebarSelection?.folderPath ?? ""
             }

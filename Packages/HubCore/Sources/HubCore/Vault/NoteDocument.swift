@@ -65,6 +65,7 @@ public enum NoteTemplate {
         topic: String?,
         created: Date,
         extraTags: [String] = [],
+        extraProperties: [Frontmatter.Entry] = [],
         body: String,
         timeZone: TimeZone = .current
     ) -> String {
@@ -74,6 +75,12 @@ public enum NoteTemplate {
         lines.append("erstellt: \(HubDateFormat.string(from: created, timeZone: timeZone))")
         let tags = TagExtractor.deduplicated(([area, topic].compactMap { $0 }.map(tag(for:)) + extraTags).filter { !$0.isEmpty })
         lines.append("tags: [\(tags.map(yamlValue).joined(separator: ", "))]")
+        for entry in extraProperties {
+            switch entry.value {
+            case .string(let value): lines.append("\(entry.key): \(yamlValue(value))")
+            case .list(let values): lines.append("\(entry.key): [\(values.map(yamlValue).joined(separator: ", "))]")
+            }
+        }
         lines.append("---")
         let text = body.trimmingCharacters(in: .newlines)
         return lines.joined(separator: "\n") + "\n" + (text.isEmpty ? "" : text + "\n")
