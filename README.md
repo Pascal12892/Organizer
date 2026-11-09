@@ -48,3 +48,30 @@ Notizen suchen, lesen, anlegen und ergänzen, Aufgaben ansehen, anlegen und änd
 
 Claude fragt vor jedem Werkzeugaufruf. Der Server schreibt wie Organizer nur zeilengenau und überschreibt nie Dateien.
 Organizer selbst braucht dafür keinen Internetzugang.
+
+## Menüleiste, Mitteilungen, Widgets
+
+- **Menüleiste:** Symbol mit den Terminen und Aufgaben von heute und einer Schnellerfassung
+  (abschaltbar unter Einstellungen › Allgemein).
+- **Mitteilungen:** Erinnerung am Fälligkeitstag zur gewählten Uhrzeit, für Aufgaben und Meilensteine.
+  In der Mitteilung lässt sich eine Aufgabe direkt abhaken.
+- **Widgets:** „Heutige Aufgaben“ und „Nächste Termine“ für den Schreibtisch und die Mitteilungszentrale.
+  Die App schreibt dafür einen kleinen Auszug in einen gemeinsamen App-Group-Container.
+  **Voraussetzung:** In Xcode unter *Signing & Capabilities* für beide Targets (Organizer, OrganizerWidgets)
+  dein Team auswählen. Ohne Team gibt es keine gültige App Group, die Widgets zeigen dann nur einen Hinweis.
+
+## Tastatur
+
+| Kürzel | Aktion |
+|---|---|
+| ⌘1 … ⌘5 | Dashboard, Notizen, Kalender, Aufgaben, Roadmap |
+| ⌘N | Neue Notiz (im Kalender: Termin, in Aufgaben: Aufgabe) |
+| ⌥⌘N | Neuer Ordner |
+| ⌘F | Suchen |
+| ⌘E | Bearbeiten / Vorschau |
+| ⌥⌘O | In Obsidian öffnen |
+| Leertaste | Quick Look (Notizliste), abhaken (Aufgaben) |
+| ⏎ | Notiz bearbeiten, im Kalender Tag öffnen |
+| ⌘← ⌘→ ⌘T | Kalender zurück, weiter, heute |
+| ⌃⌥ Leertaste | Schnellerfassung aus jeder App |
+| ⌘Z / ⇧⌘Z | Rückgängig / Wiederholen |

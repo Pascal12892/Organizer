@@ -1,10 +1,12 @@
 import OrganizerCore
+import QuickLook
 import SwiftUI
 
 /// Mittlere Spalte: Notizen eines Bereichs, gruppiert nach Änderungsdatum.
 struct NoteListView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.undoManager) private var undoManager
+    @State private var quickLookURL: URL?
     let scope: NoteScope
 
     var body: some View {
@@ -46,6 +48,18 @@ struct NoteListView: View {
             }
         }
         .overlay { emptyState(isEmpty: count == 0) }
+        // Leertaste: Quick Look der Markdown-Datei, Return: bearbeiten – wie im Finder bzw. in Notizen.
+        .onKeyPress(.space) {
+            guard let note = notesModel.selectedNote else { return .ignored }
+            quickLookURL = note.url
+            return .handled
+        }
+        .onKeyPress(.return) {
+            guard notesModel.selectedNote != nil else { return .ignored }
+            notesModel.isEditing = true
+            return .handled
+        }
+        .quickLookPreview($quickLookURL)
         .navigationTitle(title)
         .navigationSubtitle(count == 1 ? "1 Notiz" : "\(count) Notizen")
         .toolbar {

@@ -1,6 +1,7 @@
 import AppKit
 import OrganizerCore
 import Observation
+import WidgetKit
 
 /// Zentraler Zustand der App: Einstellungen, Vault und Navigation.
 @Observable
@@ -13,6 +14,7 @@ final class AppModel {
     let folderLinks: FolderLinkService
     let roadmap: RoadmapService
     @ObservationIgnored private(set) var quickCapture: QuickCaptureController!
+    @ObservationIgnored private(set) var notifications: NotificationService!
     @ObservationIgnored private let hotKey = HotKeyService()
     let calendarState = CalendarViewModel()
 
@@ -35,6 +37,7 @@ final class AppModel {
         self.roadmap = RoadmapService(vault: vault)
         defer {
             quickCapture = QuickCaptureController(model: self)
+            notifications = NotificationService(model: self)
         }
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
@@ -227,6 +230,52 @@ final class AppModel {
             writeError = "Notiz konnte nicht verschoben werden: \(error.localizedDescription)"
         }
         reloadVault()
+    }
+
+    // MARK: - Widgets und Links
+
+    /// Schreibt den Stand für die Widgets und lädt sie neu. Ohne App Group (z. B. ohne Team in Xcode)
+    /// passiert nichts – die Widgets zeigen dann einen Hinweis.
+    func publishWidgetSnapshot() {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        let due = tasks.sections(filter: .today, area: nil).flatMap(\.tasks)
+        let interval = DateInterval(start: today, end: calendar.date(byAdding: .day, value: 7, to: today)!)
+        let events = self.calendar.access == .fullAccess
+            ? self.calendar.events(in: interval, hiddenCalendarIDs: settings.settings.hiddenCalendarIDs)
+                .filter { $0.end > .now }
+                .sorted { $0.start < $1.start }
+            : []
+        let snapshot = WidgetSnapshot(
+            generated: .now,
+            tasks: due.prefix(20).map {
+                .init(title: $0.title, due: $0.relevantDate, isOverdue: TaskGrouping.isOverdue($0), area: $0.area, priority: $0.priority.rawValue)
+            },
+            openTaskCount: tasks.counts.open,
+            events: events.prefix(20).map { event in
+                let info = self.calendar.calendar(withID: event.calendarID)
+                return .init(title: event.title, start: event.start, end: event.end, isAllDay: event.isAllDay,
+                             color: info?.hex ?? "#007AFF", calendar: info?.title ?? "")
+            }
+        )
+        do {
+            try snapshot.save()
+            WidgetCenter.shared.reloadAllTimelines()
+        } catch {
+            // Bewusst still: Ohne Team/App Group gibt es keinen gemeinsamen Container. Die App funktioniert trotzdem.
+        }
+    }
+
+    /// Links aus Widgets und Mitteilungen: organizer://tasks, organizer://calendar, organizer://roadmap
+    func handle(_ url: URL) {
+        guard url.scheme == "organizer" else { return }
+        switch url.host() {
+        case "tasks": sidebarSelection = .tasks
+        case "calendar": sidebarSelection = .calendar
+        case "roadmap": sidebarSelection = .roadmap
+        case "notes": sidebarSelection = .notes
+        default: sidebarSelection = .dashboard
+        }
     }
 
     func revealInFinder(_ notes: [Note]) {

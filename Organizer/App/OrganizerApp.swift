@@ -8,6 +8,13 @@ struct OrganizerApp: App {
         Window("Organizer", id: "main") {
             RootView()
                 .environment(model)
+                // Erinnerungen neu planen, sobald sich Aufgaben oder Meilensteine ändern.
+                .onChange(of: model.vault.version) {
+                    model.notifications.scheduleUpdate()
+                    model.publishWidgetSnapshot()
+                }
+                .onChange(of: model.calendar.revision) { model.publishWidgetSnapshot() }
+                .onOpenURL { model.handle($0) }
                 .task {
                     model.registerQuickCaptureHotKey()
                     await model.restoreVault()
@@ -23,5 +30,17 @@ struct OrganizerApp: App {
             SettingsView()
                 .environment(model)
         }
+
+        MenuBarExtra(isInserted: Binding(
+            get: { model.settings.settings.showsMenuBarIcon },
+            set: { shown in model.settings.update { $0.showsMenuBarIcon = shown } }
+        )) {
+            MenuBarView()
+                .environment(model)
+        } label: {
+            Image("MenuBarIcon")
+                .accessibilityLabel("Organizer")
+        }
+        .menuBarExtraStyle(.window)
     }
 }

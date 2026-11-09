@@ -21,6 +21,11 @@ struct AppSettings: Codable, Equatable {
     var quickCaptureHotKey = HotKeyPreset.controlOptionSpace.rawValue
     /// Ordner für schnelle Notizen ohne Bereichs-Tag.
     var quickNoteFolder = "Inbox"
+    var showsMenuBarIcon = true
+    /// Erinnerungen für fällige Aufgaben und Meilensteine.
+    var notifiesDueItems = false
+    /// Uhrzeit der Erinnerung in Minuten nach Mitternacht (Standard 8:30).
+    var notificationMinutes = 8 * 60 + 30
 
     init() {}
 
@@ -38,6 +43,9 @@ struct AppSettings: Codable, Equatable {
         folderBookmarks = try container.decodeIfPresent([String: Data].self, forKey: .folderBookmarks) ?? [:]
         quickCaptureHotKey = try container.decodeIfPresent(String.self, forKey: .quickCaptureHotKey) ?? HotKeyPreset.controlOptionSpace.rawValue
         quickNoteFolder = try container.decodeIfPresent(String.self, forKey: .quickNoteFolder) ?? "Inbox"
+        showsMenuBarIcon = try container.decodeIfPresent(Bool.self, forKey: .showsMenuBarIcon) ?? true
+        notifiesDueItems = try container.decodeIfPresent(Bool.self, forKey: .notifiesDueItems) ?? false
+        notificationMinutes = try container.decodeIfPresent(Int.self, forKey: .notificationMinutes) ?? 8 * 60 + 30
     }
 }
 

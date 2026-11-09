@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 /// Einstellungsfenster (Cmd+,).
 struct SettingsView: View {
@@ -104,6 +105,8 @@ private struct GeneralSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            NotificationSettingsSection()
+
             if let error = model.settings.lastError {
                 Section {
                     Label(error, systemImage: "exclamationmark.triangle.fill")
@@ -112,6 +115,63 @@ private struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+/// Menüleisten-Symbol und Erinnerungen.
+private struct NotificationSettingsSection: View {
+    @Environment(AppModel.self) private var model
+    @State private var authorization: UNAuthorizationStatus = .notDetermined
+
+    var body: some View {
+        Section {
+            Toggle("Symbol in der Menüleiste", isOn: Binding(
+                get: { model.settings.settings.showsMenuBarIcon },
+                set: { shown in model.settings.update { $0.showsMenuBarIcon = shown } }
+            ))
+            Toggle("An fällige Aufgaben und Meilensteine erinnern", isOn: Binding(
+                get: { model.settings.settings.notifiesDueItems },
+                set: { enabled in
+                    model.settings.update { $0.notifiesDueItems = enabled }
+                    Task {
+                        if enabled { _ = await model.notifications.requestAuthorization() }
+                        authorization = model.notifications.authorization
+                        model.notifications.scheduleUpdate()
+                    }
+                }
+            ))
+            if model.settings.settings.notifiesDueItems {
+                DatePicker("Uhrzeit", selection: Binding(
+                    get: { Calendar.current.date(byAdding: .minute, value: model.settings.settings.notificationMinutes,
+                                                 to: Calendar.current.startOfDay(for: .now))! },
+                    set: { date in
+                        let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
+                        model.settings.update { $0.notificationMinutes = (parts.hour ?? 8) * 60 + (parts.minute ?? 0) }
+                        model.notifications.scheduleUpdate()
+                    }
+                ), displayedComponents: .hourAndMinute)
+                if authorization == .denied {
+                    HStack {
+                        Label("Mitteilungen sind für Organizer ausgeschaltet.", systemImage: "bell.slash")
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Systemeinstellungen öffnen") {
+                            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension")!)
+                        }
+                    }
+                }
+            }
+        } header: {
+            Text("Menüleiste und Mitteilungen")
+        } footer: {
+            Text("Erinnert am Fälligkeitstag zur gewählten Uhrzeit. In der Mitteilung kannst du die Aufgabe direkt abhaken.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        }
+        .task {
+            await model.notifications.refreshAuthorization()
+            authorization = model.notifications.authorization
+        }
     }
 }
 

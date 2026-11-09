@@ -1,5 +1,6 @@
 import AppKit
 import OrganizerCore
+import QuickLook
 import SwiftUI
 
 /// Abschnitt „Auf dem Mac“ über den Notizen eines Themas: verknüpfte Ordner mit ihren Dateien.
@@ -125,6 +126,7 @@ struct LinkedFoldersSection: View {
 /// Eine Datei: Symbol aus dem Finder, Name, Änderungsdatum. Doppelklick öffnet sie.
 private struct FileRow: View {
     let file: LinkedFile
+    @State private var quickLookURL: URL?
 
     var body: some View {
         HStack(spacing: 8) {
@@ -145,8 +147,10 @@ private struct FileRow: View {
         }
         .contentShape(Rectangle())
         .onTapGesture(count: 2) { NSWorkspace.shared.open(file.url) }
+        .quickLookPreview($quickLookURL)
         .contextMenu {
             Button("Öffnen") { NSWorkspace.shared.open(file.url) }
+            Button("Übersicht") { quickLookURL = file.url }
             Button("Im Finder zeigen") { NSWorkspace.shared.activateFileViewerSelecting([file.url]) }
         }
         .help(file.isDirectory ? "Doppelklick öffnet den Ordner im Finder" : "Doppelklick öffnet die Datei")

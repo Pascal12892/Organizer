@@ -10,6 +10,8 @@ struct CalendarInfo: Identifiable, Hashable {
     let color: Color
     let sourceTitle: String
     let allowsModifications: Bool
+    /// Farbe als „#RRGGBB“ (für die Widgets).
+    var hex: String = "#007AFF"
 }
 
 /// Zugriff auf den Apple Kalender über EventKit.
@@ -82,7 +84,8 @@ final class CalendarService {
                     title: calendar.title,
                     color: Color(cgColor: calendar.cgColor),
                     sourceTitle: calendar.source?.title ?? "Andere",
-                    allowsModifications: calendar.allowsContentModifications
+                    allowsModifications: calendar.allowsContentModifications,
+                    hex: Self.hex(calendar.cgColor)
                 )
             }
             .sorted { ($0.sourceTitle, $0.title) < ($1.sourceTitle, $1.title) }
@@ -148,6 +151,11 @@ final class CalendarService {
     func removeEvent(withID id: String) throws {
         guard let event = store.event(withIdentifier: id) else { return }
         try store.remove(event, span: .thisEvent, commit: true)
+    }
+
+    private static func hex(_ color: CGColor?) -> String {
+        guard let color, let rgb = NSColor(cgColor: color)?.usingColorSpace(.sRGB) else { return "#007AFF" }
+        return String(format: "#%02X%02X%02X", Int(rgb.redComponent * 255), Int(rgb.greenComponent * 255), Int(rgb.blueComponent * 255))
     }
 
     private func storeChanged() {
