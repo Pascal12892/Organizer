@@ -1,0 +1,126 @@
+import HubCore
+import SwiftUI
+
+/// Mittlere Spalte: Notizen eines Bereichs, gruppiert nach Änderungsdatum.
+struct NoteListView: View {
+    @Environment(AppModel.self) private var model
+    let scope: NoteScope
+
+    var body: some View {
+        @Bindable var notesModel = model.notes
+        let sections = notesModel.sections(in: scope)
+        let count = sections.reduce(0) { $0 + $1.notes.count }
+
+        List(selection: $notesModel.selectedNoteID) {
+            ForEach(sections) { section in
+                Section(section.title) {
+                    ForEach(section.notes) { note in
+                        NoteRow(note: note, showsLocation: showsLocation)
+                            .tag(note.id)
+                    }
+                }
+            }
+        }
+        .contextMenu(forSelectionType: Note.ID.self) { ids in
+            let selected = model.vault.notes.filter { ids.contains($0.id) }
+            if !selected.isEmpty {
+                Button("Im Finder zeigen") { model.revealInFinder(selected) }
+                Button(selected.count == 1 ? "Pfad kopieren" : "Pfade kopieren") {
+                    copyPaths(selected)
+                }
+            }
+        }
+        .overlay { emptyState(isEmpty: count == 0) }
+        .navigationTitle(title)
+        .navigationSubtitle(count == 1 ? "1 Notiz" : "\(count) Notizen")
+        .toolbar {
+            ToolbarItem {
+                TagFilterMenu(tags: notesModel.availableTags(in: scope), selection: $notesModel.tagFilter)
+            }
+        }
+    }
+
+    private var title: String {
+        switch scope {
+        case .all: "Notizen"
+        case .area(let area): area
+        case .topic(_, let name): name
+        }
+    }
+
+    /// In der Gesamtansicht hilft der Ort, in einem Thema wäre er überflüssig.
+    private var showsLocation: Bool {
+        if case .topic = scope { return false }
+        return true
+    }
+
+    @ViewBuilder
+    private func emptyState(isEmpty: Bool) -> some View {
+        if isEmpty {
+            if !model.notes.searchText.isEmpty {
+                ContentUnavailableView.search(text: model.notes.searchText)
+            } else if let tag = model.notes.tagFilter {
+                ContentUnavailableView {
+                    Label("Keine Notizen mit #\(tag)", systemImage: "tag")
+                } actions: {
+                    Button("Filter entfernen") { model.notes.tagFilter = nil }
+                }
+            } else {
+                ContentUnavailableView {
+                    Label("Keine Notizen", systemImage: "note.text")
+                } description: {
+                    Text("Notizen, die du in Obsidian in diesem Ordner anlegst, erscheinen hier automatisch.")
+                }
+            }
+        }
+    }
+
+    private func copyPaths(_ notes: [Note]) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(notes.map { $0.url.path(percentEncoded: false) }.joined(separator: "\n"), forType: .string)
+    }
+}
+
+/// Filter nach Tag in der Symbolleiste.
+private struct TagFilterMenu: View {
+    let tags: [String]
+    @Binding var selection: String?
+
+    var body: some View {
+        Menu {
+            Picker("Tag", selection: $selection) {
+                Text("Alle Notizen").tag(String?.none)
+                if !tags.isEmpty {
+                    Divider()
+                    ForEach(tags, id: \.self) { tag in
+                        Text("#\(tag)").tag(String?.some(tag))
+                    }
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label("Nach Tag filtern", systemImage: selection == nil
+                  ? "line.3.horizontal.decrease.circle"
+                  : "line.3.horizontal.decrease.circle.fill")
+        }
+        .help(selection.map { "Gefiltert nach #\($0)" } ?? "Nach Tag filtern")
+        .disabled(tags.isEmpty && selection == nil)
+    }
+}
+
+#Preview("Hell") {
+    NavigationStack {
+        NoteListView(scope: .all)
+    }
+    .environment(PreviewData.model())
+    .frame(width: 340, height: 600)
+}
+
+#Preview("Dunkel") {
+    NavigationStack {
+        NoteListView(scope: .area("Uni"))
+    }
+    .environment(PreviewData.model())
+    .frame(width: 340, height: 600)
+    .preferredColorScheme(.dark)
+}
