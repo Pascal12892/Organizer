@@ -1,15 +1,15 @@
-# Vault-Format von Hub
+# Vault-Format von Organizer
 
-Obsidian bleibt die einzige Quelle. Hub liest normale Markdown-Dateien; alles ist ohne Hub in Obsidian les- und bearbeitbar.
+Obsidian bleibt die einzige Quelle. Organizer liest normale Markdown-Dateien; alles ist ohne Organizer in Obsidian les- und bearbeitbar.
 
 ## Ordner
 
     <Vault>/
       <Bereich>/<Thema>/…   Bereiche: Uni, Arbeit, Freizeit (in den Einstellungen änderbar)
-      _Hub/Tasks.md          optional, zentrale Aufgaben (Phase 4)
-      _Hub/Roadmap/          ein Projekt pro Datei (Phase 6)
+      _Organizer/Tasks.md          optional, zentrale Aufgaben (Phase 4)
+      _Organizer/Roadmap/          ein Projekt pro Datei (Phase 6)
 
-**Standard: Struktur aus Obsidian übernehmen.** Jeder Ordner auf oberster Ebene ist ein Bereich (außer `_Hub`),
+**Standard: Struktur aus Obsidian übernehmen.** Jeder Ordner auf oberster Ebene ist ein Bereich (außer `_Organizer`),
 seine Unterordner sind Themen. Die Seitenleiste zeigt den ganzen Ordnerbaum, beliebig tief.
 In den Einstellungen lässt sich stattdessen eine feste Liste von Bereichen pflegen.
 
@@ -45,19 +45,19 @@ Aufgelöst wird wie in Obsidian: zuerst über den Pfad, dann über den Dateiname
 ## Schreiben (ab Phase 2)
 
 - **Neue Notiz:** `<Bereich>/<Thema>/<Titel>.md` mit dem Frontmatter oben. Gibt es den Namen schon,
-  heißt die Datei `<Titel> 2.md`. Hub überschreibt beim Anlegen nie eine vorhandene Datei.
-- **Bearbeiten:** Hub ändert nur den Text unter dem Frontmatter. Der Frontmatter-Block und die Zeilenenden
+  heißt die Datei `<Titel> 2.md`. Organizer überschreibt beim Anlegen nie eine vorhandene Datei.
+- **Bearbeiten:** Organizer ändert nur den Text unter dem Frontmatter. Der Frontmatter-Block und die Zeilenenden
   bleiben Byte für Byte erhalten. Gespeichert wird automatisch kurz nach dem Tippen, beim Notizwechsel
-  und wenn Hub in den Hintergrund geht.
-- **Konflikte:** Vor jedem Speichern prüft Hub, ob die Datei noch so aussieht wie beim Laden.
-  Hat Obsidian sie geändert und gibt es in Hub keine ungespeicherten Änderungen, übernimmt Hub den neuen Stand.
-  Andernfalls fragt Hub, welche Version gelten soll.
+  und wenn Organizer in den Hintergrund geht.
+- **Konflikte:** Vor jedem Speichern prüft Organizer, ob die Datei noch so aussieht wie beim Laden.
+  Hat Obsidian sie geändert und gibt es in Organizer keine ungespeicherten Änderungen, übernimmt Organizer den neuen Stand.
+  Andernfalls fragt Organizer, welche Version gelten soll.
 - **Rückgängig (⌘Z)** nach dem Anlegen einer Notiz oder eines Themas legt sie in den Papierkorb. Sie ist dort wiederherstellbar.
 - **Neuer Ordner (⌥⌘N, Rechtsklick „Neuer Unterordner“):** legt nur einen Ordner an. Ein Unterordner eines Bereichs ist ein Thema.
 
 ## Kalender (ab Phase 3)
 
-Termine kommen aus dem Apple Kalender (EventKit) und bleiben dort. Hub legt Termine nur an, wenn du es willst
+Termine kommen aus dem Apple Kalender (EventKit) und bleiben dort. Organizer legt Termine nur an, wenn du es willst
 (⌘N in der Kalenderansicht). Eine **Notiz zum Termin** bekommt zusätzlich im Frontmatter:
 
     termin: Vorlesung Data Science
