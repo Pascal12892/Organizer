@@ -82,3 +82,19 @@ Jede Zeile `- [ ] …` außerhalb von Codeblöcken ist eine Aufgabe – im Forma
   dass die Zeile noch so in der Datei steht; sonst wird nichts geschrieben. Jede Änderung ist mit ⌘Z rückgängig zu machen.
 - **Neue Aufgaben** landen je nach Einstellung in `_Organizer/Tasks.md` oder in `Aufgaben.md` im Bereichs- bzw. Themenordner.
 - Im Kalender erscheinen fällige Aufgaben nur in Organizer, nicht im Apple Kalender.
+
+## Mac-Ordner pro Thema (ab Phase 5)
+
+Verknüpfte Ordner stehen in der Übersichtsnotiz des Themas, `<Bereich>/<Thema>/_index.md`:
+
+    ---
+    bereich: Uni
+    thema: Statistik
+    ordner:
+      - /Users/pascal/Desktop/Statistik Übungen
+    ---
+
+- Organizer ändert dabei nur die Zeilen der Eigenschaft `ordner`; fehlt `_index.md`, wird sie angelegt.
+- Die Zugriffsrechte (Security-Scoped Bookmarks) speichert Organizer nur in seinen Einstellungen. Steht ein Pfad im
+  Frontmatter, für den Organizer noch keine Erlaubnis hat (z. B. nach einer Neuinstallation), zeigt er „Zugriff erlauben …“.
+- Verknüpfen und Entfernen lässt sich mit ⌘Z rückgängig machen. Die Ordner auf dem Mac selbst werden nie verändert.

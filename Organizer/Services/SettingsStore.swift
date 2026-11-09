@@ -20,6 +20,8 @@ struct AppSettings: Codable, Equatable {
     var assistantEffort = "medium"
     /// Änderungen durch Claude erst nach Bestätigung ausführen.
     var assistantConfirmsChanges = true
+    /// Zugriffsrechte auf verknüpfte Mac-Ordner (Pfad → Security-Scoped Bookmark).
+    var folderBookmarks: [String: Data] = [:]
 
     init() {}
 
@@ -37,6 +39,7 @@ struct AppSettings: Codable, Equatable {
         assistantModel = try container.decodeIfPresent(String.self, forKey: .assistantModel) ?? AssistantModel.opus.rawValue
         assistantEffort = try container.decodeIfPresent(String.self, forKey: .assistantEffort) ?? "medium"
         assistantConfirmsChanges = try container.decodeIfPresent(Bool.self, forKey: .assistantConfirmsChanges) ?? true
+        folderBookmarks = try container.decodeIfPresent([String: Data].self, forKey: .folderBookmarks) ?? [:]
     }
 }
 

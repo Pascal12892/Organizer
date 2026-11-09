@@ -4,6 +4,7 @@ import SwiftUI
 /// Mittlere Spalte: Notizen eines Bereichs, gruppiert nach Änderungsdatum.
 struct NoteListView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let scope: NoteScope
 
     var body: some View {
@@ -12,6 +13,9 @@ struct NoteListView: View {
         let count = sections.reduce(0) { $0 + $1.notes.count }
 
         List(selection: $notesModel.selectedNoteID) {
+            if case .folder(let path) = scope, !notesModel.isFiltering {
+                LinkedFoldersSection(folder: path)
+            }
             ForEach(sections) { section in
                 Section(section.title) {
                     ForEach(section.notes) { note in
@@ -44,6 +48,16 @@ struct NoteListView: View {
         .toolbar {
             ToolbarItem {
                 TagFilterMenu(tags: notesModel.availableTags(in: scope), selection: $notesModel.tagFilter)
+            }
+            if case .folder(let path) = scope {
+                ToolbarItem {
+                    Button {
+                        model.folderLinks.chooseAndLink(to: path, undoManager: undoManager)
+                    } label: {
+                        Label("Mac-Ordner verknüpfen", systemImage: "folder.badge.plus")
+                    }
+                    .help("Mac-Ordner mit „\(title)“ verknüpfen")
+                }
             }
             ToolbarItem {
                 Button {

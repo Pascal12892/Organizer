@@ -74,6 +74,16 @@ public struct VaultWriter: Sendable {
         throw WriteError.alreadyExists(baseName)
     }
 
+    /// Legt eine Datei mit genau diesem Pfad an. Existiert sie schon, wird nichts geschrieben.
+    public func createFile(_ relativePath: String, content: String) throws {
+        let fileURL = url(for: relativePath)
+        guard !FileManager.default.fileExists(atPath: fileURL.path(percentEncoded: false)) else {
+            throw WriteError.alreadyExists(relativePath)
+        }
+        try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try coordinatedWrite(content, to: fileURL, overwrite: false)
+    }
+
     /// Legt einen Themen-Ordner an.
     public func createTopic(area: String, name: String) throws -> String {
         try createFolder(parent: area, name: name)

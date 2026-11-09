@@ -70,6 +70,7 @@ struct SidebarView: View {
 /// Ein Ordner mit seinen Unterordnern, beliebig tief.
 private struct FolderRow: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let node: FolderNode
     let counts: [String: Int]
 
@@ -98,6 +99,10 @@ private struct FolderRow: View {
                     model.isShowingNewNote = true
                 }
                 Button("Neuer Unterordner …") { model.newFolderParent = node.path }
+                Button("Mac-Ordner verknüpfen …") {
+                    model.sidebarSelection = item
+                    model.folderLinks.chooseAndLink(to: node.path, undoManager: undoManager)
+                }
                 Divider()
                 if let root = model.vault.rootURL {
                     Button("Im Finder zeigen") {

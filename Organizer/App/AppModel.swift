@@ -10,6 +10,7 @@ final class AppModel {
     let notes: NotesViewModel
     let calendar: CalendarService
     let tasks: TaskService
+    let folderLinks: FolderLinkService
     /// Chat mit Claude (braucht `self`, darum nach der Initialisierung gesetzt).
     @ObservationIgnored private(set) var chat: ChatViewModel!
     let calendarState = CalendarViewModel()
@@ -29,6 +30,7 @@ final class AppModel {
         self.vault = vault
         self.calendar = calendar
         self.tasks = TaskService(vault: vault, settings: settings)
+        self.folderLinks = FolderLinkService(vault: vault, settings: settings)
         defer { chat = ChatViewModel(model: self) }
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
