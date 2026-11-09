@@ -40,6 +40,12 @@ struct CalendarView: View {
 
 private struct CalendarContent: View {
     @Environment(AppModel.self) private var model
+    @FocusState private var isFocused: Bool
+
+    private func move(_ days: Int) -> KeyPress.Result {
+        withAnimation(.snappy) { model.calendarState.moveSelection(byDays: days) }
+        return .handled
+    }
 
     var body: some View {
         let state = model.calendarState
@@ -61,6 +67,21 @@ private struct CalendarContent: View {
             case .day:
                 CalendarTimeline(days: [calendar.startOfDay(for: state.date)], events: events)
             }
+        }
+        .focusable()
+        .focusEffectDisabled()
+        .focused($isFocused)
+        .onAppear { isFocused = true }
+        // Pfeiltasten wählen den Tag wie in Apple Kalender; ↑/↓ springen im Monat um eine Woche.
+        .onKeyPress(.leftArrow) { move(-1) }
+        .onKeyPress(.rightArrow) { move(1) }
+        .onKeyPress(.upArrow) { scope == .month ? move(-7) : .ignored }
+        .onKeyPress(.downArrow) { scope == .month ? move(7) : .ignored }
+        .onKeyPress(.return) {
+            guard scope != .day else { return .ignored }
+            state.date = state.selectedDay
+            model.settings.update { $0.calendarScope = .day }
+            return .handled
         }
         .navigationTitle(CalendarMath.title(for: scope, date: state.date, calendar: calendar))
         .toolbar {

@@ -21,7 +21,11 @@ struct CalendarTimeline: View {
                     HStack(alignment: .top, spacing: 0) {
                         hourLabels
                         ForEach(days, id: \.self) { day in
-                            DayColumn(day: day, events: timedEvents(on: day))
+                            DayColumn(
+                                day: day,
+                                events: timedEvents(on: day),
+                                isSelected: days.count > 1 && calendar.isDate(day, inSameDayAs: model.calendarState.selectedDay)
+                            )
                         }
                     }
                     .frame(height: Self.hourHeight * 24)
@@ -40,6 +44,7 @@ struct CalendarTimeline: View {
             Color.clear.frame(width: Self.gutterWidth, height: 1)
             ForEach(days, id: \.self) { day in
                 let isToday = calendar.isDateInToday(day)
+                let isSelected = days.count > 1 && calendar.isDate(day, inSameDayAs: model.calendarState.selectedDay)
                 HStack(spacing: 6) {
                     Text(day, format: .dateTime.weekday(.abbreviated))
                         .foregroundStyle(.secondary)
@@ -53,11 +58,19 @@ struct CalendarTimeline: View {
                         }
                 }
                 .font(.title3)
+                .padding(.vertical, 2)
                 .frame(maxWidth: .infinity)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    model.calendarState.selectedDay = day
+                .background {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.tint.opacity(0.12))
+                    }
                 }
+                .padding(.horizontal, 2)
+                .contentShape(Rectangle())
+                .onTapGesture(count: 2) { showDay(day) }
+                .onTapGesture { model.calendarState.select(day) }
+                .help("Doppelklick zeigt den Tag")
+                .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
             }
         }
         .padding(.vertical, 8)
@@ -103,6 +116,12 @@ struct CalendarTimeline: View {
         }
     }
 
+    private func showDay(_ day: Date) {
+        model.calendarState.select(day)
+        model.calendarState.date = day
+        model.settings.update { $0.calendarScope = .day }
+    }
+
     private func timedEvents(on day: Date) -> [CalendarEventInfo] {
         CalendarMath.events(events, on: day, calendar: calendar).filter { !$0.isAllDay }
     }
@@ -113,6 +132,7 @@ private struct DayColumn: View {
     @Environment(AppModel.self) private var model
     let day: Date
     let events: [CalendarEventInfo]
+    var isSelected = false
 
     private let calendar = Calendar.current
     private var hourHeight: CGFloat { CalendarTimeline.hourHeight }
@@ -145,11 +165,13 @@ private struct DayColumn: View {
                 }
             }
             .frame(width: geometry.size.width, height: hourHeight * 24, alignment: .topLeading)
+            .background(isSelected ? AnyShapeStyle(.tint.opacity(0.05)) : AnyShapeStyle(.clear))
             .contentShape(Rectangle())
             .onTapGesture(count: 2, coordinateSpace: .local) { location in
                 let hour = min(max(Int(location.y / hourHeight), 0), 23)
                 model.calendarState.newEventStart = calendar.date(byAdding: .hour, value: hour, to: calendar.startOfDay(for: day))
             }
+            .onTapGesture { model.calendarState.select(day) }
             .overlay(alignment: .leading) {
                 Rectangle().fill(Color(nsColor: .separatorColor)).frame(width: 0.5)
             }

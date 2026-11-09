@@ -17,6 +17,17 @@ final class CalendarViewModel {
         selectedDay = Calendar.current.startOfDay(for: .now)
     }
 
+    /// Auswahl um `days` Tage verschieben; die Ansicht folgt, wenn die Auswahl die Woche bzw. den Monat verlässt.
+    func moveSelection(byDays days: Int) {
+        let calendar = Calendar.current
+        selectedDay = calendar.date(byAdding: .day, value: days, to: selectedDay)!
+        date = selectedDay
+    }
+
+    func select(_ day: Date) {
+        selectedDay = Calendar.current.startOfDay(for: day)
+    }
+
     func step(_ value: Int, scope: CalendarScope) {
         date = CalendarMath.step(date, scope: scope, by: value, calendar: .current)
         selectedDay = Calendar.current.startOfDay(for: date)
