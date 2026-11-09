@@ -16,6 +16,10 @@ struct AppSettings: Codable, Equatable {
     var calendarScope: CalendarScope = .week
     var taskStorage: TaskStorage = .central
     var taskFilter: TaskFilter = .today
+    var assistantModel = AssistantModel.opus.rawValue
+    var assistantEffort = "medium"
+    /// Änderungen durch Claude erst nach Bestätigung ausführen.
+    var assistantConfirmsChanges = true
 
     init() {}
 
@@ -30,6 +34,9 @@ struct AppSettings: Codable, Equatable {
         calendarScope = try container.decodeIfPresent(CalendarScope.self, forKey: .calendarScope) ?? .week
         taskStorage = try container.decodeIfPresent(TaskStorage.self, forKey: .taskStorage) ?? .central
         taskFilter = try container.decodeIfPresent(TaskFilter.self, forKey: .taskFilter) ?? .today
+        assistantModel = try container.decodeIfPresent(String.self, forKey: .assistantModel) ?? AssistantModel.opus.rawValue
+        assistantEffort = try container.decodeIfPresent(String.self, forKey: .assistantEffort) ?? "medium"
+        assistantConfirmsChanges = try container.decodeIfPresent(Bool.self, forKey: .assistantConfirmsChanges) ?? true
     }
 }
 

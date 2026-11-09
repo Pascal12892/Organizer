@@ -10,6 +10,8 @@ final class AppModel {
     let notes: NotesViewModel
     let calendar: CalendarService
     let tasks: TaskService
+    /// Chat mit Claude (braucht `self`, darum nach der Initialisierung gesetzt).
+    @ObservationIgnored private(set) var chat: ChatViewModel!
     let calendarState = CalendarViewModel()
 
     var sidebarSelection: SidebarItem? = .notes
@@ -27,6 +29,7 @@ final class AppModel {
         self.vault = vault
         self.calendar = calendar
         self.tasks = TaskService(vault: vault, settings: settings)
+        defer { chat = ChatViewModel(model: self) }
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
     }
@@ -229,12 +232,21 @@ final class AppModel {
     }
 
     /// Legt eine Notiz an, öffnet sie im Bearbeiten-Modus und macht das Anlegen rückgängig-fähig.
-    func createNote(title: String, folder: String, extraProperties: [Frontmatter.Entry] = [], undoManager: UndoManager?) async throws {
-        guard let writer else { return }
+    @discardableResult
+    func createNote(title: String, folder: String, body: String = "", extraProperties: [Frontmatter.Entry] = [],
+                    openInEditor: Bool = true, undoManager: UndoManager?) async throws -> String {
+        guard let writer else { throw VaultWriter.WriteError.invalidName }
         let (area, topic) = settings.layout.classify(folder: folder)
-        let content = NoteTemplate.content(area: area, topic: topic, created: .now, extraProperties: extraProperties, body: "")
+        let content = NoteTemplate.content(area: area, topic: topic, created: .now, extraProperties: extraProperties, body: body)
         let relativePath = try writer.createNote(folder: folder, title: title, content: content)
         await vault.rescan()
+        defer {
+            undoManager?.registerUndo(withTarget: self) { model in
+                model.undoCreation(of: relativePath, kind: "Notiz", undoManager: undoManager)
+            }
+            undoManager?.setActionName("Notiz anlegen")
+        }
+        guard openInEditor else { return relativePath }
 
         if folder.isEmpty {
             sidebarSelection = .notes
@@ -246,11 +258,7 @@ final class AppModel {
         notes.tagFilter = nil
         notes.selectedNoteID = relativePath
         notes.isEditing = true
-
-        undoManager?.registerUndo(withTarget: self) { model in
-            model.undoCreation(of: relativePath, kind: "Notiz", undoManager: undoManager)
-        }
-        undoManager?.setActionName("Notiz anlegen")
+        return relativePath
     }
 
     func createFolder(named name: String, in parent: String, undoManager: UndoManager?) async throws {

@@ -13,6 +13,9 @@ struct SettingsView: View {
             Tab("Aufgaben", systemImage: "checklist") {
                 TaskSettingsView()
             }
+            Tab("Claude", systemImage: "sparkles") {
+                AssistantSettingsView()
+            }
         }
         .frame(width: 520)
         .scenePadding()

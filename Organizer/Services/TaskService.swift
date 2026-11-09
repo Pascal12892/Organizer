@@ -59,6 +59,15 @@ final class TaskService {
         change(task, to: TaskLine.setting(task.rawLine, title: trimmed), actionName: "Aufgabe umbenennen", undoManager: undoManager)
     }
 
+    /// Mehrere Änderungen an einer Aufgabe in einem Schritt (eine Zeile, ein Rückgängig).
+    func update(_ task: TaskItem, done: Bool? = nil, due: Date?? = nil, priority: TaskPriority? = nil, undoManager: UndoManager?) {
+        var line = task.rawLine
+        if let done { line = TaskLine.setting(line, done: done) }
+        if let due { line = TaskLine.setting(line, due: due) }
+        if let priority { line = TaskLine.setting(line, priority: priority) }
+        change(task, to: line, actionName: "Aufgabe ändern", undoManager: undoManager)
+    }
+
     /// Entfernt die Zeile. ⌘Z fügt sie an derselben Stelle wieder ein.
     func delete(_ task: TaskItem, undoManager: UndoManager?) {
         change(task, to: nil, actionName: "Aufgabe löschen", undoManager: undoManager)

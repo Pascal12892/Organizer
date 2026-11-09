@@ -7,10 +7,11 @@ enum SidebarItem: Hashable {
     case calendar
     case tasks
     case roadmap
+    case assistant
     /// Ein Ordner im Vault (relativer Pfad), beliebig tief verschachtelt.
     case folder(String)
 
-    static let sections: [SidebarItem] = [.dashboard, .notes, .calendar, .tasks, .roadmap]
+    static let sections: [SidebarItem] = [.dashboard, .notes, .calendar, .tasks, .roadmap, .assistant]
 
     var title: String {
         switch self {
@@ -19,6 +20,7 @@ enum SidebarItem: Hashable {
         case .calendar: "Kalender"
         case .tasks: "Aufgaben"
         case .roadmap: "Roadmap"
+        case .assistant: "Claude"
         case .folder(let path): path.split(separator: "/").last.map(String.init) ?? path
         }
     }
@@ -30,6 +32,7 @@ enum SidebarItem: Hashable {
         case .calendar: "calendar"
         case .tasks: "checklist"
         case .roadmap: "map"
+        case .assistant: "sparkles"
         case .folder(let path): path.contains("/") ? "folder" : Self.areaSymbol(for: path)
         }
     }
