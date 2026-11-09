@@ -1,6 +1,20 @@
 import OrganizerCore
 import SwiftUI
 
+/// Aktion für angeklickte Checkboxen in der Vorschau. Vergleichbar über `id` (die Notiz),
+/// damit SwiftUI nicht bei jeder Aktualisierung neu zeichnet.
+struct CheckboxAction: Equatable {
+    let id: String
+    let perform: (Int) -> Void
+
+    static func == (lhs: CheckboxAction, rhs: CheckboxAction) -> Bool { lhs.id == rhs.id }
+}
+
+extension EnvironmentValues {
+    /// Wird aufgerufen, wenn in der Vorschau eine Checkbox angeklickt wird (Zeile in der Datei).
+    @Entry var toggleCheckbox: CheckboxAction? = nil
+}
+
 /// Stellt Markdown mit nativen SwiftUI-Elementen und Systemschriften dar.
 struct MarkdownView: View {
     let content: MarkdownContent
@@ -77,6 +91,7 @@ private struct MarkdownBlockView: View {
 }
 
 private struct MarkdownListView: View {
+    @Environment(\.toggleCheckbox) private var toggleCheckbox
     let list: MarkdownList
 
     var body: some View {
@@ -95,11 +110,18 @@ private struct MarkdownListView: View {
     @ViewBuilder
     private func marker(for item: MarkdownListItem, index: Int) -> some View {
         if let checked = item.checkbox {
-            // Phase 4 macht die Checkboxen anklickbar.
-            Image(systemName: checked ? "checkmark.circle.fill" : "circle")
+            let image = Image(systemName: checked ? "checkmark.circle.fill" : "circle")
                 .foregroundStyle(checked ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
                 .imageScale(.large)
-                .accessibilityLabel(checked ? "Erledigt" : "Offen")
+                .contentTransition(.symbolEffect(.replace))
+            if let line = item.sourceLine, let toggleCheckbox {
+                Button { toggleCheckbox.perform(line) } label: { image }
+                    .buttonStyle(.plain)
+                    .help(checked ? "Wieder öffnen" : "Als erledigt markieren")
+                    .accessibilityLabel(checked ? "Erledigt, wieder öffnen" : "Offen, erledigen")
+            } else {
+                image.accessibilityLabel(checked ? "Erledigt" : "Offen")
+            }
         } else if list.ordered {
             Text("\(list.start + index).")
                 .monospacedDigit()

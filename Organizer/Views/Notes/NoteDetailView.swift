@@ -4,6 +4,7 @@ import SwiftUI
 /// Rechte Spalte: gerenderte Notiz mit ihren Eigenschaften.
 struct NoteDetailView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let note: Note
     @State private var content: MarkdownContent?
     @State private var missingLink: String?
@@ -51,7 +52,8 @@ struct NoteDetailView: View {
         }
         .task(id: note.body) {
             let body = note.body
-            content = await Task.detached(priority: .userInitiated) { MarkdownContent(markdown: body) }.value
+            let firstLine = note.bodyStartLine
+            content = await Task.detached(priority: .userInitiated) { MarkdownContent(markdown: body, firstLine: firstLine) }.value
         }
         .environment(\.openURL, OpenURLAction { url in
             guard let target = WikiLinks.target(from: url) else { return .systemAction }
@@ -59,6 +61,9 @@ struct NoteDetailView: View {
                 missingLink = WikiLinks.noteName(fromTarget: target)
             }
             return .handled
+        })
+        .environment(\.toggleCheckbox, CheckboxAction(id: note.relativePath) { line in
+            model.tasks.toggleCheckbox(in: note.relativePath, line: line, undoManager: undoManager)
         })
         .navigationTitle(note.title)
         .toolbar {

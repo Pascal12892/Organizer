@@ -52,7 +52,6 @@ enum SidebarItem: Hashable {
     var plannedPhase: Int? {
         switch self {
         case .dashboard: 7
-        case .tasks: 4
         case .roadmap: 6
         default: nil
         }

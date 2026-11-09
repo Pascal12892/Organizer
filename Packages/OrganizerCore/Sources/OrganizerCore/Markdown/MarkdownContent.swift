@@ -6,9 +6,11 @@ import Markdown
 public struct MarkdownContent: Sendable, Hashable {
     public let blocks: [MarkdownBlock]
 
-    public init(markdown: String) {
+    /// - Parameter firstLine: 0-basierte Zeile in der Datei, in der `markdown` beginnt.
+    ///   Damit kennen Checkboxen ihre Zeile in der Datei und lassen sich abhaken.
+    public init(markdown: String, firstLine: Int = 0) {
         let document = Document(parsing: WikiLinks.rewrite(markdown))
-        blocks = MarkdownConverter.blocks(from: document.children)
+        blocks = MarkdownConverter.blocks(from: document.children, lineOffset: firstLine)
     }
 }
 
@@ -31,26 +33,29 @@ public struct MarkdownList: Sendable, Hashable {
 public struct MarkdownListItem: Sendable, Hashable {
     /// `nil` = keine Checkbox, sonst abgehakt ja/nein.
     public var checkbox: Bool?
+    /// 0-basierte Zeile in der Datei (nur bei Checkboxen gesetzt).
+    public var sourceLine: Int? = nil
     public var blocks: [MarkdownBlock]
 }
 
 enum MarkdownConverter {
-    static func blocks(from children: some Sequence<any Markup>) -> [MarkdownBlock] {
-        children.compactMap(block(from:))
+
+    static func blocks(from children: some Sequence<any Markup>, lineOffset: Int) -> [MarkdownBlock] {
+        children.compactMap { block(from: $0, lineOffset: lineOffset) }
     }
 
-    static func block(from markup: any Markup) -> MarkdownBlock? {
+    static func block(from markup: any Markup, lineOffset: Int) -> MarkdownBlock? {
         switch markup {
         case let heading as Heading:
             return .heading(level: heading.level, text: inline(heading.inlineChildren))
         case let paragraph as Paragraph:
             return .paragraph(inline(paragraph.inlineChildren))
         case let list as UnorderedList:
-            return .list(MarkdownList(ordered: false, start: 1, items: list.listItems.map(listItem)))
+            return .list(MarkdownList(ordered: false, start: 1, items: list.listItems.map { listItem($0, lineOffset: lineOffset) }))
         case let list as OrderedList:
-            return .list(MarkdownList(ordered: true, start: Int(list.startIndex), items: list.listItems.map(listItem)))
+            return .list(MarkdownList(ordered: true, start: Int(list.startIndex), items: list.listItems.map { listItem($0, lineOffset: lineOffset) }))
         case let quote as BlockQuote:
-            return .quote(blocks(from: quote.children))
+            return .quote(blocks(from: quote.children, lineOffset: lineOffset))
         case let code as CodeBlock:
             var text = code.code
             if text.hasSuffix("\n") { text.removeLast() }
@@ -72,13 +77,14 @@ enum MarkdownConverter {
         }
     }
 
-    static func listItem(_ item: ListItem) -> MarkdownListItem {
+    static func listItem(_ item: ListItem, lineOffset: Int) -> MarkdownListItem {
         let checkbox: Bool? = switch item.checkbox {
         case .checked: true
         case .unchecked: false
         case nil: nil
         }
-        return MarkdownListItem(checkbox: checkbox, blocks: blocks(from: item.children))
+        let line = checkbox != nil ? item.range.map { lineOffset + $0.lowerBound.line - 1 } : nil
+        return MarkdownListItem(checkbox: checkbox, sourceLine: line, blocks: blocks(from: item.children, lineOffset: lineOffset))
     }
 
     static func inline(

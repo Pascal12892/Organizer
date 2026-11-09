@@ -6,6 +6,7 @@ struct CalendarTimeline: View {
     @Environment(AppModel.self) private var model
     let days: [Date]
     let events: [CalendarEventInfo]
+    var tasks: [TaskItem] = []
 
     static let hourHeight: CGFloat = 48
     static let gutterWidth: CGFloat = 52
@@ -79,7 +80,8 @@ struct CalendarTimeline: View {
     @ViewBuilder
     private var allDayRow: some View {
         let allDay = days.map { day in CalendarMath.events(events, on: day, calendar: calendar).filter(\.isAllDay) }
-        if allDay.contains(where: { !$0.isEmpty }) {
+        let dueTasks = days.map { day in tasks.filter { $0.relevantDate.map { calendar.isDate($0, inSameDayAs: day) } ?? false } }
+        if allDay.contains(where: { !$0.isEmpty }) || dueTasks.contains(where: { !$0.isEmpty }) {
             Divider()
             HStack(alignment: .top, spacing: 0) {
                 Text("ganztägig")
@@ -91,6 +93,9 @@ struct CalendarTimeline: View {
                     VStack(alignment: .leading, spacing: 2) {
                         ForEach(allDay[index]) { event in
                             EventChip(event: event, style: .compact)
+                        }
+                        ForEach(dueTasks[index]) { task in
+                            TaskChip(task: task)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)

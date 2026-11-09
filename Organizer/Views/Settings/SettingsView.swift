@@ -10,6 +10,9 @@ struct SettingsView: View {
             Tab("Bereiche", systemImage: "square.stack") {
                 AreasSettingsView()
             }
+            Tab("Aufgaben", systemImage: "checklist") {
+                TaskSettingsView()
+            }
         }
         .frame(width: 520)
         .scenePadding()

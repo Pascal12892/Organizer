@@ -12,7 +12,7 @@ struct SidebarView: View {
             Section {
                 ForEach(SidebarItem.sections, id: \.self) { item in
                     Label(item.title, systemImage: item.systemImage)
-                        .badge(item == .notes ? model.vault.notes.count : 0)
+                        .badge(badge(for: item))
                         .tag(item)
                 }
             }
@@ -29,6 +29,21 @@ struct SidebarView: View {
         .navigationTitle(model.vault.vaultName ?? "Organizer")
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VaultStatusView()
+        }
+    }
+
+    /// Notizen: Anzahl. Aufgaben: heute fällig plus überfällig, rot sobald etwas überfällig ist.
+    private func badge(for item: SidebarItem) -> Text? {
+        switch item {
+        case .notes:
+            return model.vault.notes.isEmpty ? nil : Text("\(model.vault.notes.count)")
+        case .tasks:
+            let counts = model.tasks.counts
+            let due = counts.dueToday + counts.overdue
+            guard due > 0 else { return nil }
+            return Text("\(due)").foregroundStyle(counts.overdue > 0 ? .red : .secondary)
+        default:
+            return nil
         }
     }
 

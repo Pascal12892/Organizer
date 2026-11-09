@@ -14,6 +14,8 @@ public struct VaultWriter: Sendable {
         case deletedOnDisk
         case alreadyExists(String)
         case invalidName
+        /// Die Zeile steht nicht mehr so in der Datei (z. B. in Obsidian geändert).
+        case lineChanged
 
         public var errorDescription: String? {
             switch self {
@@ -21,6 +23,7 @@ public struct VaultWriter: Sendable {
             case .deletedOnDisk: "Die Notiz existiert nicht mehr. Sie wurde verschoben oder gelöscht."
             case .alreadyExists(let name): "„\(name)“ gibt es bereits."
             case .invalidName: "Bitte gib einen Namen ein."
+            case .lineChanged: "Die Aufgabe wurde in der Zwischenzeit in der Datei geändert. Bitte erneut versuchen."
             }
         }
     }
@@ -87,6 +90,64 @@ public struct VaultWriter: Sendable {
         }
         try FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: true)
         return relativePath
+    }
+
+    // MARK: - Einzelne Zeilen
+
+    /// Ersetzt genau eine Zeile (oder entfernt sie mit `newLine == nil`).
+    /// Steht die erwartete Zeile nicht mehr an `lineNumber`, wird sie einmalig in der Datei gesucht;
+    /// ist sie dort nicht eindeutig, wird nichts geschrieben.
+    /// - Returns: die tatsächlich geänderte Zeilennummer.
+    @discardableResult
+    public func replaceLine(_ relativePath: String, lineNumber: Int, expected: String, with newLine: String?) throws -> Int {
+        let content = try read(relativePath)
+        var lines = content.components(separatedBy: "\n")
+        func stripped(_ line: String) -> String { line.hasSuffix("\r") ? String(line.dropLast()) : line }
+
+        var index = lineNumber
+        if !lines.indices.contains(index) || stripped(lines[index]) != expected {
+            let matches = lines.indices.filter { stripped(lines[$0]) == expected }
+            guard matches.count == 1 else { throw WriteError.lineChanged }
+            index = matches[0]
+        }
+        if let newLine {
+            lines[index] = newLine + (lines[index].hasSuffix("\r") ? "\r" : "")
+        } else {
+            lines.remove(at: index)
+        }
+        let newContent = lines.joined(separator: "\n")
+        try save(relativePath, newContent: newContent, expected: content)
+        return index
+    }
+
+    /// Fügt eine Zeile an einer Position ein (für Rückgängig nach dem Löschen).
+    public func insertLine(_ relativePath: String, at lineNumber: Int, line: String) throws {
+        let content = try read(relativePath)
+        var lines = content.components(separatedBy: "\n")
+        let ending = content.contains("\r\n") ? "\r" : ""
+        lines.insert(line + ending, at: min(max(lineNumber, 0), lines.count))
+        try save(relativePath, newContent: lines.joined(separator: "\n"), expected: content)
+    }
+
+    /// Hängt eine Zeile an das Ende einer Datei an. Existiert sie nicht, wird sie mit `header` angelegt.
+    /// - Returns: die Zeilennummer der neuen Zeile.
+    @discardableResult
+    public func appendLine(_ relativePath: String, line: String, header: String = "") throws -> Int {
+        let fileURL = url(for: relativePath)
+        if !FileManager.default.fileExists(atPath: fileURL.path(percentEncoded: false)) {
+            try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+            let content = header + line + "\n"
+            try coordinatedWrite(content, to: fileURL, overwrite: false)
+            return content.components(separatedBy: "\n").count - 2
+        }
+        let content = try read(relativePath)
+        let ending = content.contains("\r\n") ? "\r\n" : "\n"
+        var newContent = content
+        if !newContent.isEmpty, !newContent.hasSuffix("\n") { newContent += ending }
+        let lineNumber = newContent.components(separatedBy: "\n").count - 1
+        newContent += line + ending
+        try save(relativePath, newContent: newContent, expected: content)
+        return lineNumber
     }
 
     /// Verschiebt eine Datei in den Papierkorb (wiederherstellbar). Nur für Rückgängig.

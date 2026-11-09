@@ -8,7 +8,13 @@ struct OrganizerCommands: Commands {
 
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
-            if model.sidebarSelection == .calendar {
+            if model.sidebarSelection == .tasks {
+                Button("Neue Aufgabe") { model.taskInputFocusRequest += 1 }
+                    .keyboardShortcut("n")
+                    .disabled(!vaultReady)
+                Button("Neue Notiz …") { model.isShowingNewNote = true }
+                    .disabled(!vaultReady)
+            } else if model.sidebarSelection == .calendar {
                 Button("Neuer Termin …") {
                     model.calendarState.newEventStart = model.calendarState.suggestedStart()
                 }

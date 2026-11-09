@@ -62,3 +62,23 @@ Termine kommen aus dem Apple Kalender (EventKit) und bleiben dort. Organizer leg
 
     termin: Vorlesung Data Science
     termin-datum: 2026-11-10T10:00
+
+## Aufgaben (ab Phase 4)
+
+Jede Zeile `- [ ] …` außerhalb von Codeblöcken ist eine Aufgabe – im Format des Obsidian-Plugins „Tasks“:
+
+    - [ ] Hausarbeit Kapitel 2 schreiben ⏫ 📅 2026-11-20 #uni
+
+| Teil | Bedeutung |
+|---|---|
+| `[ ]` `[x]` `[/]` `[-]` | offen, erledigt, in Arbeit, abgebrochen |
+| 🔺 ⏫ 🔼 🔽 ⏬ | Priorität (höchste … niedrigste) |
+| 📅 / ⏳ / 🛫 / ➕ / ✅ | fällig / geplant / Start / erstellt / erledigt am |
+| 🔁 | Wiederholung (nur Anzeige) |
+
+- **Bereich und Thema** kommen vom Speicherort der Notiz. Aufgaben in `_Organizer/Tasks.md` werden über Tags
+  zugeordnet (`#uni` → Uni, `#data-science` → Thema „Data Science“).
+- **Ändern** (abhaken, Datum, Priorität, Titel, löschen) betrifft immer genau eine Zeile. Organizer prüft vorher,
+  dass die Zeile noch so in der Datei steht; sonst wird nichts geschrieben. Jede Änderung ist mit ⌘Z rückgängig zu machen.
+- **Neue Aufgaben** landen je nach Einstellung in `_Organizer/Tasks.md` oder in `Aufgaben.md` im Bereichs- bzw. Themenordner.
+- Im Kalender erscheinen fällige Aufgaben nur in Organizer, nicht im Apple Kalender.

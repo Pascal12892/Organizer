@@ -28,6 +28,8 @@ struct RootView: View {
                 } detail: {
                     if model.sidebarSelection == .calendar {
                         CalendarView()
+                    } else if model.sidebarSelection == .tasks {
+                        TasksView()
                     } else {
                         sectionPlaceholder
                     }

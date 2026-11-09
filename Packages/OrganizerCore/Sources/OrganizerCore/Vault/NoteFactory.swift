@@ -43,7 +43,8 @@ public enum NoteFactory {
             frontmatter: frontmatter,
             body: parsed.body,
             excerpt: Excerpt.make(from: parsed.body, title: title),
-            issues: parsed.issues
+            issues: parsed.issues,
+            bodyStartLine: parsed.bodyStartLine
         )
     }
 }

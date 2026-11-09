@@ -9,17 +9,18 @@ struct VaultStatusView: View {
 
     var body: some View {
         let issues = model.vault.issues
-        let settingsError = model.settings.lastError ?? model.writeError
+        let settingsError = model.settings.lastError ?? model.writeError ?? model.tasks.lastError
 
         if model.vault.isScanning || !issues.isEmpty || settingsError != nil {
             HStack(spacing: 8) {
-                if let writeError = model.writeError {
+                if let writeError = model.writeError ?? model.tasks.lastError {
                     Label(writeError, systemImage: "exclamationmark.triangle.fill")
                         .symbolRenderingMode(.multicolor)
                         .lineLimit(3)
                     Spacer(minLength: 0)
                     Button {
                         model.writeError = nil
+                        model.tasks.lastError = nil
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                     }

@@ -9,6 +9,7 @@ final class AppModel {
     let vault: VaultService
     let notes: NotesViewModel
     let calendar: CalendarService
+    let tasks: TaskService
     let calendarState = CalendarViewModel()
 
     var sidebarSelection: SidebarItem? = .notes
@@ -16,11 +17,16 @@ final class AppModel {
     var expandedFolders: Set<String> = []
     /// Wird erhöht, wenn das Suchfeld den Fokus bekommen soll (Cmd+F).
     private(set) var searchFocusRequest = 0
+    /// Wird erhöht, wenn das Eingabefeld für neue Aufgaben den Fokus bekommen soll (⌘N in Aufgaben).
+    var taskInputFocusRequest = 0
+    /// Bereichsfilter in der Aufgabenliste (`nil` = alle).
+    var taskAreaFilter: String?
 
     init(settings: SettingsStore, vault: VaultService, calendar: CalendarService) {
         self.settings = settings
         self.vault = vault
         self.calendar = calendar
+        self.tasks = TaskService(vault: vault, settings: settings)
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
     }
@@ -139,6 +145,22 @@ final class AppModel {
         notes.tagFilter = nil
         notes.selectedNoteID = note.id
         return true
+    }
+
+    /// Öffnet die Notiz, in der eine Aufgabe steht.
+    func openNote(atPath relativePath: String) {
+        if let note = vault.notes.first(where: { $0.relativePath == relativePath }) {
+            let folder = note.folderPath
+            if folder.isEmpty {
+                sidebarSelection = .notes
+            } else {
+                expand(toShow: folder)
+                sidebarSelection = .folder(folder)
+            }
+            notes.searchText = ""
+            notes.tagFilter = nil
+            notes.selectedNoteID = note.id
+        }
     }
 
     func revealInFinder(_ notes: [Note]) {

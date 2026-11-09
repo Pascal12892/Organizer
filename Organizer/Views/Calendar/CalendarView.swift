@@ -53,6 +53,11 @@ private struct CalendarContent: View {
         let calendar = Calendar.current
         let interval = CalendarMath.interval(for: scope, containing: state.date, calendar: calendar)
         let events = model.calendar.events(in: interval, hiddenCalendarIDs: model.settings.settings.hiddenCalendarIDs)
+        // Offene Aufgaben mit Datum im sichtbaren Zeitraum (nur Anzeige, nicht im Apple Kalender).
+        let tasks = model.tasks.tasks.filter { task in
+            guard task.isOpen, let date = task.relevantDate else { return false }
+            return interval.contains(date)
+        }
 
         Group {
             switch scope {
@@ -60,12 +65,13 @@ private struct CalendarContent: View {
                 MonthView(
                     days: CalendarMath.monthGrid(containing: state.date, calendar: calendar),
                     month: state.date,
-                    events: events
+                    events: events,
+                    tasks: tasks
                 )
             case .week:
-                CalendarTimeline(days: CalendarMath.weekDays(containing: state.date, calendar: calendar), events: events)
+                CalendarTimeline(days: CalendarMath.weekDays(containing: state.date, calendar: calendar), events: events, tasks: tasks)
             case .day:
-                CalendarTimeline(days: [calendar.startOfDay(for: state.date)], events: events)
+                CalendarTimeline(days: [calendar.startOfDay(for: state.date)], events: events, tasks: tasks)
             }
         }
         .focusable()

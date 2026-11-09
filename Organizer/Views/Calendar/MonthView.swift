@@ -7,6 +7,7 @@ struct MonthView: View {
     let days: [Date]
     let month: Date
     let events: [CalendarEventInfo]
+    var tasks: [TaskItem] = []
 
     private let calendar = Calendar.current
     private static let maxVisibleEvents = 3
@@ -34,6 +35,7 @@ struct MonthView: View {
                                 day: day,
                                 isInMonth: calendar.isDate(day, equalTo: month, toGranularity: .month),
                                 events: CalendarMath.events(events, on: day, calendar: calendar),
+                                tasks: tasks.filter { $0.relevantDate.map { calendar.isDate($0, inSameDayAs: day) } ?? false },
                                 maxVisible: Self.maxVisibleEvents
                             )
                         }
@@ -56,6 +58,7 @@ private struct DayCell: View {
     let day: Date
     let isInMonth: Bool
     let events: [CalendarEventInfo]
+    let tasks: [TaskItem]
     let maxVisible: Int
 
     var body: some View {
@@ -78,8 +81,12 @@ private struct DayCell: View {
             ForEach(events.prefix(maxVisible)) { event in
                 EventChip(event: event, style: .compact)
             }
-            if events.count > maxVisible {
-                Text("\(events.count - maxVisible) weitere")
+            ForEach(tasks.prefix(max(maxVisible - events.count, 1))) { task in
+                TaskChip(task: task)
+            }
+            let hidden = max(events.count - maxVisible, 0) + max(tasks.count - max(maxVisible - events.count, 1), 0)
+            if hidden > 0 {
+                Text("\(hidden) weitere")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding(.leading, 4)

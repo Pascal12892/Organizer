@@ -7,14 +7,17 @@ public struct VaultSnapshot: Sendable, Hashable {
     public var issues: [VaultIssue]
     /// Alle sichtbaren Ordner, relativ zum Vault.
     public var folders: [String]
+    /// Alle Aufgaben aus allen Notizen.
+    public var tasks: [TaskItem]
 
     public static let empty = VaultSnapshot(notes: [], topics: [], issues: [])
 
-    public init(notes: [Note], topics: [Topic], issues: [VaultIssue], folders: [String] = []) {
+    public init(notes: [Note], topics: [Topic], issues: [VaultIssue], folders: [String] = [], tasks: [TaskItem]? = nil) {
         self.notes = notes
         self.topics = topics
         self.issues = issues
         self.folders = folders
+        self.tasks = tasks ?? notes.flatMap(TaskExtractor.tasks(in:))
     }
 
     public func topics(in area: String) -> [Topic] {
@@ -103,7 +106,11 @@ public enum VaultScanner {
         notes.sort { $0.modified > $1.modified }
         topics.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         folders.sort { $0.localizedStandardCompare($1) == .orderedAscending }
-        return VaultSnapshot(notes: notes, topics: topics, issues: enumerationErrors.issues + issues, folders: folders)
+        let areas = layout.automaticAreas
+            ? folders.filter { !$0.contains("/") }.compactMap { layout.area(forFolder: $0) }
+            : layout.areas
+        let tasks = TaskExtractor.assignAreasByTags(notes.flatMap(TaskExtractor.tasks(in:)), topics: topics, areas: areas)
+        return VaultSnapshot(notes: notes, topics: topics, issues: enumerationErrors.issues + issues, folders: folders, tasks: tasks)
     }
 }
 

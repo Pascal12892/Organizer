@@ -16,6 +16,8 @@ public struct Note: Identifiable, Sendable, Hashable {
     public var body: String
     public var excerpt: String
     public var issues: [String]
+    /// 0-basierte Zeile, in der `body` in der Datei beginnt (nach dem Frontmatter).
+    public var bodyStartLine: Int
 
     public var id: String { relativePath }
 
@@ -37,7 +39,8 @@ public struct Note: Identifiable, Sendable, Hashable {
         frontmatter: Frontmatter? = nil,
         body: String,
         excerpt: String,
-        issues: [String] = []
+        issues: [String] = [],
+        bodyStartLine: Int = 0
     ) {
         self.relativePath = relativePath
         self.url = url
@@ -51,6 +54,7 @@ public struct Note: Identifiable, Sendable, Hashable {
         self.body = body
         self.excerpt = excerpt
         self.issues = issues
+        self.bodyStartLine = bodyStartLine
     }
 }
 

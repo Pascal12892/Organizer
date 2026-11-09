@@ -14,6 +14,8 @@ struct AppSettings: Codable, Equatable {
     /// Ausgeblendete Kalender. Neue Kalender sind damit automatisch sichtbar.
     var hiddenCalendarIDs: Set<String> = []
     var calendarScope: CalendarScope = .week
+    var taskStorage: TaskStorage = .central
+    var taskFilter: TaskFilter = .today
 
     init() {}
 
@@ -26,6 +28,8 @@ struct AppSettings: Codable, Equatable {
         automaticAreas = try container.decodeIfPresent(Bool.self, forKey: .automaticAreas) ?? true
         hiddenCalendarIDs = try container.decodeIfPresent(Set<String>.self, forKey: .hiddenCalendarIDs) ?? []
         calendarScope = try container.decodeIfPresent(CalendarScope.self, forKey: .calendarScope) ?? .week
+        taskStorage = try container.decodeIfPresent(TaskStorage.self, forKey: .taskStorage) ?? .central
+        taskFilter = try container.decodeIfPresent(TaskFilter.self, forKey: .taskFilter) ?? .today
     }
 }
 
