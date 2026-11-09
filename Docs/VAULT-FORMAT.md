@@ -98,3 +98,30 @@ Verknüpfte Ordner stehen in der Übersichtsnotiz des Themas, `<Bereich>/<Thema>
 - Die Zugriffsrechte (Security-Scoped Bookmarks) speichert Organizer nur in seinen Einstellungen. Steht ein Pfad im
   Frontmatter, für den Organizer noch keine Erlaubnis hat (z. B. nach einer Neuinstallation), zeigt er „Zugriff erlauben …“.
 - Verknüpfen und Entfernen lässt sich mit ⌘Z rückgängig machen. Die Ordner auf dem Mac selbst werden nie verändert.
+
+## Roadmap (ab Phase 6)
+
+Ein Projekt pro Datei in `_Organizer/Roadmap/`. Projektdaten im Frontmatter, Meilensteine als `##`-Überschriften
+mit Inline-Feldern (Dataview-kompatibel), Aufgaben darunter:
+
+    ---
+    bereich: Uni
+    start: 2026-10-15
+    ende: 2027-03-31
+    status: in Arbeit
+    farbe: blue
+    ---
+    # Bachelorarbeit
+
+    ## Literaturrecherche
+    start:: 2026-10-15
+    ende:: 2026-11-15
+    status:: in Arbeit
+
+    - [x] Quellen sammeln
+    - [ ] Exposé schreiben 📅 2026-11-14
+
+- **Status:** geplant, in Arbeit, erledigt, pausiert (englische Begriffe werden auch erkannt).
+- **Fortschritt** = erledigte Aufgaben unter der Überschrift (abgebrochene zählen nicht); ohne Aufgaben zählt der Status.
+- **Ändern** in Organizer (verschieben, Datum, Status, neue Aufgabe, neuer Meilenstein) betrifft nur die jeweiligen Zeilen
+  und lässt sich mit ⌘Z rückgängig machen.

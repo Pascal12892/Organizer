@@ -9,11 +9,11 @@ struct VaultStatusView: View {
 
     var body: some View {
         let issues = model.vault.issues
-        let settingsError = model.settings.lastError ?? model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError
+        let settingsError = model.settings.lastError ?? model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError
 
         if model.vault.isScanning || !issues.isEmpty || settingsError != nil {
             HStack(spacing: 8) {
-                if let writeError = model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError {
+                if let writeError = model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError {
                     Label(writeError, systemImage: "exclamationmark.triangle.fill")
                         .symbolRenderingMode(.multicolor)
                         .lineLimit(3)
@@ -22,6 +22,7 @@ struct VaultStatusView: View {
                         model.writeError = nil
                         model.tasks.lastError = nil
                         model.folderLinks.lastError = nil
+                        model.roadmap.lastError = nil
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                     }
