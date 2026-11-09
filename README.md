@@ -17,20 +17,6 @@ Die App läuft in der Sandbox. Der Zugriff auf den Vault wird als Security-Scope
 Bei lokaler Ad-hoc-Signierung kann ein Bookmark nach einem Neubuild ungültig werden. Organizer fragt dann nach dem Ordner.
 Mit einem Apple-ID-Team unter *Signing & Capabilities* passiert das nicht.
 
-## Chat mit Claude
-
-Unter „Claude“ in der Seitenleiste (⌘6) erledigt Claude Aufgaben in natürlicher Sprache: Notizen suchen, lesen
-und anlegen, Aufgaben anlegen und ändern, Termine ansehen und anlegen.
-
-- **Zugang:** eigener API-Schlüssel von console.anthropic.com, gespeichert im macOS-Schlüsselbund
-  (Einstellungen › Claude). Abrechnung nach Verbrauch über Anthropic.
-- **Datenschutz:** Nur der Chat geht ins Internet – deine Nachrichten und was Claude dafür aus dem Vault,
-  den Aufgaben und dem Kalender liest. Der Verlauf wird nicht gespeichert.
-- **Kontrolle:** Jede Änderung erscheint als Karte mit „Ausführen“/„Ablehnen“ (abschaltbar); ⌘Z macht sie rückgängig.
-- **Technik:** Messages API direkt über URLSession (`Packages/OrganizerCore/Sources/OrganizerCore/Assistant`),
-  Modell `claude-opus-5-5` (wählbar), Streaming, automatisches Prompt-Caching und
-  server-seitiger Rückfall auf ein anderes Modell, falls eine Anfrage abgelehnt wird.
-
 ## Schnellerfassung
 
 Systemweit mit **⌃⌥ Leertaste** (änderbar unter Einstellungen › Allgemein) oder im Dashboard.
@@ -47,3 +33,17 @@ dazu `!`/`!!`/`!!!` als Priorität und `#bereich` zur Zuordnung.
 - Ordner aus dem Finder auf einen Ordner in der Seitenleiste ziehen → als Mac-Ordner verknüpfen.
 
 Alles lässt sich mit ⌘Z rückgängig machen.
+
+## Claude über MCP (mit deinem Claude-Abo)
+
+Organizer bringt einen MCP-Server mit (`Packages/OrganizerCore/Sources/organizer-mcp`). Damit nutzt Claude in der
+Desktop-App oder in Claude Code – über dein Abo, ohne API-Schlüssel – deinen Vault, deine Aufgaben und den Kalender:
+Notizen suchen, lesen, anlegen und ergänzen, Aufgaben ansehen, anlegen und ändern, Roadmap ansehen, Termine ansehen und anlegen.
+
+1. Einmalig installieren: `Scripts/install-mcp.sh` (legt `~/.local/bin/organizer-mcp` an).
+2. Verbinden – die fertigen Befehle mit deinem Vault-Pfad stehen in Organizer unter Einstellungen › Claude:
+   - Claude Code: `claude mcp add --scope user organizer -- ~/.local/bin/organizer-mcp --vault "/Pfad/zum/Vault"`
+   - Claude Desktop: Eintrag `organizer` unter `mcpServers` in `claude_desktop_config.json`.
+
+Claude fragt vor jedem Werkzeugaufruf. Der Server schreibt wie Organizer nur zeilengenau und überschreibt nie Dateien.
+Organizer selbst braucht dafür keinen Internetzugang.

@@ -12,8 +12,6 @@ final class AppModel {
     let tasks: TaskService
     let folderLinks: FolderLinkService
     let roadmap: RoadmapService
-    /// Chat mit Claude (braucht `self`, darum nach der Initialisierung gesetzt).
-    @ObservationIgnored private(set) var chat: ChatViewModel!
     @ObservationIgnored private(set) var quickCapture: QuickCaptureController!
     @ObservationIgnored private let hotKey = HotKeyService()
     let calendarState = CalendarViewModel()
@@ -36,7 +34,6 @@ final class AppModel {
         self.folderLinks = FolderLinkService(vault: vault, settings: settings)
         self.roadmap = RoadmapService(vault: vault)
         defer {
-            chat = ChatViewModel(model: self)
             quickCapture = QuickCaptureController(model: self)
         }
         self.notes = NotesViewModel(vault: vault)

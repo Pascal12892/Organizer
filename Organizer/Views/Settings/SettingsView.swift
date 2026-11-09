@@ -14,7 +14,7 @@ struct SettingsView: View {
                 TaskSettingsView()
             }
             Tab("Claude", systemImage: "sparkles") {
-                AssistantSettingsView()
+                ClaudeSettingsView()
             }
         }
         .frame(width: 520)

@@ -34,8 +34,7 @@ struct RootView: View {
                         TasksView()
                     } else if model.sidebarSelection == .roadmap {
                         RoadmapView()
-                    } else if model.sidebarSelection == .assistant {
-                        AssistantView()
+
                     } else {
                         sectionPlaceholder
                     }
