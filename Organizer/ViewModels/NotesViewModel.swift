@@ -5,7 +5,32 @@ import Observation
 @Observable
 final class NotesViewModel {
     var selectedNoteID: Note.ID?
-    var searchText = ""
+    /// Was im Suchfeld steht. Gefiltert wird mit kurzer Verzögerung (`appliedSearch`),
+    /// damit Tippen flüssig bleibt, auch bei großen Vaults.
+    var searchText = "" {
+        didSet { scheduleSearch() }
+    }
+    private(set) var appliedSearch = ""
+    @ObservationIgnored private var searchTask: Task<Void, Never>?
+    @ObservationIgnored private let sectionsMemo = Memo<SectionsKey, [NoteSection]>()
+    @ObservationIgnored private let tagsMemo = Memo<TagsKey, [String]>()
+
+    private struct SectionsKey: Equatable { let version: Int; let scope: NoteScope; let tag: String?; let search: String }
+    private struct TagsKey: Equatable { let version: Int; let scope: NoteScope }
+
+    private func scheduleSearch() {
+        searchTask?.cancel()
+        // Leeren sofort, Tippen nach 150 ms.
+        guard !searchText.isEmpty else {
+            appliedSearch = ""
+            return
+        }
+        searchTask = Task {
+            try? await Task.sleep(for: .milliseconds(150))
+            guard !Task.isCancelled else { return }
+            appliedSearch = searchText
+        }
+    }
     var tagFilter: String?
     /// Bearbeiten statt Vorschau – gilt wie in Obsidian für jede geöffnete Notiz.
     var isEditing = false
@@ -22,15 +47,20 @@ final class NotesViewModel {
     }
 
     func notes(in scope: NoteScope) -> [Note] {
-        NoteQuery(scope: scope, tag: tagFilter, searchText: searchText).apply(to: vault.notes)
+        NoteQuery(scope: scope, tag: tagFilter, searchText: appliedSearch).apply(to: vault.notes)
     }
 
     func sections(in scope: NoteScope) -> [NoteSection] {
-        NoteGrouping.byRecency(notes(in: scope))
+        let key = SectionsKey(version: vault.version, scope: scope, tag: tagFilter, search: appliedSearch)
+        return sectionsMemo(key) { NoteGrouping.byRecency(notes(in: scope)) }
     }
 
     /// Alle Tags im aktuellen Bereich, nach Häufigkeit sortiert.
     func availableTags(in scope: NoteScope) -> [String] {
+        tagsMemo(TagsKey(version: vault.version, scope: scope)) { computeTags(in: scope) }
+    }
+
+    private func computeTags(in scope: NoteScope) -> [String] {
         var counts: [String: (name: String, count: Int)] = [:]
         for note in NoteQuery(scope: scope).apply(to: vault.notes) {
             for tag in note.tags {

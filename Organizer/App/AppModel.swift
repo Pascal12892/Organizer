@@ -124,8 +124,14 @@ final class AppModel {
 
     /// Ordnerbaum des Vaults; konfigurierte Bereiche stehen oben in ihrer Reihenfolge.
     var folderTree: [FolderNode] {
-        FolderTree.build(vault.snapshot.folders, topLevelOrder: settings.settings.areas)
+        let areas = settings.settings.areas
+        return folderTreeMemo(FolderTreeKey(version: vault.version, areas: areas)) {
+            FolderTree.build(vault.snapshot.folders, topLevelOrder: areas)
+        }
     }
+
+    private struct FolderTreeKey: Equatable { let version: Int; let areas: [String] }
+    @ObservationIgnored private let folderTreeMemo = Memo<FolderTreeKey, [FolderNode]>()
 
     func setAreas(_ areas: [String]) {
         settings.update { $0.areas = areas }

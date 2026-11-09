@@ -34,7 +34,27 @@ final class TaskService {
 
     var tasks: [TaskItem] { vault.snapshot.tasks }
 
-    var counts: (open: Int, dueToday: Int, overdue: Int) { TaskGrouping.counts(tasks) }
+    /// Zwischengespeichert pro Vault-Stand und Tag (die Seitenleiste fragt bei jedem Neuzeichnen).
+    var counts: (open: Int, dueToday: Int, overdue: Int) {
+        let key = CountsKey(version: vault.version, day: Calendar.current.startOfDay(for: .now))
+        let value = countsMemo(key) {
+            let counts = TaskGrouping.counts(tasks)
+            return [counts.open, counts.dueToday, counts.overdue]
+        }
+        return (value[0], value[1], value[2])
+    }
+
+    /// Gruppierte Liste, zwischengespeichert pro Stand, Ansicht, Bereich und Tag.
+    func sections(filter: TaskFilter, area: String?) -> [TaskSection] {
+        let key = SectionsKey(version: vault.version, filter: filter, area: area, day: Calendar.current.startOfDay(for: .now))
+        return sectionsMemo(key) { TaskGrouping.sections(tasks, filter: filter, area: area) }
+    }
+
+    private struct SectionsKey: Equatable { let version: Int; let filter: TaskFilter; let area: String?; let day: Date }
+    @ObservationIgnored private let sectionsMemo = Memo<SectionsKey, [TaskSection]>()
+
+    private struct CountsKey: Equatable { let version: Int; let day: Date }
+    @ObservationIgnored private let countsMemo = Memo<CountsKey, [Int]>()
 
     private var writer: VaultWriter? { vault.rootURL.map { VaultWriter(root: $0) } }
 

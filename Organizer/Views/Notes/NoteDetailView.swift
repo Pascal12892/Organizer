@@ -65,7 +65,6 @@ struct NoteDetailView: View {
         .environment(\.toggleCheckbox, CheckboxAction(id: note.relativePath) { line in
             model.tasks.toggleCheckbox(in: note.relativePath, line: line, undoManager: undoManager)
         })
-        .navigationTitle(note.title)
         .toolbar {
             ToolbarItemGroup {
                 Button {

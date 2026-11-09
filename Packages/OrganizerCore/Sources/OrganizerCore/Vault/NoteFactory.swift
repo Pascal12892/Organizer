@@ -82,15 +82,20 @@ public enum Excerpt {
     static func stripMarkup(_ line: String) -> String {
         var text = line
         // Präfixe von Überschriften, Zitaten, Listen und Checkboxen.
-        if let match = text.prefixMatch(of: #/(?:#{1,6}\s+|>\s*|[-*+]\s+(?:\[[ xX/-]\]\s+)?|\d+[.)]\s+(?:\[[ xX/-]\]\s+)?)+/#) {
+        if let first = text.first, "#>-*+".contains(first) || first.isNumber,
+           let match = text.prefixMatch(of: Patterns.excerptPrefix) {
             text.removeSubrange(match.range)
         }
         // [[Ziel|Alias]] → Alias, [[Ziel]] → Ziel
-        text = text.replacing(#/!?\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/#) { match in
-            String(match.output.2 ?? match.output.1)
+        if text.contains("[[") {
+            text = text.replacing(Patterns.excerptWikiLink) { match in
+                String(match.output.2 ?? match.output.1)
+            }
         }
         // [Text](url) → Text
-        text = text.replacing(#/!?\[([^\]]*)\]\([^)]*\)/#) { String($0.output.1) }
+        if text.contains("](") {
+            text = text.replacing(Patterns.markdownLink) { String($0.output.1) }
+        }
         for marker in ["**", "__", "~~", "==", "`"] {
             text = text.replacingOccurrences(of: marker, with: "")
         }

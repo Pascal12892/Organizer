@@ -159,7 +159,7 @@ public enum RoadmapParser {
     static func field(in line: String) -> (String, String)? {
         guard let range = line.range(of: "::") else { return nil }
         let key = line[..<range.lowerBound].trimmingCharacters(in: .whitespaces).lowercased()
-        guard !key.isEmpty, key.wholeMatch(of: #/[\p{L}\p{N}_-]+/#) != nil else { return nil }
+        guard !key.isEmpty, key.wholeMatch(of: Patterns.fieldKey) != nil else { return nil }
         return (key, line[range.upperBound...].trimmingCharacters(in: .whitespaces))
     }
 }

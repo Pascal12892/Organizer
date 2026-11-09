@@ -175,3 +175,27 @@ struct MarkdownTests {
         #expect(content.blocks[4] == .code(language: "swift", code: "let x = 1"))
     }
 }
+
+@Suite("Inkrementeller Scan")
+struct IncrementalScanTests {
+    @Test func reusesUnchangedNotesAndRereadsChangedOnes() throws {
+        let root = FileManager.default.temporaryDirectory.appending(path: "OrganizerIncremental-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: root) }
+        let writer = VaultWriter(root: root)
+        try writer.createFile("Uni/A.md", content: "- [ ] Alt")
+        try writer.createFile("Uni/B.md", content: "B")
+        let first = VaultScanner.scan(root: root, layout: VaultLayout())
+
+        // Vorherigen Stand absichtlich verfälschen: nur wiederverwendete Notizen behalten den falschen Titel.
+        var previous = Dictionary(uniqueKeysWithValues: first.notes.map { ($0.relativePath, $0) })
+        previous["Uni/B.md"]?.title = "aus dem Cache"
+        try writer.save("Uni/A.md", newContent: "- [x] Neu", expected: "- [ ] Alt")
+        // Änderungsdatum sicher verschieben (Dateisysteme mit grober Auflösung)
+        try FileManager.default.setAttributes([.modificationDate: Date.now.addingTimeInterval(5)], ofItemAtPath: writer.url(for: "Uni/A.md").path(percentEncoded: false))
+
+        let second = VaultScanner.scan(root: root, layout: VaultLayout(), previous: previous)
+        #expect(second.notes.first { $0.relativePath == "Uni/B.md" }?.title == "aus dem Cache")
+        #expect(second.tasks.map(\.title) == ["Neu"])
+        #expect(second.tasks.first?.status == .done)
+    }
+}

@@ -18,8 +18,15 @@ final class VaultService {
     private(set) var state: State = .noVault
     private(set) var rootURL: URL?
     private(set) var snapshot: VaultSnapshot = .empty
+    /// Abgeleitete Daten zum aktuellen Stand (Zähler, Roadmap).
+    private(set) var index: VaultIndex = .empty
+    /// Wird mit jedem neuen Stand erhöht – Schlüssel für Zwischenspeicher in den Views.
+    private(set) var version = 0
     /// `true` während ein Scan läuft – auch wenn bereits Daten angezeigt werden.
     private(set) var isScanning = false
+    /// `true`, wenn ein Scan länger als eine halbe Sekunde dauert. Nur dann zeigt die
+    /// Seitenleiste einen Hinweis – sonst würde sie bei jeder kleinen Änderung kurz springen.
+    private(set) var isSlowScan = false
     private(set) var lastScan: Date?
 
     private var layout: VaultLayout
@@ -27,6 +34,8 @@ final class VaultService {
     private var isAccessingScope = false
     private var rescanTask: Task<Void, Never>?
     private var scanGeneration = 0
+    /// Layout, mit dem `snapshot` erstellt wurde (nur dann dürfen Notizen wiederverwendet werden).
+    private var scannedLayout: VaultLayout?
 
     init(layout: VaultLayout = VaultLayout()) {
         self.layout = layout
@@ -36,6 +45,7 @@ final class VaultService {
     static func preview(_ snapshot: VaultSnapshot, name: String = "Vault") -> VaultService {
         let service = VaultService()
         service.snapshot = snapshot
+        service.index = VaultIndex(snapshot: snapshot)
         service.rootURL = URL(filePath: "/Users/vorschau/\(name)", directoryHint: .isDirectory)
         service.state = .ready
         return service
@@ -77,6 +87,9 @@ final class VaultService {
         isScanning = false
         rootURL = nil
         snapshot = .empty
+        index = .empty
+        scannedLayout = nil
+        version += 1
         state = .noVault
     }
 
@@ -92,15 +105,28 @@ final class VaultService {
         scanGeneration += 1
         let generation = scanGeneration
         isScanning = true
+        Task {
+            try? await Task.sleep(for: .milliseconds(500))
+            if isScanning, generation == scanGeneration { isSlowScan = true }
+        }
         let layout = layout
-        let snapshot = await Task.detached(priority: .userInitiated) {
-            VaultScanner.scan(root: rootURL, layout: layout)
+        // Unveränderte Dateien aus dem letzten Stand übernehmen, statt alles neu zu lesen.
+        let previous = scannedLayout == layout
+            ? Dictionary(snapshot.notes.map { ($0.relativePath, $0) }, uniquingKeysWith: { first, _ in first })
+            : [:]
+        let (snapshot, index) = await Task.detached(priority: .userInitiated) {
+            let snapshot = VaultScanner.scan(root: rootURL, layout: layout, previous: previous)
+            return (snapshot, VaultIndex(snapshot: snapshot))
         }.value
 
         // Ein neuerer Scan oder ein Vault-Wechsel hat dieses Ergebnis überholt.
         guard generation == scanGeneration, rootURL == self.rootURL else { return }
         self.snapshot = snapshot
+        self.index = index
+        scannedLayout = layout
+        version += 1
         isScanning = false
+        isSlowScan = false
         lastScan = .now
         state = .ready
     }

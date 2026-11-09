@@ -7,7 +7,7 @@ struct SidebarView: View {
 
     var body: some View {
         @Bindable var model = model
-        let counts = noteCounts()
+        let counts = model.vault.index.folderNoteCounts
 
         List(selection: $model.sidebarSelection) {
             Section {
@@ -55,17 +55,6 @@ struct SidebarView: View {
         return model.folderTree.filter { layout.area(forFolder: $0.path) != nil }
     }
 
-    /// Zählt alle Notizen in einem Durchlauf; ein Ordner zählt seine Unterordner mit.
-    private func noteCounts() -> [String: Int] {
-        var counts: [String: Int] = [:]
-        for note in model.vault.notes {
-            let components = note.folderPath.split(separator: "/")
-            for length in stride(from: components.count, through: 1, by: -1) {
-                counts[components.prefix(length).joined(separator: "/"), default: 0] += 1
-            }
-        }
-        return counts
-    }
 }
 
 /// Ein Ordner mit seinen Unterordnern, beliebig tief.

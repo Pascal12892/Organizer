@@ -11,7 +11,7 @@ struct VaultStatusView: View {
         let issues = model.vault.issues
         let settingsError = model.settings.lastError ?? model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError
 
-        if model.vault.isScanning || !issues.isEmpty || settingsError != nil {
+        if model.vault.isSlowScan || !issues.isEmpty || settingsError != nil {
             HStack(spacing: 8) {
                 if let writeError = model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError {
                     Label(writeError, systemImage: "exclamationmark.triangle.fill")
@@ -29,7 +29,7 @@ struct VaultStatusView: View {
                     .buttonStyle(.plain)
                     .help("Meldung schließen")
                     .accessibilityLabel("Meldung schließen")
-                } else if model.vault.isScanning {
+                } else if model.vault.isSlowScan {
                     ProgressView()
                         .controlSize(.small)
                     Text("Vault wird gelesen …")

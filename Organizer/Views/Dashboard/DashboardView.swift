@@ -155,7 +155,7 @@ private struct TasksCard: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
-        let sections = TaskGrouping.sections(model.tasks.tasks, filter: .today)
+        let sections = model.tasks.sections(filter: .today, area: nil)
         let tasks = sections.flatMap(\.tasks)
         DashboardCard(title: "Fällige Aufgaben", systemImage: "checklist", showAll: {
             model.settings.update { $0.taskFilter = .today }

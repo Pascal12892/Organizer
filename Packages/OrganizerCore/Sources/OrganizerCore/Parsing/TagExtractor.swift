@@ -26,12 +26,37 @@ public enum TagExtractor {
                 continue
             }
             if inFence { continue }
+            guard line.contains("#" as Character) else { continue }
             let text = MarkdownText.removingInlineCode(String(line))
-            for match in text.matches(of: #/(?:^|\s)#([\p{L}\p{N}_\/-]+)/#) {
-                if let tag = normalize(String(match.output.1)) { result.append(tag) }
+            for raw in hashTags(in: text) {
+                if let tag = normalize(raw) { result.append(tag) }
             }
         }
         return result
+    }
+
+    /// `#wort` am Zeilenanfang oder nach Leerraum; erlaubt sind Buchstaben, Ziffern, `_`, `/` und `-`.
+    /// Bewusst ohne regulären Ausdruck – das läuft für jede Zeile jeder Notiz.
+    static func hashTags(in text: String) -> [String] {
+        var tags: [String] = []
+        var previous: Character = " "
+        var current: String?
+        for character in text {
+            if var tag = current {
+                if character.isLetter || character.isNumber || character == "_" || character == "/" || character == "-" {
+                    tag.append(character)
+                    current = tag
+                } else {
+                    if !tag.isEmpty { tags.append(tag) }
+                    current = character == "#" && previous.isWhitespace ? "" : nil
+                }
+            } else if character == "#", previous.isWhitespace {
+                current = ""
+            }
+            previous = character
+        }
+        if let tag = current, !tag.isEmpty { tags.append(tag) }
+        return tags
     }
 
     /// Entfernt führende `#`; reine Zahlen sind in Obsidian keine Tags.
@@ -51,7 +76,7 @@ public enum TagExtractor {
 enum MarkdownText {
     /// Ersetzt `code`-Abschnitte durch Leerzeichen, damit darin nichts erkannt wird.
     static func removingInlineCode(_ line: String) -> String {
-        guard line.contains("`") else { return line }
+        guard line.contains("`" as Character) else { return line }
         return line.split(separator: "`", omittingEmptySubsequences: false)
             .enumerated()
             .map { $0.offset.isMultiple(of: 2) ? String($0.element) : " " }
@@ -68,7 +93,7 @@ enum MarkdownText {
                 return String(line)
             }
             if inFence { return String(line) }
-            guard line.contains("`") else { return transform(String(line)) }
+            guard line.contains("`" as Character) else { return transform(String(line)) }
             return line.split(separator: "`", omittingEmptySubsequences: false)
                 .enumerated()
                 .map { $0.offset.isMultiple(of: 2) ? transform(String($0.element)) : String($0.element) }

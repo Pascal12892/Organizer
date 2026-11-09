@@ -16,7 +16,7 @@ struct CalendarInfo: Identifiable, Hashable {
 /// Liest Termine und legt neue an. Aufgaben werden hier nie hineingeschrieben.
 @Observable
 final class CalendarService {
-    enum Access: Equatable {
+    enum Access: Hashable {
         case notDetermined
         case denied
         case restricted
@@ -90,7 +90,19 @@ final class CalendarService {
 
     /// Termine im Zeitraum aus allen Kalendern, die nicht ausgeblendet sind.
     func events(in interval: DateInterval, hiddenCalendarIDs: Set<String>) -> [CalendarEventInfo] {
-        _ = revision
+        // Zwischenspeichern: Monats-, Wochen- und Dashboard-Ansicht fragen bei jedem Neuzeichnen.
+        let key = EventsKey(interval: interval, hidden: hiddenCalendarIDs, revision: revision, access: access)
+        if let cached = eventCache[key] { return cached }
+        let events = fetchEvents(in: interval, hiddenCalendarIDs: hiddenCalendarIDs)
+        if eventCache.count > 24 { eventCache.removeAll() }
+        eventCache[key] = events
+        return events
+    }
+
+    private struct EventsKey: Hashable { let interval: DateInterval; let hidden: Set<String>; let revision: Int; let access: Access }
+    @ObservationIgnored private var eventCache: [EventsKey: [CalendarEventInfo]] = [:]
+
+    private func fetchEvents(in interval: DateInterval, hiddenCalendarIDs: Set<String>) -> [CalendarEventInfo] {
         if isPreview {
             return previewEvents.filter { $0.start < interval.end && $0.end > interval.start && !hiddenCalendarIDs.contains($0.calendarID) }
         }

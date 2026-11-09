@@ -14,13 +14,8 @@ final class RoadmapService {
         self.vault = vault
     }
 
-    var projects: [RoadmapProject] {
-        let tasks = vault.snapshot.tasks
-        return vault.notes
-            .filter(RoadmapParser.isRoadmapNote)
-            .map { RoadmapParser.project(from: $0, tasks: tasks) }
-            .sorted { ($0.span?.start ?? .distantFuture, $0.title) < ($1.span?.start ?? .distantFuture, $1.title) }
-    }
+    /// Im Hintergrund beim Scan berechnet (VaultIndex).
+    var projects: [RoadmapProject] { vault.index.projects }
 
     private var writer: VaultWriter? { vault.rootURL.map { VaultWriter(root: $0) } }
 

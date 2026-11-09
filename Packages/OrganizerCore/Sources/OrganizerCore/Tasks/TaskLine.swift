@@ -21,6 +21,10 @@ public enum TaskLine {
         "created": ["➕"],
         "cancelled": ["❌"],
     ]
+    static let fieldByEmoji: [Character: String] = Dictionary(
+        dateFieldEmojis.flatMap { field, emojis in emojis.map { ($0, field) } },
+        uniquingKeysWith: { first, _ in first }
+    )
     static let priorityEmojis: Set<Character> = ["🔺", "⏫", "🔼", "🔽", "⏬"]
     static let metadataEmojis: Set<Character> = priorityEmojis
         .union(dateFieldEmojis.values.flatMap { $0 })
@@ -29,7 +33,7 @@ public enum TaskLine {
     // MARK: - Lesen
 
     public static func parts(of line: String) -> Parts? {
-        guard let match = line.wholeMatch(of: #/(\s*(?:[-*+]|\d+[.)])\s+\[(.)\]\s?)(.*)/#) else { return nil }
+        guard let match = line.wholeMatch(of: Patterns.taskLine) else { return nil }
         return Parts(prefix: String(match.output.1), status: TaskStatus(match.output.2.first!), description: String(match.output.3))
     }
 
@@ -39,17 +43,20 @@ public enum TaskLine {
         guard let parts = parts(of: line) else { return nil }
         let description = parts.description
 
-        func date(_ field: String) -> Date? {
-            guard let emojis = dateFieldEmojis[field] else { return nil }
-            for emoji in emojis {
-                guard let range = description.range(of: String(emoji)) else { continue }
-                let rest = description[range.upperBound...].drop { $0 == "\u{FE0F}" || $0 == " " }
-                if let value = rest.prefixMatch(of: #/\d{4}-\d{2}-\d{2}/#) {
-                    return OrganizerDateFormat.parse(String(value.output), timeZone: timeZone)
-                }
+        // Einmal durch die Zeile: alle Emoji-Felder mit folgendem Datum einsammeln.
+        var dates: [String: Date] = [:]
+        var index = description.startIndex
+        while index < description.endIndex {
+            let character = description[index]
+            index = description.index(after: index)
+            guard metadataEmojis.contains(character), let field = fieldByEmoji[character], dates[field] == nil else { continue }
+            let rest = description[index...].drop { $0 == "\u{FE0F}" || $0 == " " }
+            let candidate = String(rest.prefix(10))
+            if let date = OrganizerDateFormat.fastParse(candidate, timeZone: timeZone) {
+                dates[field] = date
             }
-            return nil
         }
+        func date(_ field: String) -> Date? { dates[field] }
 
         let priority = description.compactMap { TaskPriority(emoji: $0) }.first ?? .none
         var recurrence: String?
@@ -92,7 +99,7 @@ public enum TaskLine {
 
     /// Beginn der Tags, Erledigt-Daten und Block-IDs am Ende der Zeile.
     static func trailingTokensStart(in text: String) -> String.Index {
-        let pattern = #/(?:\s+(?:#[\p{L}\p{N}_\/-]+|✅\s*\d{4}-\d{2}-\d{2}|\^[A-Za-z0-9-]+))+\s*$/#
+        let pattern = Patterns.trailingTaskTokens
         // Mit vorangestelltem Leerzeichen, damit auch eine Zeile nur aus Tags erkannt wird.
         let padded = " " + text
         guard let match = padded.firstMatch(of: pattern) else { return text.endIndex }
@@ -177,7 +184,7 @@ public enum TaskLine {
             while let range = result.range(of: String(emoji)) {
                 var end = range.upperBound
                 while end < result.endIndex, result[end] == " " || result[end] == "\u{FE0F}" { end = result.index(after: end) }
-                if let date = result[end...].prefixMatch(of: #/\d{4}-\d{2}-\d{2}/#) { end = date.range.upperBound }
+                if let date = result[end...].prefixMatch(of: Patterns.isoDate) { end = date.range.upperBound }
                 var start = range.lowerBound
                 if start > result.startIndex, result[result.index(before: start)] == " " { start = result.index(before: start) }
                 result.removeSubrange(start..<end)
@@ -193,7 +200,7 @@ public enum TaskLine {
             // Vor ✅ und vor den Tags am Ende einfügen.
             let trailing = trailingTokensStart(in: description)
             index = trailing
-        } else if let match = description.firstMatch(of: #/\s+\^[A-Za-z0-9-]+\s*$/#) {
+        } else if let match = description.firstMatch(of: Patterns.blockID) {
             index = match.range.lowerBound
         } else {
             index = description.endIndex

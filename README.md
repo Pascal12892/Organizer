@@ -10,7 +10,8 @@ Kein Server, keine Cloud, kein Account.
 
 ## Bauen und testen
 
-    open Organizer.xcodeproj                                    # in Xcode: ⌘R
+    open Organizer.xcodeproj                                    # in Xcode: ⌘R (Debug, zum Entwickeln)
+    Scripts/install-app.sh                                      # optimierter Build nach /Applications – für den Alltag
     cd Packages/OrganizerCore && swift test                     # Parser-Tests
 
 Die App läuft in der Sandbox. Der Zugriff auf den Vault wird als Security-Scoped Bookmark gespeichert.

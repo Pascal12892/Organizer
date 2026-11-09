@@ -9,7 +9,7 @@ struct TasksView: View {
 
     var body: some View {
         let filter = model.settings.settings.taskFilter
-        let sections = TaskGrouping.sections(model.tasks.tasks, filter: filter, area: model.taskAreaFilter)
+        let sections = model.tasks.sections(filter: filter, area: model.taskAreaFilter)
 
         List(selection: $selection) {
             ForEach(sections) { section in

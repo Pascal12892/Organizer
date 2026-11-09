@@ -1,48 +1,20 @@
 import OrganizerCore
 import SwiftUI
 
-/// Hauptfenster. Notizbereiche nutzen drei Spalten (Seitenleiste, Liste, Detail),
-/// alle anderen Bereiche zwei – so wie Kalender oder Erinnerungen.
+/// Hauptfenster: eine feste Seitenleiste und rechts der gewählte Bereich.
+///
+/// Bewusst nur *ein* NavigationSplitView: Würde je nach Bereich zwischen zwei- und dreispaltig
+/// gewechselt, baut SwiftUI das ganze Fenster samt Seitenleiste neu auf – das ruckelt.
+/// Notizen teilen ihren Bereich darum selbst in Liste und Notiz auf (wie Apple Notizen).
 struct RootView: View {
     @Environment(AppModel.self) private var model
-    @FocusState private var searchFocused: Bool
 
     var body: some View {
-        @Bindable var notes = model.notes
-
-        Group {
-            if let scope = model.sidebarSelection?.noteScope {
-                NavigationSplitView {
-                    sidebar
-                } content: {
-                    contentColumn(scope: scope)
-                        .navigationSplitViewColumnWidth(min: 260, ideal: 320, max: 480)
-                } detail: {
-                    noteDetail
-                }
-                .searchable(text: $notes.searchText, placement: .toolbar, prompt: "Suchen")
-                .searchFocused($searchFocused)
-            } else {
-                NavigationSplitView {
-                    sidebar
-                } detail: {
-                    if model.sidebarSelection == .dashboard {
-                        DashboardView()
-                    } else if model.sidebarSelection == .calendar {
-                        CalendarView()
-                    } else if model.sidebarSelection == .tasks {
-                        TasksView()
-                    } else if model.sidebarSelection == .roadmap {
-                        RoadmapView()
-
-                    } else {
-                        sectionPlaceholder
-                    }
-                }
-            }
-        }
-        .onChange(of: model.searchFocusRequest) {
-            searchFocused = true
+        NavigationSplitView {
+            SidebarView()
+                .navigationSplitViewColumnWidth(min: 190, ideal: 230, max: 320)
+        } detail: {
+            detail
         }
         .sheet(isPresented: Bindable(model).isShowingNewNote) {
             NewNoteSheet()
@@ -50,13 +22,46 @@ struct RootView: View {
         .modifier(NewFolderAlert())
     }
 
-    private var sidebar: some View {
-        SidebarView()
-            .navigationSplitViewColumnWidth(min: 190, ideal: 230, max: 320)
+    @ViewBuilder
+    private var detail: some View {
+        switch model.sidebarSelection {
+        case .dashboard: DashboardView()
+        case .calendar: CalendarView()
+        case .tasks: TasksView()
+        case .roadmap: RoadmapView()
+        case .notes, .folder:
+            if let scope = model.sidebarSelection?.noteScope {
+                NotesSplitView(scope: scope)
+            }
+        case nil:
+            ContentUnavailableView("Nichts ausgewählt", systemImage: "sidebar.left")
+        }
+    }
+}
+
+/// Notizliste und Notiz nebeneinander, Breite der Liste veränderbar.
+private struct NotesSplitView: View {
+    @Environment(AppModel.self) private var model
+    @FocusState private var searchFocused: Bool
+    let scope: NoteScope
+
+    var body: some View {
+        @Bindable var notes = model.notes
+
+        HSplitView {
+            listColumn
+                .frame(minWidth: 260, idealWidth: 320, maxWidth: 480)
+            noteDetail
+                .frame(minWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
+                .layoutPriority(1)
+        }
+        .searchable(text: $notes.searchText, placement: .toolbar, prompt: "Suchen")
+        .searchFocused($searchFocused)
+        .onChange(of: model.searchFocusRequest) { searchFocused = true }
     }
 
     @ViewBuilder
-    private func contentColumn(scope: NoteScope) -> some View {
+    private var listColumn: some View {
         switch model.vault.state {
         case .noVault:
             ChooseVaultView()
@@ -79,20 +84,6 @@ struct RootView: View {
             ContentUnavailableView("Keine Notiz ausgewählt", systemImage: "note.text")
         } else {
             Color.clear
-        }
-    }
-
-    @ViewBuilder
-    private var sectionPlaceholder: some View {
-        if let item = model.sidebarSelection, let phase = item.plannedPhase {
-            ContentUnavailableView {
-                Label(item.title, systemImage: item.systemImage)
-            } description: {
-                Text("Dieser Bereich folgt in Phase \(phase).")
-            }
-            .navigationTitle(item.title)
-        } else {
-            ContentUnavailableView("Nichts ausgewählt", systemImage: "sidebar.left")
         }
     }
 }

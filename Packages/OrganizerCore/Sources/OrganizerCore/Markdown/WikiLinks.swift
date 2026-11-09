@@ -22,7 +22,7 @@ public enum WikiLinks {
     public static func rewrite(_ markdown: String) -> String {
         guard markdown.contains("[[") else { return markdown }
         return MarkdownText.transformOutsideCode(markdown) { text in
-            text.replacing(#/!?\[\[([^\[\]|]+?)(?:\|([^\[\]]+?))?\]\]/#) { match in
+            text.replacing(Patterns.wikiLink) { match in
                 let target = String(match.output.1).trimmingCharacters(in: .whitespaces)
                 let label = String(match.output.2 ?? match.output.1)
                     .replacingOccurrences(of: "[", with: "\\[")

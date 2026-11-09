@@ -31,7 +31,10 @@ public enum VaultScanner {
     /// Größere Dateien sind fast sicher keine Notizen und werden übersprungen.
     public static let maxFileSize = 5 * 1024 * 1024
 
-    public static func scan(root: URL, layout: VaultLayout) -> VaultSnapshot {
+    /// - Parameter previous: Notizen des letzten Scans (gleiches Layout). Unveränderte Dateien
+    ///   (gleiches Änderungsdatum) werden übernommen statt neu gelesen – nach einer Änderung
+    ///   muss so meist nur eine einzige Datei gelesen werden.
+    public static func scan(root: URL, layout: VaultLayout, previous: [String: Note] = [:]) -> VaultSnapshot {
         let root = root.standardizedFileURL.resolvingSymlinksInPath()
         let rootComponents = root.pathComponents
         let keys: [URLResourceKey] = [.isDirectoryKey, .contentModificationDateKey, .creationDateKey, .fileSizeKey]
@@ -80,6 +83,12 @@ public enum VaultScanner {
             guard url.pathExtension.lowercased() == "md" else { continue }
             if let size = values?.fileSize, size > maxFileSize {
                 issues.append(VaultIssue(relativePath: relativePath, message: "Datei ist größer als 5 MB und wurde übersprungen."))
+                continue
+            }
+
+            if let modified = values?.contentModificationDate, let cached = previous[relativePath], cached.modified == modified {
+                notes.append(cached)
+                issues += cached.issues.map { VaultIssue(relativePath: relativePath, message: $0) }
                 continue
             }
 
