@@ -41,7 +41,8 @@ enum PreviewData {
             Topic(area: "Freizeit", name: "Reisen", relativePath: "Freizeit/Reisen"),
         ]
         let issues = [VaultIssue(relativePath: "Inbox/Kaputt.md", message: "Das Frontmatter wird nicht mit „---“ abgeschlossen.")]
-        return VaultSnapshot(notes: notes, topics: topics, issues: issues)
+        let folders = ["Uni", "Uni/Data Science", "Uni/Statistik", "Arbeit", "Arbeit/Projekt Atlas", "Freizeit", "Freizeit/Reisen", "Inbox"]
+        return VaultSnapshot(notes: notes, topics: topics, issues: issues, folders: folders)
     }()
 
     static let markdownSample = """

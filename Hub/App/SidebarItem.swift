@@ -7,8 +7,8 @@ enum SidebarItem: Hashable {
     case calendar
     case tasks
     case roadmap
-    case area(String)
-    case topic(area: String, name: String)
+    /// Ein Ordner im Vault (relativer Pfad), beliebig tief verschachtelt.
+    case folder(String)
 
     static let sections: [SidebarItem] = [.dashboard, .notes, .calendar, .tasks, .roadmap]
 
@@ -19,8 +19,7 @@ enum SidebarItem: Hashable {
         case .calendar: "Kalender"
         case .tasks: "Aufgaben"
         case .roadmap: "Roadmap"
-        case .area(let name): name
-        case .topic(_, let name): name
+        case .folder(let path): path.split(separator: "/").last.map(String.init) ?? path
         }
     }
 
@@ -31,8 +30,7 @@ enum SidebarItem: Hashable {
         case .calendar: "calendar"
         case .tasks: "checklist"
         case .roadmap: "map"
-        case .area(let name): Self.areaSymbol(for: name)
-        case .topic: "folder"
+        case .folder(let path): path.contains("/") ? "folder" : Self.areaSymbol(for: path)
         }
     }
 
@@ -40,17 +38,20 @@ enum SidebarItem: Hashable {
     var noteScope: NoteScope? {
         switch self {
         case .notes: .all
-        case .area(let name): .area(name)
-        case .topic(let area, let name): .topic(area: area, name: name)
+        case .folder(let path): .folder(path)
         default: nil
         }
+    }
+
+    var folderPath: String? {
+        if case .folder(let path) = self { return path }
+        return nil
     }
 
     /// In welcher Phase der Bereich fertig wird (für Platzhalter).
     var plannedPhase: Int? {
         switch self {
         case .dashboard: 7
-        case .calendar: 3
         case .tasks: 4
         case .roadmap: 6
         default: nil
@@ -65,7 +66,11 @@ enum SidebarItem: Hashable {
         case "sport": "figure.run"
         case "finanzen": "eurosign.circle"
         case "familie": "person.2"
-        default: "square.stack"
+        case "projekte": "hammer"
+        case "archiv": "archivebox"
+        case "inbox", "eingang": "tray"
+        case "_hub": "square.grid.2x2"
+        default: "folder"
         }
     }
 }

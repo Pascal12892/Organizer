@@ -36,7 +36,7 @@ struct RootView: View {
         .sheet(isPresented: Bindable(model).isShowingNewNote) {
             NewNoteSheet()
         }
-        .modifier(NewTopicAlert())
+        .modifier(NewFolderAlert())
     }
 
     private var sidebar: some View {

@@ -62,12 +62,16 @@ struct NoteListView: View {
         case .all: "Notizen"
         case .area(let area): area
         case .topic(_, let name): name
+        case .folder(let path): path.split(separator: "/").last.map(String.init) ?? path
         }
     }
 
     /// In der Gesamtansicht hilft der Ort, in einem Thema wäre er überflüssig.
     private var showsLocation: Bool {
-        if case .topic = scope { return false }
+        if case .folder(let path) = scope {
+            // Nur anzeigen, wenn es Unterordner gibt, in denen Notizen liegen können.
+            return model.vault.snapshot.folders.contains { $0.hasPrefix(path + "/") }
+        }
         return true
     }
 
@@ -135,7 +139,7 @@ private struct TagFilterMenu: View {
 
 #Preview("Dunkel") {
     NavigationStack {
-        NoteListView(scope: .area("Uni"))
+        NoteListView(scope: .folder("Uni"))
     }
     .environment(PreviewData.model())
     .frame(width: 340, height: 600)

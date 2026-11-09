@@ -9,6 +9,19 @@ struct AppSettings: Codable, Equatable {
     /// Letzter bekannter Pfad, nur zur Anzeige, falls das Bookmark nicht mehr auflösbar ist.
     var vaultPath: String?
     var areas: [String] = VaultLayout.defaultAreas
+    /// Ordner auf oberster Ebene automatisch als Bereiche verwenden (Struktur aus Obsidian übernehmen).
+    var automaticAreas = true
+
+    init() {}
+
+    /// Fehlende Schlüssel (aus älteren Versionen) bekommen Standardwerte.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        vaultBookmark = try container.decodeIfPresent(Data.self, forKey: .vaultBookmark)
+        vaultPath = try container.decodeIfPresent(String.self, forKey: .vaultPath)
+        areas = try container.decodeIfPresent([String].self, forKey: .areas) ?? VaultLayout.defaultAreas
+        automaticAreas = try container.decodeIfPresent(Bool.self, forKey: .automaticAreas) ?? true
+    }
 }
 
 /// Lädt und speichert `AppSettings`. Fehler werden sichtbar gemacht, nicht verschluckt.
@@ -50,7 +63,7 @@ final class SettingsStore {
             .appending(path: "settings.json")
     }
 
-    var layout: VaultLayout { VaultLayout(areas: settings.areas) }
+    var layout: VaultLayout { VaultLayout(areas: settings.areas, automaticAreas: settings.automaticAreas) }
 
     func update(_ change: (inout AppSettings) -> Void) {
         var copy = settings

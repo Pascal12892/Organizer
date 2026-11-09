@@ -5,6 +5,8 @@ public enum NoteScope: Sendable, Hashable {
     case all
     case area(String)
     case topic(area: String, name: String)
+    /// Ein Ordner samt allen Unterordnern (relativer Pfad).
+    case folder(String)
 }
 
 /// Filter für die Notizliste: Bereich/Thema, Tag und Volltextsuche.
@@ -31,6 +33,8 @@ public struct NoteQuery: Sendable, Hashable {
             guard note.area == area else { return false }
         case .topic(let area, let name):
             guard note.area == area, note.topic == name else { return false }
+        case .folder(let path):
+            guard note.relativePath.hasPrefix(path + "/") else { return false }
         }
         if let tag, !note.tags.contains(where: { $0.caseInsensitiveCompare(tag) == .orderedSame }) {
             return false

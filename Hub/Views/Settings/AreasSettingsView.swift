@@ -10,6 +10,20 @@ struct AreasSettingsView: View {
     var body: some View {
         Form {
             Section {
+                Toggle("Ordnerstruktur aus Obsidian übernehmen", isOn: Binding(
+                    get: { model.settings.settings.automaticAreas },
+                    set: { model.setAutomaticAreas($0) }
+                ))
+            } footer: {
+                Text(model.settings.settings.automaticAreas
+                     ? "Jeder Ordner auf oberster Ebene ist ein Bereich, seine Unterordner sind die Themen. Die Seitenleiste zeigt alle Ordner wie in Obsidian."
+                     : "Nur die unten aufgeführten Ordner sind Bereiche und erscheinen in der Seitenleiste.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
+
+            if !model.settings.settings.automaticAreas {
+            Section {
                 List(selection: $selection) {
                     ForEach(Array(model.settings.settings.areas.enumerated()), id: \.offset) { index, _ in
                         AreaRow(name: binding(for: index), folderExists: folderExists(at: index))
@@ -55,9 +69,10 @@ struct AreasSettingsView: View {
             } header: {
                 Text("Bereiche")
             } footer: {
-                Text("Jeder Bereich ist ein Ordner auf oberster Ebene im Vault, seine Unterordner sind die Themen. Entfernen ändert nichts im Vault, Hub blendet den Ordner nur aus.")
+                Text("Entfernen ändert nichts im Vault, Hub blendet den Ordner nur aus. Die Reihenfolge bestimmt auch die Sortierung in der Seitenleiste.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
+            }
             }
         }
         .formStyle(.grouped)

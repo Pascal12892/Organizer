@@ -73,9 +73,14 @@ public struct VaultWriter: Sendable {
 
     /// Legt einen Themen-Ordner an.
     public func createTopic(area: String, name: String) throws -> String {
+        try createFolder(parent: area, name: name)
+    }
+
+    /// Legt einen Ordner in `parent` an (leer = oberste Ebene des Vaults).
+    public func createFolder(parent: String, name: String) throws -> String {
         let clean = NoteTemplate.fileName(for: name)
         guard !name.trimmingCharacters(in: .whitespaces).isEmpty else { throw WriteError.invalidName }
-        let relativePath = "\(area)/\(clean)"
+        let relativePath = parent.isEmpty ? clean : "\(parent)/\(clean)"
         let folderURL = root.appending(path: relativePath, directoryHint: .isDirectory)
         if FileManager.default.fileExists(atPath: folderURL.path(percentEncoded: false)) {
             throw WriteError.alreadyExists(clean)

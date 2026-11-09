@@ -33,11 +33,7 @@ struct NoteRow: View {
     }
 
     private var location: String? {
-        switch (note.area, note.topic) {
-        case let (area?, topic?): "\(area) › \(topic)"
-        case let (area?, nil): area
-        default: note.folderPath.isEmpty ? nil : note.folderPath
-        }
+        note.folderPath.isEmpty ? nil : note.folderPath.replacingOccurrences(of: "/", with: " › ")
     }
 
     /// Heute nur die Uhrzeit, sonst das Datum – wie in Notizen und Mail.

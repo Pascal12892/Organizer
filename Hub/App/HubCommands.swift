@@ -11,17 +11,11 @@ struct HubCommands: Commands {
             Button("Neue Notiz …") { model.isShowingNewNote = true }
                 .keyboardShortcut("n")
                 .disabled(!vaultReady)
-            Button("Neues Thema …") {
-                if case .topic(let area, _) = model.sidebarSelection {
-                    model.newTopicArea = area
-                } else if case .area(let area) = model.sidebarSelection {
-                    model.newTopicArea = area
-                } else {
-                    model.newTopicArea = model.areas.first
-                }
+            Button("Neuer Ordner …") {
+                model.newFolderParent = model.sidebarSelection?.folderPath ?? ""
             }
             .keyboardShortcut("n", modifiers: [.command, .option])
-            .disabled(!vaultReady || model.areas.isEmpty)
+            .disabled(!vaultReady)
             Divider()
             Button("Vault öffnen …") { model.chooseVault() }
                 .keyboardShortcut("o", modifiers: [.command, .shift])

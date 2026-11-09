@@ -5,13 +5,16 @@ public struct VaultSnapshot: Sendable, Hashable {
     public var notes: [Note]
     public var topics: [Topic]
     public var issues: [VaultIssue]
+    /// Alle sichtbaren Ordner, relativ zum Vault.
+    public var folders: [String]
 
     public static let empty = VaultSnapshot(notes: [], topics: [], issues: [])
 
-    public init(notes: [Note], topics: [Topic], issues: [VaultIssue]) {
+    public init(notes: [Note], topics: [Topic], issues: [VaultIssue], folders: [String] = []) {
         self.notes = notes
         self.topics = topics
         self.issues = issues
+        self.folders = folders
     }
 
     public func topics(in area: String) -> [Topic] {
@@ -51,6 +54,7 @@ public enum VaultScanner {
         var notes: [Note] = []
         var topics: [Topic] = []
         var issues: [VaultIssue] = []
+        var folders: [String] = []
 
         for case let url as URL in enumerator {
             var components = url.standardizedFileURL.pathComponents
@@ -63,6 +67,7 @@ public enum VaultScanner {
             let values = try? url.resourceValues(forKeys: Set(keys))
 
             if values?.isDirectory == true {
+                folders.append(relativePath)
                 if relative.count == 2, let area = layout.area(forFolder: relative[0]) {
                     topics.append(Topic(area: area, name: relative[1], relativePath: relativePath))
                 }
@@ -97,7 +102,8 @@ public enum VaultScanner {
 
         notes.sort { $0.modified > $1.modified }
         topics.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-        return VaultSnapshot(notes: notes, topics: topics, issues: enumerationErrors.issues + issues)
+        folders.sort { $0.localizedStandardCompare($1) == .orderedAscending }
+        return VaultSnapshot(notes: notes, topics: topics, issues: enumerationErrors.issues + issues, folders: folders)
     }
 }
 

@@ -10,8 +10,8 @@ final class AppModel {
     let notes: NotesViewModel
 
     var sidebarSelection: SidebarItem? = .notes
-    /// Ausgeklappte Bereiche in der Seitenleiste.
-    var expandedAreas: Set<String> = []
+    /// Ausgeklappte Ordner in der Seitenleiste.
+    var expandedFolders: Set<String> = []
     /// Wird erhöht, wenn das Suchfeld den Fokus bekommen soll (Cmd+F).
     private(set) var searchFocusRequest = 0
 
@@ -19,8 +19,7 @@ final class AppModel {
         self.settings = settings
         self.vault = vault
         self.notes = NotesViewModel(vault: vault)
-        expandedAreas = Set(settings.settings.areas)
-        vault.updateLayout(settings.layout)
+                vault.updateLayout(settings.layout)
     }
 
     convenience init() {
@@ -92,10 +91,25 @@ final class AppModel {
 
     // MARK: - Bereiche
 
-    var areas: [String] { settings.layout.areas }
+    /// Die Bereiche: automatisch alle Ordner auf oberster Ebene, sonst die Liste aus den Einstellungen.
+    var areas: [String] {
+        let layout = settings.layout
+        guard layout.automaticAreas else { return layout.areas }
+        return folderTree.compactMap { layout.area(forFolder: $0.path) }
+    }
+
+    /// Ordnerbaum des Vaults; konfigurierte Bereiche stehen oben in ihrer Reihenfolge.
+    var folderTree: [FolderNode] {
+        FolderTree.build(vault.snapshot.folders, topLevelOrder: settings.settings.areas)
+    }
 
     func setAreas(_ areas: [String]) {
         settings.update { $0.areas = areas }
+        vault.updateLayout(settings.layout)
+    }
+
+    func setAutomaticAreas(_ automatic: Bool) {
+        settings.update { $0.automaticAreas = automatic }
         vault.updateLayout(settings.layout)
     }
 
@@ -135,17 +149,14 @@ final class AppModel {
     /// Letzter Fehler beim Schreiben; wird unten in der Seitenleiste angezeigt.
     var writeError: String?
     var isShowingNewNote = false
-    /// Bereich, für den gerade ein neues Thema angelegt wird (zeigt den Dialog).
-    var newTopicArea: String?
+    /// Elternordner, in dem gerade ein neuer Ordner angelegt wird ("" = oberste Ebene). Zeigt den Dialog.
+    var newFolderParent: String?
 
-    /// Wo eine neue Notiz standardmäßig landet: im ausgewählten Bereich bzw. Thema.
-    var defaultLocation: (area: String?, topic: String?) {
-        switch sidebarSelection {
-        case .area(let area): (area, nil)
-        case .topic(let area, let name): (area, name)
-        default:
-            if let note = notes.selectedNote { (note.area, note.topic) } else { (areas.first, nil) }
-        }
+    /// Wo eine neue Notiz standardmäßig landet: im ausgewählten Ordner bzw. dem der offenen Notiz.
+    var defaultFolder: String {
+        if let path = sidebarSelection?.folderPath { return path }
+        if let note = notes.selectedNote { return note.folderPath }
+        return ""
     }
 
     func openInObsidian(_ note: Note) {
@@ -158,18 +169,18 @@ final class AppModel {
     }
 
     /// Legt eine Notiz an, öffnet sie im Bearbeiten-Modus und macht das Anlegen rückgängig-fähig.
-    func createNote(title: String, area: String?, topic: String?, undoManager: UndoManager?) async throws {
+    func createNote(title: String, folder: String, undoManager: UndoManager?) async throws {
         guard let writer else { return }
-        let folder = [area, topic].compactMap { $0 }.joined(separator: "/")
+        let (area, topic) = settings.layout.classify(folder: folder)
         let content = NoteTemplate.content(area: area, topic: topic, created: .now, body: "")
         let relativePath = try writer.createNote(folder: folder, title: title, content: content)
         await vault.rescan()
 
-        if let area {
-            expandedAreas.insert(area)
-            sidebarSelection = topic.map { .topic(area: area, name: $0) } ?? .area(area)
-        } else {
+        if folder.isEmpty {
             sidebarSelection = .notes
+        } else {
+            expand(toShow: folder)
+            sidebarSelection = .folder(folder)
         }
         notes.searchText = ""
         notes.tagFilter = nil
@@ -182,18 +193,24 @@ final class AppModel {
         undoManager?.setActionName("Notiz anlegen")
     }
 
-    func createTopic(named name: String, in area: String, undoManager: UndoManager?) async throws {
+    func createFolder(named name: String, in parent: String, undoManager: UndoManager?) async throws {
         guard let writer else { return }
-        let relativePath = try writer.createTopic(area: area, name: name)
+        let relativePath = try writer.createFolder(parent: parent, name: name)
         await vault.rescan()
-        expandedAreas.insert(area)
-        if let topic = vault.snapshot.topics.first(where: { $0.relativePath == relativePath }) {
-            sidebarSelection = .topic(area: area, name: topic.name)
-        }
+        expand(toShow: relativePath)
+        sidebarSelection = .folder(relativePath)
         undoManager?.registerUndo(withTarget: self) { model in
-            model.undoCreation(of: relativePath, kind: "Thema", undoManager: undoManager)
+            model.undoCreation(of: relativePath, kind: "Ordner", undoManager: undoManager)
         }
-        undoManager?.setActionName("Thema anlegen")
+        undoManager?.setActionName("Ordner anlegen")
+    }
+
+    /// Klappt alle Elternordner auf, damit `path` in der Seitenleiste sichtbar ist.
+    func expand(toShow path: String) {
+        let components = path.split(separator: "/")
+        for length in 1..<max(components.count, 1) {
+            expandedFolders.insert(components.prefix(length).joined(separator: "/"))
+        }
     }
 
     /// Rückgängig für Anlegen: Datei bzw. Ordner wandern in den Papierkorb (wiederherstellbar).
@@ -204,8 +221,9 @@ final class AppModel {
                 notes.isEditing = false
                 notes.selectedNoteID = nil
             }
-            if case .topic(let area, let name) = sidebarSelection, "\(area)/\(name)" == relativePath {
-                sidebarSelection = .area(area)
+            if let selected = sidebarSelection?.folderPath, selected == relativePath || selected.hasPrefix(relativePath + "/") {
+                let parent = relativePath.split(separator: "/").dropLast().joined(separator: "/")
+                sidebarSelection = parent.isEmpty ? .notes : .folder(parent)
             }
             try writer.moveToTrash(relativePath)
             reloadVault()

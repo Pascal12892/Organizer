@@ -9,6 +9,10 @@ Obsidian bleibt die einzige Quelle. Hub liest normale Markdown-Dateien; alles is
       _Hub/Tasks.md          optional, zentrale Aufgaben (Phase 4)
       _Hub/Roadmap/          ein Projekt pro Datei (Phase 6)
 
+**Standard: Struktur aus Obsidian übernehmen.** Jeder Ordner auf oberster Ebene ist ein Bereich (außer `_Hub`),
+seine Unterordner sind Themen. Die Seitenleiste zeigt den ganzen Ordnerbaum, beliebig tief.
+In den Einstellungen lässt sich stattdessen eine feste Liste von Bereichen pflegen.
+
 Ordner und Dateien mit `.` am Anfang (`.obsidian`, `.trash`) werden ignoriert.
 
 ## Bereich und Thema einer Notiz
@@ -49,4 +53,4 @@ Aufgelöst wird wie in Obsidian: zuerst über den Pfad, dann über den Dateiname
   Hat Obsidian sie geändert und gibt es in Hub keine ungespeicherten Änderungen, übernimmt Hub den neuen Stand.
   Andernfalls fragt Hub, welche Version gelten soll.
 - **Rückgängig (⌘Z)** nach dem Anlegen einer Notiz oder eines Themas legt sie in den Papierkorb. Sie ist dort wiederherstellbar.
-- **Neues Thema:** legt nur einen Ordner an.
+- **Neuer Ordner (⌥⌘N, Rechtsklick „Neuer Unterordner“):** legt nur einen Ordner an. Ein Unterordner eines Bereichs ist ein Thema.
