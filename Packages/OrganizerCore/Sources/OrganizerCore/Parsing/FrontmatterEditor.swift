@@ -43,4 +43,20 @@ public enum FrontmatterEditor {
         }
         return lines.joined(separator: "\n")
     }
+
+    /// Ersetzt den Wert einer bestehenden Eigenschaft (`key: wert`). Fehlt sie, bleibt der Text unverändert.
+    public static func replacing(_ key: String, with value: String, in raw: String) -> String {
+        guard FrontmatterParser.parse(raw).frontmatter?[key] != nil else { return raw }
+        var lines = raw.components(separatedBy: "\n")
+        let cr = raw.contains("\r\n") ? "\r" : ""
+        for index in lines.indices.dropFirst() {
+            let line = lines[index].hasSuffix("\r") ? String(lines[index].dropLast()) : lines[index]
+            if ["---", "..."].contains(line.trimmingCharacters(in: .whitespaces)) { break }
+            guard let colon = line.firstIndex(of: ":"), line.first != " ", line.first != "\t",
+                  line[..<colon].trimmingCharacters(in: .whitespaces).caseInsensitiveCompare(key) == .orderedSame else { continue }
+            lines[index] = "\(line[..<colon]): \(NoteTemplate.yamlValue(value))" + cr
+            break
+        }
+        return lines.joined(separator: "\n")
+    }
 }

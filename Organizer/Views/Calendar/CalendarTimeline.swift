@@ -4,6 +4,7 @@ import SwiftUI
 /// Zeitleiste für Tag und Woche: Stundenraster, Termine als Blöcke, rote Linie für „jetzt“.
 struct CalendarTimeline: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let days: [Date]
     let events: [CalendarEventInfo]
     var tasks: [TaskItem] = []
@@ -70,6 +71,9 @@ struct CalendarTimeline: View {
                 .contentShape(Rectangle())
                 .onTapGesture(count: 2) { showDay(day) }
                 .onTapGesture { model.calendarState.select(day) }
+                .dropDestination(for: String.self) { items, _ in
+                    model.dropTasks(items, on: day, undoManager: undoManager)
+                }
                 .help("Doppelklick zeigt den Tag")
                 .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
             }
@@ -135,6 +139,7 @@ struct CalendarTimeline: View {
 /// Eine Tagesspalte mit Stundenlinien und positionierten Terminen.
 private struct DayColumn: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let day: Date
     let events: [CalendarEventInfo]
     var isSelected = false
@@ -177,6 +182,9 @@ private struct DayColumn: View {
                 model.calendarState.newEventStart = calendar.date(byAdding: .hour, value: hour, to: calendar.startOfDay(for: day))
             }
             .onTapGesture { model.calendarState.select(day) }
+            .dropDestination(for: String.self) { items, _ in
+                model.dropTasks(items, on: day, undoManager: undoManager)
+            }
             .overlay(alignment: .leading) {
                 Rectangle().fill(Color(nsColor: .separatorColor)).frame(width: 0.5)
             }

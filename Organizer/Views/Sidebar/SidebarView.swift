@@ -1,5 +1,6 @@
 import OrganizerCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SidebarView: View {
     @Environment(AppModel.self) private var model
@@ -88,11 +89,18 @@ private struct FolderRow: View {
         }
     }
 
+    @State private var isDropTarget = false
+
     private var label: some View {
         let item = SidebarItem.folder(node.path)
         return Label(node.name, systemImage: item.systemImage)
             .badge(counts[node.path] ?? 0)
             .tag(item)
+            .listRowBackground(isDropTarget ? RoundedRectangle(cornerRadius: 6).fill(.tint.opacity(0.25)).padding(.horizontal, 6) : nil)
+            .onDrop(of: [.fileURL, .utf8PlainText], isTargeted: $isDropTarget) { providers in
+                handleDrop(providers)
+            }
+            .help("Notizen hierher ziehen zum Verschieben, Ordner aus dem Finder zum Verknüpfen")
             .contextMenu {
                 Button("Neue Notiz in „\(node.name)“ …") {
                     model.sidebarSelection = item
@@ -110,6 +118,35 @@ private struct FolderRow: View {
                     }
                 }
             }
+    }
+
+    /// Notizen aus der Liste werden verschoben, Ordner aus dem Finder verknüpft.
+    private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
+        var handled = false
+        let target = node.path
+        for provider in providers {
+            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+                handled = true
+                _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                    guard let url else { return }
+                    Task { @MainActor in
+                        let isDirectory = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+                        if isDirectory {
+                            model.folderLinks.link([url], to: target, undoManager: undoManager)
+                        } else {
+                            model.writeError = "„\(url.lastPathComponent)“ ist kein Ordner. Verknüpfen lassen sich nur Ordner."
+                        }
+                    }
+                }
+            } else if provider.canLoadObject(ofClass: String.self) {
+                handled = true
+                _ = provider.loadObject(ofClass: String.self) { string, _ in
+                    guard let path = string.flatMap(DragPayload.notePath(from:)) else { return }
+                    Task { @MainActor in model.moveNote(path, toFolder: target, undoManager: undoManager) }
+                }
+            }
+        }
+        return handled
     }
 
     private var expansion: Binding<Bool> {

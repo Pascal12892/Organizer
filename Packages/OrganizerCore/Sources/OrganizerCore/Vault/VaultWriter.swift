@@ -84,6 +84,30 @@ public struct VaultWriter: Sendable {
         try coordinatedWrite(content, to: fileURL, overwrite: false)
     }
 
+    /// Verschiebt eine Datei in einen anderen Ordner des Vaults. Gibt es dort schon eine gleichnamige Datei, passiert nichts.
+    /// - Returns: der neue relative Pfad.
+    @discardableResult
+    public func moveItem(_ relativePath: String, toFolder folder: String) throws -> String {
+        let name = (relativePath as NSString).lastPathComponent
+        let newPath = folder.isEmpty ? name : "\(folder)/\(name)"
+        guard newPath != relativePath else { return relativePath }
+        let source = url(for: relativePath)
+        let destination = url(for: newPath)
+        guard !FileManager.default.fileExists(atPath: destination.path(percentEncoded: false)) else {
+            throw WriteError.alreadyExists(newPath)
+        }
+        try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
+        var coordinationError: NSError?
+        var moveError: Error?
+        NSFileCoordinator().coordinate(writingItemAt: source, options: .forMoving, writingItemAt: destination, options: .forReplacing,
+                                       error: &coordinationError) { from, to in
+            do { try FileManager.default.moveItem(at: from, to: to) } catch { moveError = error }
+        }
+        if let coordinationError { throw coordinationError }
+        if let moveError { throw moveError }
+        return newPath
+    }
+
     /// Legt einen Themen-Ordner an.
     public func createTopic(area: String, name: String) throws -> String {
         try createFolder(parent: area, name: name)

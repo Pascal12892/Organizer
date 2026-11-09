@@ -26,7 +26,9 @@ struct RootView: View {
                 NavigationSplitView {
                     sidebar
                 } detail: {
-                    if model.sidebarSelection == .calendar {
+                    if model.sidebarSelection == .dashboard {
+                        DashboardView()
+                    } else if model.sidebarSelection == .calendar {
                         CalendarView()
                     } else if model.sidebarSelection == .tasks {
                         TasksView()

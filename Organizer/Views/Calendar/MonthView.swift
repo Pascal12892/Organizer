@@ -55,6 +55,8 @@ struct MonthView: View {
 
 private struct DayCell: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
+    @State private var isDropTarget = false
     let day: Date
     let isInMonth: Bool
     let events: [CalendarEventInfo]
@@ -99,6 +101,14 @@ private struct DayCell: View {
         .overlay {
             Rectangle().strokeBorder(Color(nsColor: .separatorColor), lineWidth: 0.5)
         }
+        .overlay {
+            if isDropTarget {
+                RoundedRectangle(cornerRadius: 4).strokeBorder(.tint, lineWidth: 2)
+            }
+        }
+        .dropDestination(for: String.self) { items, _ in
+            model.dropTasks(items, on: day, undoManager: undoManager)
+        } isTargeted: { isDropTarget = $0 }
         .contentShape(Rectangle())
         .onTapGesture(count: 2) {
             model.calendarState.date = day

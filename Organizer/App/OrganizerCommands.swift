@@ -32,6 +32,7 @@ struct OrganizerCommands: Commands {
             }
             .keyboardShortcut("n", modifiers: [.command, .option])
             .disabled(!vaultReady)
+            Button("Schnellerfassung …") { model.quickCapture.show() }
             Divider()
             Button("Vault öffnen …") { model.chooseVault() }
                 .keyboardShortcut("o", modifiers: [.command, .shift])

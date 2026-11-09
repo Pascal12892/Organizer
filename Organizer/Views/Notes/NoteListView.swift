@@ -21,6 +21,9 @@ struct NoteListView: View {
                     ForEach(section.notes) { note in
                         NoteRow(note: note, showsLocation: showsLocation)
                             .tag(note.id)
+                            .draggable(DragPayload.note(note.relativePath)) {
+                                Label(note.title, systemImage: "doc.text").padding(6)
+                            }
                     }
                 }
             }

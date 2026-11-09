@@ -14,9 +14,11 @@ final class AppModel {
     let roadmap: RoadmapService
     /// Chat mit Claude (braucht `self`, darum nach der Initialisierung gesetzt).
     @ObservationIgnored private(set) var chat: ChatViewModel!
+    @ObservationIgnored private(set) var quickCapture: QuickCaptureController!
+    @ObservationIgnored private let hotKey = HotKeyService()
     let calendarState = CalendarViewModel()
 
-    var sidebarSelection: SidebarItem? = .notes
+    var sidebarSelection: SidebarItem? = .dashboard
     /// Ausgeklappte Ordner in der Seitenleiste.
     var expandedFolders: Set<String> = []
     /// Wird erhöht, wenn das Suchfeld den Fokus bekommen soll (Cmd+F).
@@ -33,7 +35,10 @@ final class AppModel {
         self.tasks = TaskService(vault: vault, settings: settings)
         self.folderLinks = FolderLinkService(vault: vault, settings: settings)
         self.roadmap = RoadmapService(vault: vault)
-        defer { chat = ChatViewModel(model: self) }
+        defer {
+            chat = ChatViewModel(model: self)
+            quickCapture = QuickCaptureController(model: self)
+        }
         self.notes = NotesViewModel(vault: vault)
                 vault.updateLayout(settings.layout)
     }
@@ -93,6 +98,12 @@ final class AppModel {
         }
         notes.selectedNoteID = nil
         await vault.open(url)
+    }
+
+    /// Globales Kürzel für die Schnellerfassung (neu) registrieren.
+    func registerQuickCaptureHotKey() {
+        hotKey.action = { [weak self] in self?.quickCapture.toggle() }
+        hotKey.register(HotKeyPreset(rawValue: settings.settings.quickCaptureHotKey) ?? .controlOptionSpace)
     }
 
     func reloadVault() {
@@ -168,6 +179,51 @@ final class AppModel {
             notes.tagFilter = nil
             notes.selectedNoteID = note.id
         }
+    }
+
+    // MARK: - Drag and Drop
+
+    /// Aufgaben auf einen Kalendertag gezogen: Fälligkeit setzen.
+    @discardableResult
+    func dropTasks(_ items: [String], on day: Date, undoManager: UndoManager?) -> Bool {
+        let ids = items.compactMap(DragPayload.taskID(from:))
+        let dropped = tasks.tasks.filter { ids.contains($0.id) }
+        for task in dropped {
+            tasks.setDue(task, Calendar.current.startOfDay(for: day), undoManager: undoManager)
+        }
+        return !dropped.isEmpty
+    }
+
+    /// Notiz in einen anderen Ordner verschieben. Bereich und Thema im Frontmatter werden angepasst,
+    /// sofern sie dort stehen. Links in anderen Notizen bleiben gültig, solange der Dateiname eindeutig ist.
+    func moveNote(_ relativePath: String, toFolder folder: String, undoManager: UndoManager?) {
+        guard let writer, let note = vault.notes.first(where: { $0.relativePath == relativePath }),
+              note.folderPath != folder else { return }
+        do {
+            let newPath = try writer.moveItem(relativePath, toFolder: folder)
+            let original = try writer.read(newPath)
+            let (area, topic) = settings.layout.classify(folder: folder)
+            var updated = original
+            if let area { updated = FrontmatterEditor.replacing(FrontmatterKey.area, with: area, in: updated) }
+            if let topic { updated = FrontmatterEditor.replacing(FrontmatterKey.topic, with: topic, in: updated) }
+            if updated != original { try writer.save(newPath, newContent: updated, expected: original) }
+
+            if notes.selectedNoteID == relativePath { notes.selectedNoteID = newPath }
+            undoManager?.registerUndo(withTarget: self) { model in
+                do {
+                    if updated != original { try writer.save(newPath, newContent: original, expected: updated) }
+                    try writer.moveItem(newPath, toFolder: note.folderPath)
+                    if model.notes.selectedNoteID == newPath { model.notes.selectedNoteID = relativePath }
+                } catch {
+                    model.writeError = "Verschieben konnte nicht rückgängig gemacht werden: \(error.localizedDescription)"
+                }
+                model.reloadVault()
+            }
+            undoManager?.setActionName("Notiz verschieben")
+        } catch {
+            writeError = "Notiz konnte nicht verschoben werden: \(error.localizedDescription)"
+        }
+        reloadVault()
     }
 
     func revealInFinder(_ notes: [Note]) {

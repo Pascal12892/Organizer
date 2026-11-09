@@ -30,3 +30,20 @@ und anlegen, Aufgaben anlegen und ändern, Termine ansehen und anlegen.
 - **Technik:** Messages API direkt über URLSession (`Packages/OrganizerCore/Sources/OrganizerCore/Assistant`),
   Modell `claude-opus-5-5` (wählbar), Streaming, automatisches Prompt-Caching und
   server-seitiger Rückfall auf ein anderes Modell, falls eine Anfrage abgelehnt wird.
+
+## Schnellerfassung
+
+Systemweit mit **⌃⌥ Leertaste** (änderbar unter Einstellungen › Allgemein) oder im Dashboard.
+⇥ wechselt zwischen Aufgabe, Termin und Notiz, ⏎ speichert, esc schließt.
+
+Verstanden werden u. a.: heute, morgen, übermorgen, Freitag, nächsten Montag, nächste Woche, Ende der Woche,
+in 3 Tagen, in zwei Wochen, 20.11., 20. November, 2026-11-20, 14 Uhr, um 9, 18:30, abends –
+dazu `!`/`!!`/`!!!` als Priorität und `#bereich` zur Zuordnung.
+
+## Drag and Drop
+
+- Aufgaben auf einen Tag im Kalender ziehen → Fälligkeit.
+- Notizen auf einen Ordner in der Seitenleiste ziehen → verschieben (Bereich/Thema im Frontmatter werden angepasst).
+- Ordner aus dem Finder auf einen Ordner in der Seitenleiste ziehen → als Mac-Ordner verknüpfen.
+
+Alles lässt sich mit ⌘Z rückgängig machen.

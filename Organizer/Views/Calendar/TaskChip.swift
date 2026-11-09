@@ -28,6 +28,9 @@ struct TaskChip: View {
         .font(.caption)
         .padding(.horizontal, 4)
         .contentShape(Rectangle())
+        .draggable(DragPayload.task(task.id)) {
+            Label(task.title, systemImage: "checklist").padding(6)
+        }
         .contextMenu { TaskMenuItems(task: task) }
         .onTapGesture(count: 2) { model.openNote(atPath: task.relativePath) }
         .help("\(task.title) – Doppelklick öffnet die Notiz")

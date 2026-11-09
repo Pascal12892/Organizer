@@ -53,10 +53,7 @@ enum SidebarItem: Hashable {
 
     /// In welcher Phase der Bereich fertig wird (für Platzhalter).
     var plannedPhase: Int? {
-        switch self {
-        case .dashboard: 7
-        default: nil
-        }
+        nil
     }
 
     static func areaSymbol(for name: String) -> String {

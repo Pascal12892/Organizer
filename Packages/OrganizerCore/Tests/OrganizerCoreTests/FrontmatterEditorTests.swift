@@ -31,3 +31,24 @@ struct FrontmatterEditorTests {
         #expect(FrontmatterParser.parse(result).frontmatter?["ordner"] == .list(["/Users/p/Kurs: Statistik"]))
     }
 }
+
+@Suite("Notizen verschieben")
+struct MoveTests {
+    @Test func replacesExistingValueOnly() {
+        let raw = "---\nbereich: Uni\nthema: Alt\n---\nthema: im Text\n"
+        #expect(FrontmatterEditor.replacing("thema", with: "Neu: Thema", in: raw) == "---\nbereich: Uni\nthema: \"Neu: Thema\"\n---\nthema: im Text\n")
+        #expect(FrontmatterEditor.replacing("fehlt", with: "x", in: raw) == raw)
+    }
+
+    @Test func movesWithoutOverwriting() throws {
+        let root = FileManager.default.temporaryDirectory.appending(path: "OrganizerMove-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: root) }
+        let writer = VaultWriter(root: root)
+        try writer.createFile("Uni/A/Note.md", content: "x")
+        try writer.createFile("Uni/B/Note2.md", content: "y")
+        #expect(try writer.moveItem("Uni/A/Note.md", toFolder: "Uni/B") == "Uni/B/Note.md")
+        #expect(try writer.read("Uni/B/Note.md") == "x")
+        try writer.createFile("Uni/A/Note2.md", content: "z")
+        #expect(throws: VaultWriter.WriteError.self) { try writer.moveItem("Uni/A/Note2.md", toFolder: "Uni/B") }
+    }
+}

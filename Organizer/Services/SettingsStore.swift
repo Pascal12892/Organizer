@@ -22,6 +22,9 @@ struct AppSettings: Codable, Equatable {
     var assistantConfirmsChanges = true
     /// Zugriffsrechte auf verknüpfte Mac-Ordner (Pfad → Security-Scoped Bookmark).
     var folderBookmarks: [String: Data] = [:]
+    var quickCaptureHotKey = HotKeyPreset.controlOptionSpace.rawValue
+    /// Ordner für schnelle Notizen ohne Bereichs-Tag.
+    var quickNoteFolder = "Inbox"
 
     init() {}
 
@@ -40,6 +43,8 @@ struct AppSettings: Codable, Equatable {
         assistantEffort = try container.decodeIfPresent(String.self, forKey: .assistantEffort) ?? "medium"
         assistantConfirmsChanges = try container.decodeIfPresent(Bool.self, forKey: .assistantConfirmsChanges) ?? true
         folderBookmarks = try container.decodeIfPresent([String: Data].self, forKey: .folderBookmarks) ?? [:]
+        quickCaptureHotKey = try container.decodeIfPresent(String.self, forKey: .quickCaptureHotKey) ?? HotKeyPreset.controlOptionSpace.rawValue
+        quickNoteFolder = try container.decodeIfPresent(String.self, forKey: .quickNoteFolder) ?? "Inbox"
     }
 }
 

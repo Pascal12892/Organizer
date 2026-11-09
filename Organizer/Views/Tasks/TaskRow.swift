@@ -56,6 +56,9 @@ struct TaskRow: View {
         }
         .padding(.vertical, 3)
         .contentShape(Rectangle())
+        .draggable(DragPayload.task(task.id)) {
+            Label(task.title, systemImage: "checklist").padding(6)
+        }
         .contextMenu { TaskMenuItems(task: task) }
         .swipeActions(edge: .leading) {
             Button(task.isOpen ? "Erledigt" : "Öffnen", systemImage: task.isOpen ? "checkmark" : "arrow.uturn.backward") {

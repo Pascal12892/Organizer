@@ -79,6 +79,31 @@ private struct GeneralSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section {
+                Picker("Tastenkürzel", selection: Binding(
+                    get: { HotKeyPreset(rawValue: model.settings.settings.quickCaptureHotKey) ?? .controlOptionSpace },
+                    set: { preset in
+                        model.settings.update { $0.quickCaptureHotKey = preset.rawValue }
+                        model.registerQuickCaptureHotKey()
+                    }
+                )) {
+                    ForEach(HotKeyPreset.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                if let warning = (HotKeyPreset(rawValue: model.settings.settings.quickCaptureHotKey) ?? .controlOptionSpace).warning {
+                    Text(warning).font(.callout).foregroundStyle(.secondary)
+                }
+                TextField("Ordner für schnelle Notizen", text: Binding(
+                    get: { model.settings.settings.quickNoteFolder },
+                    set: { value in model.settings.update { $0.quickNoteFolder = value.trimmingCharacters(in: CharacterSet(charactersIn: "/ ")) } }
+                ), prompt: Text("Inbox"))
+            } header: {
+                Text("Schnellerfassung")
+            } footer: {
+                Text("Das Kürzel funktioniert in jeder App. Notizen mit einem Bereichs-Tag wie #uni landen im Bereich, alle anderen im angegebenen Ordner.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
+
             if let error = model.settings.lastError {
                 Section {
                     Label(error, systemImage: "exclamationmark.triangle.fill")

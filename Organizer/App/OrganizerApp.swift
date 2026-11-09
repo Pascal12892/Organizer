@@ -8,7 +8,10 @@ struct OrganizerApp: App {
         Window("Organizer", id: "main") {
             RootView()
                 .environment(model)
-                .task { await model.restoreVault() }
+                .task {
+                    model.registerQuickCaptureHotKey()
+                    await model.restoreVault()
+                }
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
