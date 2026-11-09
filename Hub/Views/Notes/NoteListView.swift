@@ -24,6 +24,14 @@ struct NoteListView: View {
         .contextMenu(forSelectionType: Note.ID.self) { ids in
             let selected = model.vault.notes.filter { ids.contains($0.id) }
             if !selected.isEmpty {
+                if selected.count == 1, let note = selected.first {
+                    Button("In Obsidian öffnen") { model.openInObsidian(note) }
+                    Button("Bearbeiten") {
+                        model.notes.selectedNoteID = note.id
+                        model.notes.isEditing = true
+                    }
+                    Divider()
+                }
                 Button("Im Finder zeigen") { model.revealInFinder(selected) }
                 Button(selected.count == 1 ? "Pfad kopieren" : "Pfade kopieren") {
                     copyPaths(selected)
@@ -36,6 +44,15 @@ struct NoteListView: View {
         .toolbar {
             ToolbarItem {
                 TagFilterMenu(tags: notesModel.availableTags(in: scope), selection: $notesModel.tagFilter)
+            }
+            ToolbarItem {
+                Button {
+                    model.isShowingNewNote = true
+                } label: {
+                    Label("Neue Notiz", systemImage: "square.and.pencil")
+                }
+                .help("Neue Notiz (⌘N)")
+                .disabled(model.vault.state != .ready)
             }
         }
     }

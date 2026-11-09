@@ -33,6 +33,10 @@ struct RootView: View {
         .onChange(of: model.searchFocusRequest) {
             searchFocused = true
         }
+        .sheet(isPresented: Bindable(model).isShowingNewNote) {
+            NewNoteSheet()
+        }
+        .modifier(NewTopicAlert())
     }
 
     private var sidebar: some View {

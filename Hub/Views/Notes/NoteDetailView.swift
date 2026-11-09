@@ -7,22 +7,47 @@ struct NoteDetailView: View {
     let note: Note
     @State private var content: MarkdownContent?
     @State private var missingLink: String?
+    @State private var editor: NoteEditorModel?
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                header
-                if let content {
-                    MarkdownView(content: content)
-                } else {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
+        Group {
+            if model.notes.isEditing, let editor {
+                VStack(alignment: .leading, spacing: 16) {
+                    header
+                    NoteEditorView(editor: editor)
+                }
+                .frame(maxWidth: 720, alignment: .leading)
+                .padding(.horizontal, 32)
+                .padding(.top, 24)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        header
+                        if let content {
+                            MarkdownView(content: content)
+                        } else {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    .frame(maxWidth: 720, alignment: .leading)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 24)
+                    .frame(maxWidth: .infinity)
                 }
             }
-            .frame(maxWidth: 720, alignment: .leading)
-            .padding(.horizontal, 32)
-            .padding(.vertical, 24)
-            .frame(maxWidth: .infinity)
+        }
+        .onChange(of: model.notes.isEditing, initial: true) { _, isEditing in
+            if isEditing {
+                startEditing()
+            } else {
+                editor?.saveNow()
+                editor = nil
+            }
+        }
+        .onChange(of: note.modified) {
+            editor?.fileChangedOnDisk()
         }
         .task(id: note.body) {
             let body = note.body
@@ -37,15 +62,30 @@ struct NoteDetailView: View {
         })
         .navigationTitle(note.title)
         .toolbar {
-            ToolbarItem {
+            ToolbarItemGroup {
                 Button {
-                    model.revealInFinder([note])
+                    model.notes.isEditing.toggle()
                 } label: {
-                    Label("Im Finder zeigen", systemImage: "folder")
+                    Label(model.notes.isEditing ? "Vorschau" : "Bearbeiten",
+                          systemImage: model.notes.isEditing ? "eye" : "pencil")
                 }
-                .help("Im Finder zeigen")
+                .help(model.notes.isEditing ? "Vorschau zeigen (⌘E)" : "Notiz bearbeiten (⌘E)")
+
+                Button {
+                    model.openInObsidian(note)
+                } label: {
+                    Label("In Obsidian öffnen", systemImage: "arrow.up.forward.app")
+                }
+                .help("In Obsidian öffnen (⌥⌘O)")
             }
         }
+    }
+
+    private func startEditing() {
+        guard editor == nil, let writer = model.writer else { return }
+        let editor = NoteEditorModel(relativePath: note.relativePath, writer: writer)
+        editor.load()
+        self.editor = editor
     }
 
     private var header: some View {

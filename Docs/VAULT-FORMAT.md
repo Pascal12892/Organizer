@@ -37,3 +37,16 @@ Aus `tags:` im Frontmatter und `#tag` im Text (nicht in Code, nicht reine Zahlen
 
 `[[Notiz]]`, `[[Ordner/Notiz|Alias]]` und `[[Notiz#Abschnitt]]` sind in der Vorschau anklickbar.
 Aufgelöst wird wie in Obsidian: zuerst über den Pfad, dann über den Dateinamen.
+
+## Schreiben (ab Phase 2)
+
+- **Neue Notiz:** `<Bereich>/<Thema>/<Titel>.md` mit dem Frontmatter oben. Gibt es den Namen schon,
+  heißt die Datei `<Titel> 2.md`. Hub überschreibt beim Anlegen nie eine vorhandene Datei.
+- **Bearbeiten:** Hub ändert nur den Text unter dem Frontmatter. Der Frontmatter-Block und die Zeilenenden
+  bleiben Byte für Byte erhalten. Gespeichert wird automatisch kurz nach dem Tippen, beim Notizwechsel
+  und wenn Hub in den Hintergrund geht.
+- **Konflikte:** Vor jedem Speichern prüft Hub, ob die Datei noch so aussieht wie beim Laden.
+  Hat Obsidian sie geändert und gibt es in Hub keine ungespeicherten Änderungen, übernimmt Hub den neuen Stand.
+  Andernfalls fragt Hub, welche Version gelten soll.
+- **Rückgängig (⌘Z)** nach dem Anlegen einer Notiz oder eines Themas legt sie in den Papierkorb. Sie ist dort wiederherstellbar.
+- **Neues Thema:** legt nur einen Ordner an.

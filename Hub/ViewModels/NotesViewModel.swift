@@ -7,6 +7,8 @@ final class NotesViewModel {
     var selectedNoteID: Note.ID?
     var searchText = ""
     var tagFilter: String?
+    /// Bearbeiten statt Vorschau – gilt wie in Obsidian für jede geöffnete Notiz.
+    var isEditing = false
 
     private let vault: VaultService
 

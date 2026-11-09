@@ -25,12 +25,29 @@ struct SidebarView: View {
                             Label(topic.name, systemImage: item.systemImage)
                                 .badge(counts[item] ?? 0)
                                 .tag(item)
+                                .contextMenu {
+                                    Button("Neue Notiz in „\(topic.name)“ …") {
+                                        model.sidebarSelection = item
+                                        model.isShowingNewNote = true
+                                    }
+                                    Divider()
+                                    revealButton(relativePath: topic.relativePath)
+                                }
                         }
                     } label: {
                         let item = SidebarItem.area(area)
                         Label(area, systemImage: item.systemImage)
                             .badge(counts[item] ?? 0)
                             .tag(item)
+                            .contextMenu {
+                                Button("Neues Thema …") { model.newTopicArea = area }
+                                Button("Neue Notiz in „\(area)“ …") {
+                                    model.sidebarSelection = item
+                                    model.isShowingNewNote = true
+                                }
+                                Divider()
+                                revealButton(relativePath: area)
+                            }
                     }
                 }
             }
@@ -39,6 +56,17 @@ struct SidebarView: View {
         .navigationTitle(model.vault.vaultName ?? "Hub")
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VaultStatusView()
+        }
+    }
+
+    @ViewBuilder
+    private func revealButton(relativePath: String) -> some View {
+        if let root = model.vault.rootURL {
+            let url = root.appending(path: relativePath, directoryHint: .isDirectory)
+            Button("Im Finder zeigen") {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            }
+            .disabled(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
         }
     }
 
