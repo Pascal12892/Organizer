@@ -325,6 +325,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Organizer;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Organizer zeigt deine Termine neben Notizen und Aufgaben und legt auf Wunsch neue Termine an.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Organizer gleicht deine Aufgaben mit Apple Erinnerungen ab, damit du sie auch auf dem iPhone siehst und abhaken kannst.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -360,6 +361,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Organizer;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Organizer zeigt deine Termine neben Notizen und Aufgaben und legt auf Wunsch neue Termine an.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Organizer gleicht deine Aufgaben mit Apple Erinnerungen ab, damit du sie auch auf dem iPhone siehst und abhaken kannst.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

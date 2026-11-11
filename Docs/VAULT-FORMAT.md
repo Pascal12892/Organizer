@@ -125,3 +125,17 @@ mit Inline-Feldern (Dataview-kompatibel), Aufgaben darunter:
 - **Fortschritt** = erledigte Aufgaben unter der Überschrift (abgebrochene zählen nicht); ohne Aufgaben zählt der Status.
 - **Ändern** in Organizer (verschieben, Datum, Status, neue Aufgabe, neuer Meilenstein) betrifft nur die jeweiligen Zeilen
   und lässt sich mit ⌘Z rückgängig machen.
+
+## Abgleich mit Apple Erinnerungen (optional)
+
+Einschalten unter Einstellungen › Aufgaben. Markdown bleibt die Quelle:
+
+- Offene Aufgaben **mit Datum** erscheinen in Erinnerungen-Listen „Organizer – <Bereich>“ (bzw. „Organizer“ ohne Bereich).
+  Die Erinnerung verlinkt auf die Notiz in Obsidian.
+- **Abhaken, Titel oder Datum ändern** in Erinnerungen ändert genau die eine Markdown-Zeile (wie beim Abhaken in Organizer).
+- **Neue Erinnerungen** in diesen Listen werden zu Aufgaben in `_Organizer/Tasks.md` (mit Bereichs-Tag).
+- **Konflikt** (beide Seiten seit dem letzten Abgleich geändert): Die Markdown-Zeile gewinnt.
+- **Löschen** einer Erinnerung lässt die Aufgabe unangetastet; sie bekommt erst wieder eine Erinnerung, wenn sich die Zeile ändert.
+  Wird die Aufgabe im Vault gelöscht, entfernt Organizer die gespiegelte Erinnerung.
+- Welche Erinnerung zu welcher Zeile gehört, speichert Organizer in seinem eigenen Ordner – die Notizen bleiben frei von IDs.
+- Uhrzeiten an Erinnerungen werden nicht übernommen (das Tasks-Format kennt nur Tage).

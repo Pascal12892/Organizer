@@ -13,6 +13,7 @@ final class AppModel {
     let tasks: TaskService
     let folderLinks: FolderLinkService
     let roadmap: RoadmapService
+    let reminders: RemindersSyncService
     @ObservationIgnored private(set) var quickCapture: QuickCaptureController!
     @ObservationIgnored private(set) var notifications: NotificationService!
     @ObservationIgnored private let hotKey = HotKeyService()
@@ -35,6 +36,7 @@ final class AppModel {
         self.tasks = TaskService(vault: vault, settings: settings)
         self.folderLinks = FolderLinkService(vault: vault, settings: settings)
         self.roadmap = RoadmapService(vault: vault)
+        self.reminders = RemindersSyncService(vault: vault, settings: settings)
         defer {
             quickCapture = QuickCaptureController(model: self)
             notifications = NotificationService(model: self)

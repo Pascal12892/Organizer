@@ -12,6 +12,10 @@ struct OrganizerApp: App {
                 .onChange(of: model.vault.version) {
                     model.notifications.scheduleUpdate()
                     model.publishWidgetSnapshot()
+                    model.reminders.scheduleSync()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                    model.reminders.scheduleSync()
                 }
                 .onChange(of: model.calendar.revision) { model.publishWidgetSnapshot() }
                 .onOpenURL { model.handle($0) }

@@ -26,6 +26,8 @@ struct AppSettings: Codable, Equatable {
     var notifiesDueItems = false
     /// Uhrzeit der Erinnerung in Minuten nach Mitternacht (Standard 8:30).
     var notificationMinutes = 8 * 60 + 30
+    /// Aufgaben mit Apple Erinnerungen abgleichen.
+    var syncsReminders = false
 
     init() {}
 
@@ -46,6 +48,7 @@ struct AppSettings: Codable, Equatable {
         showsMenuBarIcon = try container.decodeIfPresent(Bool.self, forKey: .showsMenuBarIcon) ?? true
         notifiesDueItems = try container.decodeIfPresent(Bool.self, forKey: .notifiesDueItems) ?? false
         notificationMinutes = try container.decodeIfPresent(Int.self, forKey: .notificationMinutes) ?? 8 * 60 + 30
+        syncsReminders = try container.decodeIfPresent(Bool.self, forKey: .syncsReminders) ?? false
     }
 }
 
