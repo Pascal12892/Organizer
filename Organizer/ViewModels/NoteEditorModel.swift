@@ -50,7 +50,7 @@ final class NoteEditorModel {
             hasUnsavedChanges = false
             status = .ready
         } catch {
-            status = .failed("Die Notiz konnte nicht geöffnet werden: \(error.localizedDescription)")
+            status = .failed(L("Die Notiz konnte nicht geöffnet werden: \(localizedMessage(error))"))
         }
     }
 
@@ -66,7 +66,7 @@ final class NoteEditorModel {
         } catch VaultWriter.WriteError.changedOnDisk(let current) {
             status = .conflict(diskContent: current)
         } catch {
-            status = .failed(error.localizedDescription)
+            status = .failed(localizedMessage(error))
         }
     }
 
@@ -101,7 +101,7 @@ final class NoteEditorModel {
             hasUnsavedChanges = false
             status = .ready
         } catch {
-            status = .failed(error.localizedDescription)
+            status = .failed(localizedMessage(error))
         }
     }
 

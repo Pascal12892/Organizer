@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Variante C: Das O als Kalenderblatt mit zwei Ringen oben, darin ein Haken
+       und drei Punkte als Meilensteine einer Zeitleiste. -->
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+  <circle cx="512" cy="552" r="282" fill="none" stroke="#111111" stroke-width="100"/>
+  <!-- Kalenderringe mit weißem Abstand zum O -->
+  <rect x="360" y="146" width="76" height="196" rx="38" fill="#FFFFFF"/>
+  <rect x="588" y="146" width="76" height="196" rx="38" fill="#FFFFFF"/>
+  <rect x="374" y="160" width="48" height="168" rx="24" fill="#111111"/>
+  <rect x="602" y="160" width="48" height="168" rx="24" fill="#111111"/>
+  <polyline points="410,540 486,616 620,468" fill="none" stroke="#111111" stroke-width="66"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="414" cy="716" r="26" fill="#111111"/>
+  <circle cx="512" cy="716" r="26" fill="#111111"/>
+  <circle cx="610" cy="716" r="26" fill="none" stroke="#111111" stroke-width="12"/>
+</svg>

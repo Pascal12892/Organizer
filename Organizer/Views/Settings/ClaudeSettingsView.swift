@@ -17,17 +17,19 @@ struct ClaudeSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
-            Section("1. Programm installieren") {
-                Text("Einmalig im Terminal, im Projektordner von Organizer:")
-                    .font(.callout)
-                CommandRow(command: "Scripts/install-mcp.sh", copied: $copied)
-                Text("Legt das Programm unter \(binaryPath) ab.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
+            if bundledBinary == nil {
+                Section("1. Programm installieren") {
+                    Text("Einmalig im Terminal, im Projektordner von Organizer:")
+                        .font(.callout)
+                    CommandRow(command: "Scripts/install-mcp.sh", copied: $copied)
+                    Text("Legt das Programm unter \(binaryPath) ab.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             if let vault = vaultPath {
-                Section("2. Mit Claude verbinden") {
+                Section(bundledBinary == nil ? L("2. Mit Claude verbinden") : L("Mit Claude verbinden")) {
                     LabeledContent("Claude Code") {
                         Text("im Terminal ausführen").foregroundStyle(.secondary)
                     }
@@ -42,7 +44,7 @@ struct ClaudeSettingsView: View {
                         .foregroundStyle(.secondary)
                 }
             } else {
-                Section("2. Mit Claude verbinden") {
+                Section(bundledBinary == nil ? L("2. Mit Claude verbinden") : L("Mit Claude verbinden")) {
                     Label("Wähle zuerst einen Vault aus – die Befehle enthalten seinen Pfad.", systemImage: "folder.badge.questionmark")
                         .foregroundStyle(.secondary)
                 }
@@ -67,7 +69,13 @@ struct ClaudeSettingsView: View {
         return String(cString: dir)
     }
 
-    private var binaryPath: String { realHome + "/.local/bin/organizer-mcp" }
+    /// Der MCP-Server steckt in der weitergegebenen App (Contents/Helpers); sonst die selbst installierte Fassung.
+    private var bundledBinary: String? {
+        let path = Bundle.main.bundleURL.appending(path: "Contents/Helpers/organizer-mcp").path(percentEncoded: false)
+        return FileManager.default.isExecutableFile(atPath: path) ? path : nil
+    }
+
+    private var binaryPath: String { bundledBinary ?? realHome + "/.local/bin/organizer-mcp" }
 
     private var vaultPath: String? {
         guard let url = model.vault.rootURL else { return nil }

@@ -64,7 +64,7 @@ final class AppModel {
         } catch {
             vault.markAccessLost(
                 path: settings.settings.vaultPath,
-                message: "Organizer hat keinen Zugriff mehr auf den Vault. Wähle den Ordner bitte erneut aus."
+                message: L("Organizer hat keinen Zugriff mehr auf den Vault. Wähle den Ordner bitte erneut aus.")
             )
         }
     }
@@ -72,9 +72,9 @@ final class AppModel {
     /// Zeigt den Ordner-Dialog und öffnet den gewählten Vault.
     func chooseVault() {
         let panel = NSOpenPanel()
-        panel.title = "Obsidian-Vault auswählen"
-        panel.message = "Wähle den Ordner deines Obsidian-Vaults. Organizer liest und schreibt nur Markdown-Dateien darin."
-        panel.prompt = "Auswählen"
+        panel.title = L("Obsidian-Vault auswählen")
+        panel.message = L("Wähle den Ordner deines Obsidian-Vaults. Organizer liest und schreibt nur Markdown-Dateien darin.")
+        panel.prompt = L("Auswählen")
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
@@ -95,7 +95,7 @@ final class AppModel {
             }
         } catch {
             // Ohne Bookmark funktioniert der Vault bis zum nächsten Start trotzdem.
-            vault.markAccessLost(path: url.path(percentEncoded: false), message: "Der Zugriff konnte nicht dauerhaft gespeichert werden: \(error.localizedDescription)")
+            vault.markAccessLost(path: url.path(percentEncoded: false), message: L("Der Zugriff konnte nicht dauerhaft gespeichert werden: \(localizedMessage(error))"))
             return
         }
         notes.selectedNoteID = nil
@@ -223,13 +223,13 @@ final class AppModel {
                     try writer.moveItem(newPath, toFolder: note.folderPath)
                     if model.notes.selectedNoteID == newPath { model.notes.selectedNoteID = relativePath }
                 } catch {
-                    model.writeError = "Verschieben konnte nicht rückgängig gemacht werden: \(error.localizedDescription)"
+                    model.writeError = L("Verschieben konnte nicht rückgängig gemacht werden: \(localizedMessage(error))")
                 }
                 model.reloadVault()
             }
-            undoManager?.setActionName("Notiz verschieben")
+            undoManager?.setActionName(L("Notiz verschieben"))
         } catch {
-            writeError = "Notiz konnte nicht verschoben werden: \(error.localizedDescription)"
+            writeError = L("Notiz konnte nicht verschoben werden: \(localizedMessage(error))")
         }
         reloadVault()
     }
@@ -330,10 +330,10 @@ final class AppModel {
             do {
                 try model.calendar.removeEvent(withID: id)
             } catch {
-                model.writeError = "Termin konnte nicht entfernt werden: \(error.localizedDescription)"
+                model.writeError = L("Termin konnte nicht entfernt werden: \(localizedMessage(error))")
             }
         }
-        undoManager?.setActionName("Termin anlegen")
+        undoManager?.setActionName(L("Termin anlegen"))
     }
 
     func openInObsidian(_ note: Note) {
@@ -356,9 +356,9 @@ final class AppModel {
         await vault.rescan()
         defer {
             undoManager?.registerUndo(withTarget: self) { model in
-                model.undoCreation(of: relativePath, kind: "Notiz", undoManager: undoManager)
+                model.undoCreation(of: relativePath, kind: L("Notiz"), undoManager: undoManager)
             }
-            undoManager?.setActionName("Notiz anlegen")
+            undoManager?.setActionName(L("Notiz anlegen"))
         }
         guard openInEditor else { return relativePath }
 
@@ -382,9 +382,9 @@ final class AppModel {
         expand(toShow: relativePath)
         sidebarSelection = .folder(relativePath)
         undoManager?.registerUndo(withTarget: self) { model in
-            model.undoCreation(of: relativePath, kind: "Ordner", undoManager: undoManager)
+            model.undoCreation(of: relativePath, kind: L("Ordner"), undoManager: undoManager)
         }
-        undoManager?.setActionName("Ordner anlegen")
+        undoManager?.setActionName(L("Ordner anlegen"))
     }
 
     /// Klappt alle Elternordner auf, damit `path` in der Seitenleiste sichtbar ist.
@@ -410,7 +410,7 @@ final class AppModel {
             try writer.moveToTrash(relativePath)
             reloadVault()
         } catch {
-            writeError = "\(kind) konnte nicht in den Papierkorb gelegt werden: \(error.localizedDescription)"
+            writeError = L("\(kind) konnte nicht in den Papierkorb gelegt werden: \(localizedMessage(error))")
         }
     }
 }

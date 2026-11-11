@@ -70,10 +70,10 @@ struct NoteDetailView: View {
                 Button {
                     model.notes.isEditing.toggle()
                 } label: {
-                    Label(model.notes.isEditing ? "Vorschau" : "Bearbeiten",
+                    Label(model.notes.isEditing ? L("Vorschau") : L("Bearbeiten"),
                           systemImage: model.notes.isEditing ? "eye" : "pencil")
                 }
-                .help(model.notes.isEditing ? "Vorschau zeigen (⌘E)" : "Notiz bearbeiten (⌘E)")
+                .help(model.notes.isEditing ? L("Vorschau zeigen (⌘E)") : L("Notiz bearbeiten (⌘E)"))
 
                 Button {
                     model.openInObsidian(note)
@@ -125,7 +125,7 @@ private struct PropertiesView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 16) {
                 if let area = note.area {
-                    Label(note.topic.map { "\(area) › \($0)" } ?? area,
+                    Label(note.topic.map { L("\(area) › \($0)") } ?? area,
                           systemImage: SidebarItem.areaSymbol(for: area))
                 }
                 if let created = note.created {

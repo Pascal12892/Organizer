@@ -75,7 +75,7 @@ final class SettingsStore {
             settings = AppSettings()
         } catch {
             settings = AppSettings()
-            lastError = "Einstellungen konnten nicht gelesen werden: \(error.localizedDescription)"
+            lastError = L("Einstellungen konnten nicht gelesen werden: \(localizedMessage(error))")
         }
     }
 
@@ -110,7 +110,7 @@ final class SettingsStore {
             try encoder.encode(settings).write(to: fileURL, options: .atomic)
             lastError = nil
         } catch {
-            lastError = "Einstellungen konnten nicht gespeichert werden: \(error.localizedDescription)"
+            lastError = L("Einstellungen konnten nicht gespeichert werden: \(localizedMessage(error))")
         }
     }
 }

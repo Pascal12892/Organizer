@@ -158,7 +158,7 @@ final class RemindersSyncService {
             if changedFiles { await vault.rescan() }
         } catch {
             store.reset()
-            status = .failed(error.localizedDescription)
+            status = .failed(localizedMessage(error))
         }
     }
 
@@ -184,7 +184,7 @@ final class RemindersSyncService {
         list.title = title
         guard let source = store.defaultCalendarForNewReminders()?.source
                 ?? store.sources.first(where: { $0.sourceType == .calDAV || $0.sourceType == .local }) else {
-            throw CocoaError(.featureUnsupported, userInfo: [NSLocalizedDescriptionKey: "Kein Konto für Erinnerungen gefunden."])
+            throw CocoaError(.featureUnsupported, userInfo: [NSLocalizedDescriptionKey: L("Kein Konto für Erinnerungen gefunden.")])
         }
         list.source = source
         try store.saveCalendar(list, commit: true)
@@ -258,7 +258,7 @@ final class RemindersSyncService {
             try FileManager.default.createDirectory(at: Self.stateURL.deletingLastPathComponent(), withIntermediateDirectories: true)
             try JSONEncoder().encode(state).write(to: Self.stateURL, options: .atomic)
         } catch {
-            status = .failed("Abgleich-Stand konnte nicht gespeichert werden: \(error.localizedDescription)")
+            status = .failed(L("Abgleich-Stand konnte nicht gespeichert werden: \(localizedMessage(error))"))
         }
     }
 }

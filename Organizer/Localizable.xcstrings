@@ -1,0 +1,6568 @@
+{
+  "sourceLanguage": "de",
+  "strings": {
+    "#%@": {
+      "shouldTranslate": false
+    },
+    "%@ erledigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنجاز %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete %@"
+          }
+        }
+      }
+    },
+    "%@ im Finder öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح %@ في Finder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open %@ in Finder"
+          }
+        }
+      }
+    },
+    "%@ konnte nicht in den Papierkorb gelegt werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر نقل %1$@ إلى سلة المهملات: %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ could not be moved to the Trash: %2$@"
+          }
+        }
+      }
+    },
+    "%@ – Doppelklick öffnet die Notiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ – انقر نقرًا مزدوجًا لفتح الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ – double-click to open the note"
+          }
+        }
+      }
+    },
+    "%@ › %@": {
+      "shouldTranslate": false
+    },
+    "%@, %@ bis %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@، من %2$@ إلى %3$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@ to %3$@"
+          }
+        }
+      }
+    },
+    "%@, %@ bis %@, %lld Prozent": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@، من %2$@ إلى %3$@، %4$lld بالمئة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@ to %3$@, %4$lld percent"
+          }
+        }
+      }
+    },
+    "%@, ganztägig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@، طوال اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, all-day"
+          }
+        }
+      }
+    },
+    "%@: %@ – %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ – %3$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ – %3$@"
+          }
+        }
+      }
+    },
+    "%@: %@ – %@ · ziehen zum Verschieben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ – %3$@ · اسحب للنقل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ – %3$@ · drag to move"
+          }
+        }
+      }
+    },
+    "%lld": {
+      "shouldTranslate": false
+    },
+    "%lld Dateien mit Problemen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ملفات بها مشكلات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld files with problems"
+          }
+        }
+      }
+    },
+    "%lld Kalender ausgeblendet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld تقويمات مخفية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld calendars hidden"
+          }
+        }
+      }
+    },
+    "%lld Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld notes"
+          }
+        }
+      }
+    },
+    "%lld Notizen, %lld Themen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld ملاحظات، %2$lld مواضيع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld notes, %2$lld topics"
+          }
+        }
+      }
+    },
+    "%lld Projekte": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مشاريع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld projects"
+          }
+        }
+      }
+    },
+    "%lld offen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مفتوحة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld open"
+          }
+        }
+      }
+    },
+    "%lld verknüpft · zuletzt %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld مرتبطة · آخر مرة %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld linked · last %2$@"
+          }
+        }
+      }
+    },
+    "%lld von %lld Aufgaben erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنجاز %1$lld من %2$lld مهام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld tasks done"
+          }
+        }
+      }
+    },
+    "%lld von %lld Meilensteinen erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنجاز %1$lld من %2$lld مراحل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld milestones done"
+          }
+        }
+      }
+    },
+    "%lld weitere": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld أخرى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld more"
+          }
+        }
+      }
+    },
+    "%lld weitere im Finder zeigen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض %lld أخرى في Finder …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show %lld more in Finder …"
+          }
+        }
+      }
+    },
+    "%lld weitere …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld أخرى …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld more …"
+          }
+        }
+      }
+    },
+    "%lld überfällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld متأخرة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld overdue"
+          }
+        }
+      }
+    },
+    "%lld.": {
+      "shouldTranslate": false
+    },
+    ", %lld Termine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "، %lld مواعيد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", %lld events"
+          }
+        }
+      }
+    },
+    ", ganztägig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "، طوال اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", all-day"
+          }
+        }
+      }
+    },
+    ", keine Termine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "، لا مواعيد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", no events"
+          }
+        }
+      }
+    },
+    "- [ ] Kapitel 2 schreiben ⏫ 📅 2026-11-20 #uni": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "- [ ] كتابة الفصل 2 ⏫ 📅 2026-11-20 #uni"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "- [ ] Write chapter 2 ⏫ 📅 2026-11-20 #uni"
+          }
+        }
+      }
+    },
+    "1 Datei mit Problemen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملف واحد به مشكلات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 file with problems"
+          }
+        }
+      }
+    },
+    "1 Notiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة واحدة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 note"
+          }
+        }
+      }
+    },
+    "1 Projekt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشروع واحد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 project"
+          }
+        }
+      }
+    },
+    "1. Programm installieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. تثبيت البرنامج"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Install the program"
+          }
+        }
+      }
+    },
+    "2. Mit Claude verbinden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. الربط مع Claude"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Connect to Claude"
+          }
+        }
+      }
+    },
+    "Abbrechen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Abgleich-Stand konnte nicht gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ حالة المزامنة: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not save the sync state: %@"
+          }
+        }
+      }
+    },
+    "Alle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        }
+      }
+    },
+    "Alle Bereiche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل المجالات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Areas"
+          }
+        }
+      }
+    },
+    "Alle Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Notes"
+          }
+        }
+      }
+    },
+    "Alle anzeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض الكل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All"
+          }
+        }
+      }
+    },
+    "Alles erledigt für heute": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنجاز كل شيء لليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All done for today"
+          }
+        }
+      }
+    },
+    "Allgemein": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        }
+      }
+    },
+    "Als erledigt markieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع علامة منجز"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark as Done"
+          }
+        }
+      }
+    },
+    "An fällige Aufgaben und Meilensteine erinnern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكيري بالمهام والمراحل المستحقة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind me of due tasks and milestones"
+          }
+        }
+      }
+    },
+    "Andere": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخرى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      }
+    },
+    "Anderen Vault wählen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار خزنة أخرى …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Another Vault …"
+          }
+        }
+      }
+    },
+    "Angezeigte Kalender wählen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار التقويمات المعروضة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose visible calendars"
+          }
+        }
+      }
+    },
+    "Anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        }
+      }
+    },
+    "Ansicht": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "Apple Erinnerungen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكيرات Apple"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Reminders"
+          }
+        }
+      }
+    },
+    "Art": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النوع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
+          }
+        }
+      }
+    },
+    "Art wechseln (⇥)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديل النوع (⇥)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch type (⇥)"
+          }
+        }
+      }
+    },
+    "Auf dem Mac": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "على هذا الـMac"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On This Mac"
+          }
+        }
+      }
+    },
+    "Aufgabe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Task"
+          }
+        }
+      }
+    },
+    "Aufgabe %@ erledigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنجاز المهمة %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete task %@"
+          }
+        }
+      }
+    },
+    "Aufgabe erledigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنجاز المهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete Task"
+          }
+        }
+      }
+    },
+    "Aufgabe hinzufügen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة مهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Task"
+          }
+        }
+      }
+    },
+    "Aufgabe konnte nicht gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ المهمة: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not save the task: %@"
+          }
+        }
+      }
+    },
+    "Aufgabe löschen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف المهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Task"
+          }
+        }
+      }
+    },
+    "Aufgabe umbenennen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية المهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename Task"
+          }
+        }
+      }
+    },
+    "Aufgabe ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل المهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change Task"
+          }
+        }
+      }
+    },
+    "Aufgabe öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة فتح المهمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reopen Task"
+          }
+        }
+      }
+    },
+    "Aufgabe „%@“ angelegt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنشاء المهمة «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Task “%@” created"
+          }
+        }
+      }
+    },
+    "Aufgabe, z. B. „Hausarbeit Kapitel 2 bis Freitag #uni !!“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهمة، مثل «الفصل 2 من البحث قبل الجمعة #uni !!»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Task, e.g. “Essay chapter 2 by Friday #uni !!”"
+          }
+        }
+      }
+    },
+    "Aufgaben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المهام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tasks"
+          }
+        }
+      }
+    },
+    "Aufgaben mit 📅-Datum erscheinen hier.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظهر هنا المهام التي لها تاريخ 📅."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tasks with a 📅 date appear here."
+          }
+        }
+      }
+    },
+    "Aufgaben werden aus den Notizen deines Vaults gelesen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُقرأ المهام من ملاحظات خزنتك."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tasks are read from the notes in your vault."
+          }
+        }
+      }
+    },
+    "Aus": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        }
+      }
+    },
+    "Ausgewählten Bereich entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة المجال المحدد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove selected area"
+          }
+        }
+      }
+    },
+    "Auswählen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose"
+          }
+        }
+      }
+    },
+    "Bearbeiten": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        }
+      }
+    },
+    "Befehl kopieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ الأمر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy command"
+          }
+        }
+      }
+    },
+    "Beginn": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البداية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Beispiel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Example"
+          }
+        }
+      }
+    },
+    "Bereich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area"
+          }
+        }
+      }
+    },
+    "Bereich %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجال %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area %@"
+          }
+        }
+      }
+    },
+    "Bereich entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة المجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove area"
+          }
+        }
+      }
+    },
+    "Bereich hinzufügen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة مجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add area"
+          }
+        }
+      }
+    },
+    "Bereiche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجالات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Areas"
+          }
+        }
+      }
+    },
+    "Betrifft nur die Oberfläche. Dateien im Vault (z. B. „bereich:“, „Tasks.md“) bleiben unverändert, damit sie in jeder Sprache lesbar bleiben.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يؤثر على الواجهة فقط. تبقى ملفات الخزنة (مثل «bereich:» و«Tasks.md») دون تغيير لتبقى مقروءة بكل اللغات."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affects only the interface. Files in the vault (e.g. “bereich:”, “Tasks.md”) stay unchanged so they remain readable in every language."
+          }
+        }
+      }
+    },
+    "Bitte gib einen Namen ein.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يرجى إدخال اسم."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please enter a name."
+          }
+        }
+      }
+    },
+    "Blau": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أزرق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blue"
+          }
+        }
+      }
+    },
+    "Claude": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude"
+          }
+        }
+      }
+    },
+    "Claude Code": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Code"
+          }
+        }
+      }
+    },
+    "Claude Desktop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Desktop"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude Desktop"
+          }
+        }
+      }
+    },
+    "Claude fragt vor jeder Aktion um Erlaubnis. Organizer selbst bleibt dabei offline.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يطلب Claude الإذن قبل كل إجراء. ويبقى Organizer نفسه دون اتصال بالإنترنت."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude asks for permission before every action. Organizer itself stays offline."
+          }
+        }
+      }
+    },
+    "Claude nutzt Organizer über MCP: Du chattest in der Claude-App oder in Claude Code – über dein Claude-Abo, ohne API-Schlüssel – und Claude kann Notizen suchen und anlegen, Aufgaben anlegen und abhaken sowie Termine ansehen und anlegen. Organizer zeigt Änderungen sofort an.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستخدم Claude تطبيق Organizer عبر MCP: تتحدث في تطبيق Claude أو في Claude Code – باشتراكك في Claude ومن دون مفتاح API – ويستطيع Claude البحث في الملاحظات وإنشاءها، وإنشاء المهام وإنجازها، وعرض المواعيد وإنشاءها. ويعرض Organizer التغييرات فورًا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude uses Organizer via MCP: you chat in the Claude app or in Claude Code – with your Claude plan, no API key – and Claude can search and create notes, create and complete tasks, and view and create events. Organizer shows changes immediately."
+          }
+        }
+      }
+    },
+    "Das Ende ist überschritten.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقضى تاريخ الانتهاء."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The end date has passed."
+          }
+        }
+      }
+    },
+    "Das Kürzel funktioniert in jeder App. Notizen mit einem Bereichs-Tag wie #uni landen im Bereich, alle anderen im angegebenen Ordner.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعمل الاختصار في أي تطبيق. تُحفظ الملاحظات التي تحمل وسم مجال مثل #uni في ذلك المجال، والبقية في المجلد المحدد."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shortcut works in any app. Notes with an area tag like #uni go into that area, all others into the folder below."
+          }
+        }
+      }
+    },
+    "Dashboard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لوحة المعلومات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dashboard"
+          }
+        }
+      }
+    },
+    "Den Eintrag „organizer“ in „mcpServers“ der Datei claude_desktop_config.json einfügen und Claude neu starten.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف الإدخال «organizer» إلى «mcpServers» في الملف claude_desktop_config.json ثم أعد تشغيل Claude."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the “organizer” entry to “mcpServers” in claude_desktop_config.json and restart Claude."
+          }
+        }
+      }
+    },
+    "Der Kalender existiert nicht mehr.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم لم يعد موجودًا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The calendar no longer exists."
+          }
+        }
+      }
+    },
+    "Der Ordner ist leer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلد فارغ."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder is empty."
+          }
+        }
+      }
+    },
+    "Der Zugriff konnte nicht dauerhaft gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الإذن بشكل دائم: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access could not be saved permanently: %@"
+          }
+        }
+      }
+    },
+    "Detail": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التفاصيل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detail"
+          }
+        }
+      }
+    },
+    "Die Aufgabe wurde in der Zwischenzeit in der Datei geändert. Bitte erneut versuchen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تغيير المهمة في الملف في هذه الأثناء. يرجى المحاولة مرة أخرى."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task was changed in the file in the meantime. Please try again."
+          }
+        }
+      }
+    },
+    "Die Aufgabe wurde nicht gefunden. Die Datei hat sich vermutlich gerade geändert.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على المهمة. ربما تغيّر الملف للتو."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task was not found. The file has probably just changed."
+          }
+        }
+      }
+    },
+    "Die Einstellungen „Bereiche“ und „Aufgaben“ von Organizer werden als Optionen übergeben. Nach einer Änderung dort den Befehl bitte neu ausführen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُمرَّر إعدادات «المجالات» و«المهام» في Organizer كخيارات. يرجى تشغيل الأمر من جديد بعد تغييرها."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer’s “Areas” and “Tasks” settings are passed as options. Please run the command again after changing them."
+          }
+        }
+      }
+    },
+    "Die Notiz existiert nicht mehr. Sie wurde verschoben oder gelöscht.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظة لم تعد موجودة. ربما نُقلت أو حُذفت."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note no longer exists. It was moved or deleted."
+          }
+        }
+      }
+    },
+    "Die Notiz konnte nicht geöffnet werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح الملاحظة: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note could not be opened: %@"
+          }
+        }
+      }
+    },
+    "Die Notiz wurde gleichzeitig außerhalb von Organizer geändert.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تغيير الملاحظة خارج Organizer في الوقت نفسه."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note was changed outside Organizer at the same time."
+          }
+        }
+      }
+    },
+    "Die Notiz wurde in der Zwischenzeit außerhalb von Organizer geändert.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تغيير الملاحظة خارج Organizer في هذه الأثناء."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note was changed outside Organizer in the meantime."
+          }
+        }
+      }
+    },
+    "Die neue Sprache gilt nach einem Neustart von Organizer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُطبَّق اللغة الجديدة بعد إعادة تشغيل Organizer."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The new language applies after restarting Organizer."
+          }
+        }
+      }
+    },
+    "Diese Woche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الأسبوع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Week"
+          }
+        }
+      }
+    },
+    "Diese Woche ist nichts fällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق هذا الأسبوع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing due this week"
+          }
+        }
+      }
+    },
+    "Doppelklick zeigt den Tag": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر نقرًا مزدوجًا لعرض اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-click to show the day"
+          }
+        }
+      }
+    },
+    "Doppelklick öffnet den Ordner im Finder": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر نقرًا مزدوجًا لفتح المجلد في Finder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-click to open the folder in Finder"
+          }
+        }
+      }
+    },
+    "Doppelklick öffnet die Datei": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر نقرًا مزدوجًا لفتح الملف"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double-click to open the file"
+          }
+        }
+      }
+    },
+    "Du hast „%@“ gewählt, verknüpft ist aber „%@“. Wähle genau diesen Ordner oder verknüpfe den neuen zusätzlich.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اخترت «%1$@»، لكن المرتبط هو «%2$@». اختر هذا المجلد بالضبط أو اربط المجلد الجديد إضافةً إليه."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You chose “%1$@”, but “%2$@” is linked. Choose exactly that folder or link the new one in addition."
+          }
+        }
+      }
+    },
+    "Eigenschaften": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخصائص"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Properties"
+          }
+        }
+      }
+    },
+    "Einmalig im Terminal, im Projektordner von Organizer:": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرة واحدة في Terminal داخل مجلد مشروع Organizer:"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once, in Terminal, in Organizer’s project folder:"
+          }
+        }
+      }
+    },
+    "Einstellungen konnten nicht gelesen werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الإعدادات: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings could not be read: %@"
+          }
+        }
+      }
+    },
+    "Einstellungen konnten nicht gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الإعدادات: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings could not be saved: %@"
+          }
+        }
+      }
+    },
+    "Einstellungen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings …"
+          }
+        }
+      }
+    },
+    "Einstellungen › Entwickler › Konfiguration bearbeiten": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات › المطوّر › تحرير الإعداد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings › Developer › Edit Config"
+          }
+        }
+      }
+    },
+    "Ende": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النهاية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End"
+          }
+        }
+      }
+    },
+    "Entfernen ändert nichts im Vault, Organizer blendet den Ordner nur aus. Die Reihenfolge bestimmt auch die Sortierung in der Seitenleiste.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإزالة لا تغيّر شيئًا في الخزنة، بل يخفي Organizer المجلد فقط. ويحدد الترتيب أيضًا ترتيب الشريط الجانبي."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removing changes nothing in the vault; Organizer just hides the folder. The order also sets the order in the sidebar."
+          }
+        }
+      }
+    },
+    "Erinnert am Fälligkeitstag zur gewählten Uhrzeit. In der Mitteilung kannst du die Aufgabe direkt abhaken.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يذكّرك في يوم الاستحقاق في الوقت المحدد. ويمكنك إنجاز المهمة مباشرة من الإشعار."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminds you on the due date at the chosen time. You can complete the task right from the notification."
+          }
+        }
+      }
+    },
+    "Erlaube Organizer in den Systemeinstellungen unter Datenschutz & Sicherheit › Kalender den vollen Zugriff.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ Organizer بالوصول الكامل في إعدادات النظام › الخصوصية والأمن › التقويمات."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Organizer full access in System Settings › Privacy & Security › Calendars."
+          }
+        }
+      }
+    },
+    "Erlaube zuerst den Zugriff auf den Kalender (Kalenderansicht).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح أولًا بالوصول إلى التقويم (عرض التقويم)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First allow access to the calendar (Calendar view)."
+          }
+        }
+      }
+    },
+    "Erlauben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سماح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow"
+          }
+        }
+      }
+    },
+    "Erledigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنجاز"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete"
+          }
+        }
+      }
+    },
+    "Erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منجز"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
+    "Erledigt, wieder öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منجز، إعادة فتح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done, reopen"
+          }
+        }
+      }
+    },
+    "Erneut laden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة التحميل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reload"
+          }
+        }
+      }
+    },
+    "Erstellt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ الإنشاء"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created"
+          }
+        }
+      }
+    },
+    "Farbe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللون"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        }
+      }
+    },
+    "Filter entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الفلتر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Filter"
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنسيق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format"
+          }
+        }
+      }
+    },
+    "Fortschritt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقدّم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress"
+          }
+        }
+      }
+    },
+    "Fällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستحقة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due"
+          }
+        }
+      }
+    },
+    "Fälligkeit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ الاستحقاق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due date"
+          }
+        }
+      }
+    },
+    "Fälligkeit entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة تاريخ الاستحقاق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Due Date"
+          }
+        }
+      }
+    },
+    "Fälligkeit ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير تاريخ الاستحقاق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change Due Date"
+          }
+        }
+      }
+    },
+    "Für Termine braucht die App, in der Claude läuft, Zugriff auf deinen Kalender. macOS fragt beim ersten Mal nach.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للمواعيد، يحتاج التطبيق الذي يعمل فيه Claude إلى الوصول إلى تقويمك. سيسألك macOS في المرة الأولى."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For events, the app Claude runs in needs access to your calendar. macOS asks the first time."
+          }
+        }
+      }
+    },
+    "Ganztägig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طوال اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All-day"
+          }
+        }
+      }
+    },
+    "Gefiltert nach #%@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفلترة حسب #%@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtered by #%@"
+          }
+        }
+      }
+    },
+    "Gelb": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أصفر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
+          }
+        }
+      }
+    },
+    "Geplant": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطط لها"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned"
+          }
+        }
+      }
+    },
+    "Gestern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أمس"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yesterday"
+          }
+        }
+      }
+    },
+    "Gilt für Aufgaben, die du in Organizer anlegst. Aufgaben, die schon in Notizen stehen, bleiben dort – Organizer sammelt alle Zeilen „- [ ] …“ aus dem ganzen Vault ein. Ohne Bereich landen neue Aufgaben immer in Tasks.md.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينطبق على المهام التي تنشئها في Organizer. تبقى المهام الموجودة في الملاحظات مكانها – إذ يجمع Organizer كل أسطر «- [ ] …» من الخزنة كلها. ومن دون مجال تُحفظ المهام الجديدة دائمًا في Tasks.md."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies to tasks you create in Organizer. Tasks already in notes stay there – Organizer collects every “- [ ] …” line from the whole vault. Without an area, new tasks always go into Tasks.md."
+          }
+        }
+      }
+    },
+    "Gleiche ab …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ المزامنة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncing …"
+          }
+        }
+      }
+    },
+    "Grau": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمادي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gray"
+          }
+        }
+      }
+    },
+    "Grün": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخضر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
+          }
+        }
+      }
+    },
+    "Gut zu wissen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معلومات مفيدة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good to Know"
+          }
+        }
+      }
+    },
+    "Guten Abend": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مساء الخير"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good evening"
+          }
+        }
+      }
+    },
+    "Guten Morgen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صباح الخير"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good morning"
+          }
+        }
+      }
+    },
+    "Guten Tag": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نهارك سعيد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good afternoon"
+          }
+        }
+      }
+    },
+    "Hallo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرحبًا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hello"
+          }
+        }
+      }
+    },
+    "Heute": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "Heute fällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستحقة اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due today"
+          }
+        }
+      }
+    },
+    "Heute geplant": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطط لها اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned for today"
+          }
+        }
+      }
+    },
+    "Heute ist nichts fällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing due today"
+          }
+        }
+      }
+    },
+    "Heute ist nichts fällig. 🎉": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق اليوم. 🎉"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing due today. 🎉"
+          }
+        }
+      }
+    },
+    "Hinzufügen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        }
+      }
+    },
+    "Hoch": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عالية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High"
+          }
+        }
+      }
+    },
+    "Höchste": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأعلى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Highest"
+          }
+        }
+      }
+    },
+    "Im Finder ist ⇧⌘N „Neuer Ordner“ – solange Organizer läuft, öffnet es stattdessen die Schnellerfassung.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في Finder يعني ⇧⌘N «مجلد جديد» – وطالما Organizer قيد التشغيل فسيفتح الالتقاط السريع بدلًا منه."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Finder, ⇧⌘N is “New Folder” – while Organizer is running, it opens Quick Capture instead."
+          }
+        }
+      }
+    },
+    "Im Finder zeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار في Finder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in Finder"
+          }
+        }
+      }
+    },
+    "Im Finder öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح في Finder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open in Finder"
+          }
+        }
+      }
+    },
+    "Im Vault gibt es noch keinen Ordner mit diesem Namen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد بعد مجلد بهذا الاسم في الخزنة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There is no folder with this name in the vault yet."
+          }
+        }
+      }
+    },
+    "In Arbeit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قيد التنفيذ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Progress"
+          }
+        }
+      }
+    },
+    "In Notiz zeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار في الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in Note"
+          }
+        }
+      }
+    },
+    "In Obsidian öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح في Obsidian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open in Obsidian"
+          }
+        }
+      }
+    },
+    "In Obsidian öffnen (⌥⌘O)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح في Obsidian (⌥⌘O)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open in Obsidian (⌥⌘O)"
+          }
+        }
+      }
+    },
+    "In diesem Ordner fehlt „.obsidian“. Ist es wirklich ein Obsidian-Vault?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا المجلد لا يحتوي على «.obsidian». هل هو حقًا خزنة Obsidian؟"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This folder has no “.obsidian” folder. Is it really an Obsidian vault?"
+          }
+        }
+      }
+    },
+    "In „Aufgaben.md“ im Bereich bzw. Thema": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في «Aufgaben.md» داخل المجال أو الموضوع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In “Aufgaben.md” in the area or topic"
+          }
+        }
+      }
+    },
+    "Inbox": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inbox"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inbox"
+          }
+        }
+      }
+    },
+    "Inhalt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحتوى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contents"
+          }
+        }
+      }
+    },
+    "Jede Zeile „- [ ] …“ in einer Notiz ist eine Aufgabe.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل سطر «- [ ] …» في ملاحظة هو مهمة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every “- [ ] …” line in a note is a task."
+          }
+        }
+      }
+    },
+    "Jeder Ordner auf oberster Ebene ist ein Bereich, seine Unterordner sind die Themen. Die Seitenleiste zeigt alle Ordner wie in Obsidian.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل مجلد في المستوى الأعلى هو مجال، ومجلداته الفرعية هي المواضيع. ويعرض الشريط الجانبي جميع المجلدات كما في Obsidian."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every top-level folder is an area and its subfolders are topics. The sidebar shows all folders as in Obsidian."
+          }
+        }
+      }
+    },
+    "Jedes Projekt ist eine Notiz in _Organizer/Roadmap. Meilensteine sind Überschriften, ihre Aufgaben stehen darunter.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل مشروع هو ملاحظة في _Organizer/Roadmap. المراحل عناوين، ومهامها أسفلها."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each project is a note in _Organizer/Roadmap. Milestones are headings with their tasks below."
+          }
+        }
+      }
+    },
+    "Jetzt abgleichen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مزامنة الآن"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Now"
+          }
+        }
+      }
+    },
+    "Jetzt neu starten": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة التشغيل الآن"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Now"
+          }
+        }
+      }
+    },
+    "KW %lld · ": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسبوع %lld · "
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "W%lld · "
+          }
+        }
+      }
+    },
+    "Kalender": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calendar"
+          }
+        }
+      }
+    },
+    "Kalender verbinden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط التقويم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect Calendar"
+          }
+        }
+      }
+    },
+    "Kein Bereich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا مجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No area"
+          }
+        }
+      }
+    },
+    "Kein Konto für Erinnerungen gefunden.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على حساب للتذكيرات."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account for Reminders found."
+          }
+        }
+      }
+    },
+    "Kein Vault ausgewählt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم اختيار خزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Vault Selected"
+          }
+        }
+      }
+    },
+    "Kein Vault geöffnet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد خزنة مفتوحة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Vault Open"
+          }
+        }
+      }
+    },
+    "Kein Vault geöffnet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد خزنة مفتوحة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No vault open."
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf Erinnerungen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد وصول إلى التذكيرات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No access to Reminders"
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf den Kalender": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد وصول إلى التقويم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No access to the calendar"
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf den Kalender.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد وصول إلى التقويم."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No access to the calendar."
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf den Vault": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد وصول إلى الخزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Access to the Vault"
+          }
+        }
+      }
+    },
+    "Kein beschreibbarer Kalender vorhanden.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد تقويم قابل للكتابة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No writable calendar available."
+          }
+        }
+      }
+    },
+    "Kein weiterer Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد نص إضافي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No additional text"
+          }
+        }
+      }
+    },
+    "Keine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        }
+      }
+    },
+    "Keine Notiz ausgewählt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم اختيار ملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Note Selected"
+          }
+        }
+      }
+    },
+    "Keine Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد ملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Notes"
+          }
+        }
+      }
+    },
+    "Keine Notizen mit #%@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد ملاحظات بالوسم #%@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No notes with #%@"
+          }
+        }
+      }
+    },
+    "Keine Termine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مواعيد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No events"
+          }
+        }
+      }
+    },
+    "Keine offenen Aufgaben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مهام مفتوحة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Open Tasks"
+          }
+        }
+      }
+    },
+    "Keine offenen Meilensteine.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مراحل مفتوحة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No open milestones."
+          }
+        }
+      }
+    },
+    "Keine weiteren Termine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مواعيد أخرى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No more events"
+          }
+        }
+      }
+    },
+    "Kompatibel mit dem Obsidian-Plugin „Tasks“. Beim Abhaken ergänzt Organizer „✅ Datum“. Wiederholungen (🔁) werden angezeigt, aber nicht automatisch neu angelegt.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوافق مع إضافة «Tasks» في Obsidian. عند الإنجاز يضيف Organizer «✅ التاريخ». يتم عرض التكرارات (🔁) لكن لا تُنشأ تلقائيًا من جديد."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatible with the Obsidian “Tasks” plugin. When completing, Organizer adds “✅ date”. Recurrences (🔁) are shown but not recreated automatically."
+          }
+        }
+      }
+    },
+    "Kopieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        }
+      }
+    },
+    "Legt das Programm unter %@ ab.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يضع البرنامج في %@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installs the program at %@."
+          }
+        }
+      }
+    },
+    "Legt eine Notiz an, die im Frontmatter auf diesen Termin verweist": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينشئ ملاحظة تشير إلى هذا الموعد في الـFrontmatter"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creates a note that references this event in its frontmatter"
+          }
+        }
+      }
+    },
+    "Lila": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بنفسجي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purple"
+          }
+        }
+      }
+    },
+    "Löschen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
+    "Mac-Ordner mit „%@“ verknüpfen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط مجلد Mac بـ «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Mac folder with “%@”"
+          }
+        }
+      }
+    },
+    "Mac-Ordner verknüpfen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط مجلد Mac"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Mac Folder"
+          }
+        }
+      }
+    },
+    "Mac-Ordner verknüpfen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط مجلد Mac …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Mac Folder …"
+          }
+        }
+      }
+    },
+    "Maßstab": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المقياس"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scale"
+          }
+        }
+      }
+    },
+    "Maßstab der Zeitleiste": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقياس الخط الزمني"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timeline scale"
+          }
+        }
+      }
+    },
+    "Meilenstein anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء مرحلة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Milestone"
+          }
+        }
+      }
+    },
+    "Meilenstein endet heute": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتهي المرحلة اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Milestone ends today"
+          }
+        }
+      }
+    },
+    "Meilenstein nicht gefunden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على المرحلة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Milestone Not Found"
+          }
+        }
+      }
+    },
+    "Meilenstein verschieben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل المرحلة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Milestone"
+          }
+        }
+      }
+    },
+    "Meilensteine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المراحل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Milestones"
+          }
+        }
+      }
+    },
+    "Meine Version": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسختي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Version"
+          }
+        }
+      }
+    },
+    "Meldung schließen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق الرسالة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dismiss message"
+          }
+        }
+      }
+    },
+    "MenuBarIcon": {
+      "shouldTranslate": false
+    },
+    "Menüleiste und Mitteilungen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شريط القوائم والإشعارات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menu Bar and Notifications"
+          }
+        }
+      }
+    },
+    "Mit Apple Erinnerungen abgleichen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزامنة مع تذكيرات Apple"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync with Apple Reminders"
+          }
+        }
+      }
+    },
+    "Mit Claude verbinden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الربط مع Claude"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect to Claude"
+          }
+        }
+      }
+    },
+    "Mitteilungen sind für Organizer ausgeschaltet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإشعارات متوقفة لـ Organizer."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are turned off for Organizer."
+          }
+        }
+      }
+    },
+    "Mittel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسطة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medium"
+          }
+        }
+      }
+    },
+    "Monat": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شهر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Month"
+          }
+        }
+      }
+    },
+    "Monate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أشهر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Months"
+          }
+        }
+      }
+    },
+    "Morgen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غدًا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomorrow"
+          }
+        }
+      }
+    },
+    "Nach Bereich filtern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصفية حسب المجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter by area"
+          }
+        }
+      }
+    },
+    "Nach Tag filtern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصفية حسب الوسم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter by tag"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
+    "Neue Aufgabe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهمة جديدة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Task"
+          }
+        }
+      }
+    },
+    "Neue Aufgaben bekommen das Ende des Meilensteins als Fälligkeit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأخذ المهام الجديدة تاريخ نهاية المرحلة كتاريخ استحقاق."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New tasks get the milestone’s end as their due date."
+          }
+        }
+      }
+    },
+    "Neue Aufgaben kannst du unten eingeben.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك إدخال مهام جديدة في الأسفل."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can enter new tasks below."
+          }
+        }
+      }
+    },
+    "Neue Aufgaben speichern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ المهام الجديدة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save new tasks"
+          }
+        }
+      }
+    },
+    "Neue Notiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة جديدة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note"
+          }
+        }
+      }
+    },
+    "Neue Notiz (⌘N)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة جديدة (⌘N)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note (⌘N)"
+          }
+        }
+      }
+    },
+    "Neue Notiz in „%@“ …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة جديدة في «%@» …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note in “%@” …"
+          }
+        }
+      }
+    },
+    "Neue Notiz …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة جديدة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note …"
+          }
+        }
+      }
+    },
+    "Neuer Bereich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجال جديد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Area"
+          }
+        }
+      }
+    },
+    "Neuer Bereich %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجال جديد %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Area %lld"
+          }
+        }
+      }
+    },
+    "Neuer Meilenstein im ausgewählten Projekt, sonst neues Projekt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرحلة جديدة في المشروع المحدد، وإلا فمشروع جديد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New milestone in the selected project, otherwise a new project"
+          }
+        }
+      }
+    },
+    "Neuer Meilenstein in „%@“ …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرحلة جديدة في «%@» …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Milestone in “%@” …"
+          }
+        }
+      }
+    },
+    "Neuer Meilenstein …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرحلة جديدة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Milestone …"
+          }
+        }
+      }
+    },
+    "Neuer Ordner im Vault": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد جديد في الخزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Folder in Vault"
+          }
+        }
+      }
+    },
+    "Neuer Ordner in „%@“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد جديد في «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Folder in “%@”"
+          }
+        }
+      }
+    },
+    "Neuer Ordner …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد جديد …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Folder …"
+          }
+        }
+      }
+    },
+    "Neuer Termin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موعد جديد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Event"
+          }
+        }
+      }
+    },
+    "Neuer Termin (⌘N)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موعد جديد (⌘N)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Event (⌘N)"
+          }
+        }
+      }
+    },
+    "Neuer Termin …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موعد جديد …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Event …"
+          }
+        }
+      }
+    },
+    "Neuer Unterordner …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد فرعي جديد …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Subfolder …"
+          }
+        }
+      }
+    },
+    "Neues Projekt …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشروع جديد …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Project …"
+          }
+        }
+      }
+    },
+    "Nicht ausgewählt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير محدد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not selected"
+          }
+        }
+      }
+    },
+    "Nichts ausgewählt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم اختيار شيء"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing Selected"
+          }
+        }
+      }
+    },
+    "Niedrig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منخفضة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low"
+          }
+        }
+      }
+    },
+    "Niedrigste": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدنى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lowest"
+          }
+        }
+      }
+    },
+    "Noch keine Aufgaben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مهام بعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No tasks yet"
+          }
+        }
+      }
+    },
+    "Noch keine Notizen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا ملاحظات بعد."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No notes yet."
+          }
+        }
+      }
+    },
+    "Noch keine Projekte": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا مشاريع بعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Projects Yet"
+          }
+        }
+      }
+    },
+    "Noch nicht abgeglichen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تتم المزامنة بعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not synced yet"
+          }
+        }
+      }
+    },
+    "Noch nichts erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُنجز شيء بعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing Done Yet"
+          }
+        }
+      }
+    },
+    "Notiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note"
+          }
+        }
+      }
+    },
+    "Notiz anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء ملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Note"
+          }
+        }
+      }
+    },
+    "Notiz anzeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Note"
+          }
+        }
+      }
+    },
+    "Notiz bearbeiten (⌘E)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير الملاحظة (⌘E)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit note (⌘E)"
+          }
+        }
+      }
+    },
+    "Notiz konnte nicht verschoben werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر نقل الملاحظة: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note could not be moved: %@"
+          }
+        }
+      }
+    },
+    "Notiz verschieben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move Note"
+          }
+        }
+      }
+    },
+    "Notiz zum Termin anlegen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء ملاحظة للموعد …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Note for Event …"
+          }
+        }
+      }
+    },
+    "Notiz „%@“ angelegt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنشاء الملاحظة «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note “%@” created"
+          }
+        }
+      }
+    },
+    "Notiz „%@“ öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح الملاحظة «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open note “%@”"
+          }
+        }
+      }
+    },
+    "Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
+          }
+        }
+      }
+    },
+    "Notizen durchsuchen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث في الملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Notes"
+          }
+        }
+      }
+    },
+    "Notizen hierher ziehen zum Verschieben, Ordner aus dem Finder zum Verknüpfen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب الملاحظات إلى هنا لنقلها، أو المجلدات من Finder لربطها"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag notes here to move them, or folders from Finder to link them"
+          }
+        }
+      }
+    },
+    "Notizen, die du in Obsidian in diesem Ordner anlegst, erscheinen hier automatisch.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظات التي تنشئها في هذا المجلد في Obsidian تظهر هنا تلقائيًا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes you create in this folder in Obsidian appear here automatically."
+          }
+        }
+      }
+    },
+    "Notiztext": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نص الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note text"
+          }
+        }
+      }
+    },
+    "Nur %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فقط %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only %@"
+          }
+        }
+      }
+    },
+    "Nur die unten aufgeführten Ordner sind Bereiche und erscheinen in der Seitenleiste.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلدات المدرجة أدناه فقط هي المجالات، وهي التي تظهر في الشريط الجانبي."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only the folders listed below are areas and appear in the sidebar."
+          }
+        }
+      }
+    },
+    "Nächste Woche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسبوع القادم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next Week"
+          }
+        }
+      }
+    },
+    "Obsidian-Vault": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خزنة Obsidian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obsidian Vault"
+          }
+        }
+      }
+    },
+    "Obsidian-Vault auswählen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار خزنة Obsidian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Obsidian Vault"
+          }
+        }
+      }
+    },
+    "Offen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتوحة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      }
+    },
+    "Offen, erledigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتوحة، إنجاز"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open, complete"
+          }
+        }
+      }
+    },
+    "Offene Aufgaben mit Datum erscheinen in Listen „Organizer – Bereich“ – über iCloud auch auf dem iPhone. Abhaken, Titel oder Datum ändern in Erinnerungen wird in die Markdown-Zeile übernommen, neue Erinnerungen in diesen Listen landen in _Organizer/Tasks.md. Bei gleichzeitigen Änderungen gewinnt Markdown. Ausschalten lässt alles, wie es ist.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظهر المهام المفتوحة ذات التاريخ في قوائم «Organizer – المجال» – وعبر iCloud على iPhone أيضًا. يُنقل الإنجاز أو تغيير العنوان أو التاريخ في التذكيرات إلى سطر Markdown، وتُحفظ التذكيرات الجديدة في هذه القوائم في _Organizer/Tasks.md. عند التغيير في الجهتين معًا يفوز Markdown. الإيقاف يترك كل شيء كما هو."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open tasks with a date appear in lists “Organizer – Area” – via iCloud also on your iPhone. Completing or changing the title or date in Reminders updates the Markdown line; new reminders in these lists go into _Organizer/Tasks.md. If both change at once, Markdown wins. Turning this off leaves everything as it is."
+          }
+        }
+      }
+    },
+    "Ohne Bereich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا مجال"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Area"
+          }
+        }
+      }
+    },
+    "Ohne Datum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا تاريخ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Date"
+          }
+        }
+      }
+    },
+    "Ohne Titel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا عنوان"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled"
+          }
+        }
+      }
+    },
+    "Optional": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختياري"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional"
+          }
+        }
+      }
+    },
+    "Orange": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "برتقالي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange"
+          }
+        }
+      }
+    },
+    "Ordner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلدات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folders"
+          }
+        }
+      }
+    },
+    "Ordner anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء مجلد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Folder"
+          }
+        }
+      }
+    },
+    "Ordner fehlt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلد مفقود"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder missing"
+          }
+        }
+      }
+    },
+    "Ordner für schnelle Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد الملاحظات السريعة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder for quick notes"
+          }
+        }
+      }
+    },
+    "Ordner konnte nicht angelegt werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر إنشاء المجلد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder could not be created: %@"
+          }
+        }
+      }
+    },
+    "Ordner konnte nicht gelesen werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة المجلد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder could not be read: %@"
+          }
+        }
+      }
+    },
+    "Ordner nicht gefunden – verschoben oder gelöscht?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلد غير موجود – هل نُقل أو حُذف؟"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder not found – moved or deleted?"
+          }
+        }
+      }
+    },
+    "Ordner verknüpfen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط المجلد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Folder"
+          }
+        }
+      }
+    },
+    "Ordnerstruktur aus Obsidian übernehmen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام بنية المجلدات من Obsidian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use folder structure from Obsidian"
+          }
+        }
+      }
+    },
+    "Organizer": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer"
+          }
+        }
+      }
+    },
+    "Organizer beenden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء Organizer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit Organizer"
+          }
+        }
+      }
+    },
+    "Organizer braucht einmal deine Erlaubnis, diesen Ordner zu lesen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج Organizer إلى إذنك مرة واحدة لقراءة هذا المجلد."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer needs your permission once to read this folder."
+          }
+        }
+      }
+    },
+    "Organizer hat keinen Zugriff mehr auf den Vault. Wähle den Ordner bitte erneut aus.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يعد لدى Organizer وصول إلى الخزنة. يرجى اختيار المجلد مرة أخرى."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer no longer has access to the vault. Please choose the folder again."
+          }
+        }
+      }
+    },
+    "Organizer legt den Ordner direkt im Vault an. Obsidian zeigt ihn sofort.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينشئ Organizer المجلد مباشرة في الخزنة، ويظهر فورًا في Obsidian."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer creates the folder directly in the vault. Obsidian shows it immediately."
+          }
+        }
+      }
+    },
+    "Organizer legt die Datei _Organizer/Roadmap/%@.md an.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينشئ Organizer الملف _Organizer/Roadmap/%@.md."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer creates the file _Organizer/Roadmap/%@.md."
+          }
+        }
+      }
+    },
+    "Organizer liest Markdown-Dateien direkt aus diesem Ordner. Änderungen aus Obsidian erscheinen automatisch.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقرأ Organizer ملفات Markdown مباشرة من هذا المجلد، وتظهر التغييرات من Obsidian تلقائيًا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer reads Markdown files directly from this folder. Changes from Obsidian appear automatically."
+          }
+        }
+      }
+    },
+    "Organizer zeigt deine Termine aus dem Apple Kalender neben Notizen und Aufgaben. Die Daten bleiben auf deinem Mac.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعرض Organizer مواعيدك من تقويم Apple بجانب الملاحظات والمهام. وتبقى البيانات على جهاز Mac الخاص بك."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organizer shows your events from Apple Calendar alongside notes and tasks. The data stays on your Mac."
+          }
+        }
+      }
+    },
+    "Organizer öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح Organizer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Organizer"
+          }
+        }
+      }
+    },
+    "Pausiert": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوقفة مؤقتًا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        }
+      }
+    },
+    "Pfad kopieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ المسار"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Path"
+          }
+        }
+      }
+    },
+    "Pfade kopieren": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ المسارات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy Paths"
+          }
+        }
+      }
+    },
+    "Pink": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وردي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink"
+          }
+        }
+      }
+    },
+    "Priorität": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأولوية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Priority"
+          }
+        }
+      }
+    },
+    "Priorität %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأولوية %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Priority %@"
+          }
+        }
+      }
+    },
+    "Priorität ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير الأولوية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change Priority"
+          }
+        }
+      }
+    },
+    "Probleme beim Lesen des Vaults anzeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض مشكلات قراءة الخزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show problems reading the vault"
+          }
+        }
+      }
+    },
+    "Projekt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المشروع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project"
+          }
+        }
+      }
+    },
+    "Projekt anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء مشروع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Project"
+          }
+        }
+      }
+    },
+    "Projekt konnte nicht angelegt werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر إنشاء المشروع: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The project could not be created: %@"
+          }
+        }
+      }
+    },
+    "Projekt nicht gefunden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على المشروع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project Not Found"
+          }
+        }
+      }
+    },
+    "Projektdaten wie Zeitraum, Status und Farbe stehen im Frontmatter der Datei und lassen sich in der Notiz oder in Obsidian ändern.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بيانات المشروع مثل الفترة والحالة واللون موجودة في الـFrontmatter للملف، ويمكن تغييرها في الملاحظة أو في Obsidian."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project data such as period, status and color is in the file’s frontmatter and can be changed in the note or in Obsidian."
+          }
+        }
+      }
+    },
+    "Projekte liegen als Markdown-Dateien in _Organizer/Roadmap.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المشاريع ملفات Markdown في _Organizer/Roadmap."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projects are Markdown files in _Organizer/Roadmap."
+          }
+        }
+      }
+    },
+    "Q%lld ": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ر%lld "
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Q%lld "
+          }
+        }
+      }
+    },
+    "Quartale": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرباع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quarters"
+          }
+        }
+      }
+    },
+    "Roadmap": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خارطة الطريق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roadmap"
+          }
+        }
+      }
+    },
+    "Rot": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحمر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
+          }
+        }
+      }
+    },
+    "Rückgängig nicht möglich: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يمكن التراجع: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo not possible: %@"
+          }
+        }
+      }
+    },
+    "Schnellerfassung": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الالتقاط السريع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Capture"
+          }
+        }
+      }
+    },
+    "Schnellerfassung …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الالتقاط السريع …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Capture …"
+          }
+        }
+      }
+    },
+    "Schnellerfassung: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الالتقاط السريع: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Capture: %@"
+          }
+        }
+      }
+    },
+    "Speichern nicht möglich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر الحفظ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can’t Save"
+          }
+        }
+      }
+    },
+    "Speicherort": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مكان الحفظ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location"
+          }
+        }
+      }
+    },
+    "Sprache": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللغة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        }
+      }
+    },
+    "Standard wiederherstellen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة الإعدادات الافتراضية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Defaults"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحالة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "Status ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير الحالة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change Status"
+          }
+        }
+      }
+    },
+    "Suchen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بحث"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        }
+      }
+    },
+    "Symbol in der Menüleiste": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمز في شريط القوائم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icon in the menu bar"
+          }
+        }
+      }
+    },
+    "Systemeinstellungen öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح إعدادات النظام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open System Settings"
+          }
+        }
+      }
+    },
+    "Systemsprache": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لغة النظام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Language"
+          }
+        }
+      }
+    },
+    "Tag": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Day"
+          }
+        }
+      }
+    },
+    "Tag anzeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Day"
+          }
+        }
+      }
+    },
+    "Tag, Woche oder Monat": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يوم أو أسبوع أو شهر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Day, week or month"
+          }
+        }
+      }
+    },
+    "Tags: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوسوم: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags: %@"
+          }
+        }
+      }
+    },
+    "Tastenkürzel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصار لوحة المفاتيح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard shortcut"
+          }
+        }
+      }
+    },
+    "Termin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event"
+          }
+        }
+      }
+    },
+    "Termin anlegen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء موعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create Event"
+          }
+        }
+      }
+    },
+    "Termin konnte nicht entfernt werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت إزالة الموعد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The event could not be removed: %@"
+          }
+        }
+      }
+    },
+    "Termin konnte nicht gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الموعد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The event could not be saved: %@"
+          }
+        }
+      }
+    },
+    "Termin „%@“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموعد «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event “%@”"
+          }
+        }
+      }
+    },
+    "Termin „%@“ angelegt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم إنشاء الموعد «%@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event “%@” created"
+          }
+        }
+      }
+    },
+    "Termin, z. B. „Lerngruppe morgen 14 Uhr“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موعد، مثل «مجموعة الدراسة غدًا الساعة 2 ظهرًا»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event, e.g. “Study group tomorrow 2 pm”"
+          }
+        }
+      }
+    },
+    "Thema %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموضوع %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Topic %@"
+          }
+        }
+      }
+    },
+    "Titel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العنوان"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title"
+          }
+        }
+      }
+    },
+    "Titel der Notiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عنوان الملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note title"
+          }
+        }
+      }
+    },
+    "Titel der Notiz, z. B. „Idee für das Projekt #arbeit“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عنوان الملاحظة، مثل «فكرة للمشروع #work»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note title, e.g. “Idea for the project #work”"
+          }
+        }
+      }
+    },
+    "Türkis": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيروزي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teal"
+          }
+        }
+      }
+    },
+    "Uhrzeit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوقت"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
+          }
+        }
+      }
+    },
+    "Uhrzeit wird bei Aufgaben nicht gespeichert": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يُحفظ الوقت في المهام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time is not saved for tasks"
+          }
+        }
+      }
+    },
+    "Vault (oberste Ebene)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخزنة (المستوى الأعلى)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vault (top level)"
+          }
+        }
+      }
+    },
+    "Vault auswählen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار الخزنة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Vault …"
+          }
+        }
+      }
+    },
+    "Vault erneut auswählen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار الخزنة مجددًا …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Vault Again …"
+          }
+        }
+      }
+    },
+    "Vault neu laden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تحميل الخزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reload Vault"
+          }
+        }
+      }
+    },
+    "Vault wird gelesen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ قراءة الخزنة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading vault …"
+          }
+        }
+      }
+    },
+    "Vault öffnen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح الخزنة …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Vault …"
+          }
+        }
+      }
+    },
+    "Verknüpfen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link"
+          }
+        }
+      }
+    },
+    "Verknüpfung entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الربط"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Link"
+          }
+        }
+      }
+    },
+    "Verschieben konnte nicht rückgängig gemacht werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر التراجع عن النقل: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The move could not be undone: %@"
+          }
+        }
+      }
+    },
+    "Version aus Obsidian": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النسخة من Obsidian"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version from Obsidian"
+          }
+        }
+      }
+    },
+    "Vorherige 30 Tage": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر 30 يومًا"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous 30 Days"
+          }
+        }
+      }
+    },
+    "Vorherige 7 Tage": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر 7 أيام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous 7 Days"
+          }
+        }
+      }
+    },
+    "Vorschau": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        }
+      }
+    },
+    "Vorschau zeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض المعاينة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Preview"
+          }
+        }
+      }
+    },
+    "Vorschau zeigen (⌘E)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض المعاينة (⌘E)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show preview (⌘E)"
+          }
+        }
+      }
+    },
+    "Wann? Zum Beispiel „Freitag 14 Uhr“.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متى؟ مثلًا «الجمعة 2 ظهرًا»."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When? For example “Friday 2 pm”."
+          }
+        }
+      }
+    },
+    "Wann? z. B. „Freitag 14 Uhr“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متى؟ مثل «الجمعة 2 ظهرًا»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When? e.g. “Friday 2 pm”"
+          }
+        }
+      }
+    },
+    "Wartet auf Erlaubnis": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بانتظار الإذن"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for permission"
+          }
+        }
+      }
+    },
+    "Weiter": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التالي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forward"
+          }
+        }
+      }
+    },
+    "Weiter (⌘→)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التالي (⌘→)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forward (⌘→)"
+          }
+        }
+      }
+    },
+    "Welche Version soll gelten? Die andere geht verloren.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي نسخة يجب الاحتفاظ بها؟ ستُفقد الأخرى."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Which version should be kept? The other one will be lost."
+          }
+        }
+      }
+    },
+    "Wieder öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة فتح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reopen"
+          }
+        }
+      }
+    },
+    "Wiederholt sich": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتكرر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repeats"
+          }
+        }
+      }
+    },
+    "Wiederholt sich: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتكرر: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repeats: %@"
+          }
+        }
+      }
+    },
+    "Wird dem Bereich %@ zugeordnet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيُسند إلى المجال %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Will be assigned to the area %@"
+          }
+        }
+      }
+    },
+    "Woche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسبوع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Week"
+          }
+        }
+      }
+    },
+    "Wochen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسابيع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weeks"
+          }
+        }
+      }
+    },
+    "Wähle den Ordner deines Obsidian-Vaults, um deine Notizen hier zu sehen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مجلد خزنة Obsidian لترى ملاحظاتك هنا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your Obsidian vault folder to see your notes here."
+          }
+        }
+      }
+    },
+    "Wähle den Ordner deines Obsidian-Vaults. Organizer liest und schreibt nur Markdown-Dateien darin.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مجلد خزنة Obsidian. يقرأ Organizer ملفات Markdown فقط فيه ويكتبها."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your Obsidian vault folder. Organizer only reads and writes Markdown files in it."
+          }
+        }
+      }
+    },
+    "Wähle den Ordner „%@“, damit Organizer ihn anzeigen darf.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر المجلد «%@» ليتمكن Organizer من عرضه."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the folder “%@” so Organizer may show it."
+          }
+        }
+      }
+    },
+    "Wähle einen oder mehrere Ordner, die zu „%@“ gehören.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مجلدًا أو أكثر يخص «%@»."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose one or more folders that belong to “%@”."
+          }
+        }
+      }
+    },
+    "Wähle zuerst einen Vault aus – die Befehle enthalten seinen Pfad.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر خزنة أولًا – فالأوامر تتضمن مسارها."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a vault first – the commands contain its path."
+          }
+        }
+      }
+    },
+    "Zeitraum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفترة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period"
+          }
+        }
+      }
+    },
+    "Zentral in _Organizer/Tasks.md": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مركزيًا في _Organizer/Tasks.md"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Centrally in _Organizer/Tasks.md"
+          }
+        }
+      }
+    },
+    "Zu heute scrollen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الانتقال إلى اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scroll to today"
+          }
+        }
+      }
+    },
+    "Zu heute springen (⌘T)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الانتقال إلى اليوم (⌘T)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to today (⌘T)"
+          }
+        }
+      }
+    },
+    "Zugriff abgelaufen. Bitte erneut erlauben.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهت صلاحية الإذن. يرجى السماح مرة أخرى."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access expired. Please allow again."
+          }
+        }
+      }
+    },
+    "Zugriff auf den Kalender fehlgeschlagen: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل الوصول إلى التقويم: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calendar access failed: %@"
+          }
+        }
+      }
+    },
+    "Zugriff auf „%@“ konnte nicht gespeichert werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الوصول إلى «%1$@»: %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access to “%1$@” could not be saved: %2$@"
+          }
+        }
+      }
+    },
+    "Zugriff erlauben": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Access"
+          }
+        }
+      }
+    },
+    "Zugriff erlauben …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Access …"
+          }
+        }
+      }
+    },
+    "Zuletzt geändert: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر تعديل: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last modified: %@"
+          }
+        }
+      }
+    },
+    "Zurück": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السابق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "Zurück (⌘←)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السابق (⌘←)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back (⌘←)"
+          }
+        }
+      }
+    },
+    "ganztägig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طوال اليوم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "all-day"
+          }
+        }
+      }
+    },
+    "im Terminal ausführen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّله في Terminal"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "run in Terminal"
+          }
+        }
+      }
+    },
+    "ohne Datum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا تاريخ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "no date"
+          }
+        }
+      }
+    },
+    "und %lld weitere": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "و%lld أخرى"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "and %lld more"
+          }
+        }
+      }
+    },
+    "z. B. Bachelorarbeit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثل: رسالة البكالوريوس"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Bachelor’s thesis"
+          }
+        }
+      }
+    },
+    "z. B. Literaturrecherche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثل: مراجعة الأدبيات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Literature review"
+          }
+        }
+      }
+    },
+    "Änderungen von Claude lassen sich nicht mit ⌘Z in Organizer zurücknehmen – sie stehen aber zeilengenau in den Markdown-Dateien und lassen sich dort oder über den Dateiverlauf von Obsidian rückgängig machen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يمكن التراجع عن تغييرات Claude بـ ⌘Z في Organizer – لكنها موجودة سطرًا بسطر في ملفات Markdown، ويمكن التراجع عنها هناك أو عبر سجل الملفات في Obsidian."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changes made by Claude can’t be undone with ⌘Z in Organizer – but they are line by line in the Markdown files and can be reverted there or via Obsidian’s file history."
+          }
+        }
+      }
+    },
+    "Öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      }
+    },
+    "Überblick": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نظرة عامة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overview"
+          }
+        }
+      }
+    },
+    "Überfällig": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متأخرة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overdue"
+          }
+        }
+      }
+    },
+    "Übersicht": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نظرة سريعة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Look"
+          }
+        }
+      }
+    },
+    "„%@“ gibt es bereits.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«%@» موجود بالفعل."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” already exists."
+          }
+        }
+      }
+    },
+    "„%@“ gibt es im Vault noch nicht.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«%@» غير موجود في الخزنة بعد."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” doesn’t exist in the vault yet."
+          }
+        }
+      }
+    },
+    "„%@“ ist kein Ordner. Verknüpfen lassen sich nur Ordner.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«%@» ليس مجلدًا. يمكن ربط المجلدات فقط."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” is not a folder. Only folders can be linked."
+          }
+        }
+      }
+    },
+    "„%@“ konnte nicht geschrieben werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت كتابة «%1$@»: %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%1$@” could not be written: %2$@"
+          }
+        }
+      }
+    },
+    "•": {
+      "shouldTranslate": false
+    },
+    "⌃⌥ Leertaste": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥ مسافة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥ Space"
+          }
+        }
+      }
+    },
+    "⏎ speichert · ⇥ wechselt die Art · esc schließt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⏎ للحفظ · ⇥ لتبديل النوع · esc للإغلاق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⏎ saves · ⇥ switches type · esc closes"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

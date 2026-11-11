@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Variante A: Das O besteht aus vier Teilen – Notizen, Kalender, Aufgaben, Roadmap.
+       In der Mitte ein Haken: alles an einem Ort, erledigt. -->
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+  <g fill="none" stroke="#111111" stroke-width="104" stroke-linecap="butt">
+    <path d="M 335.7 269.3 A 300 300 0 0 1 688.3 269.3" />
+    <path d="M 754.7 335.7 A 300 300 0 0 1 754.7 688.3" />
+    <path d="M 688.3 754.7 A 300 300 0 0 1 335.7 754.7" />
+    <path d="M 269.3 688.3 A 300 300 0 0 1 269.3 335.7" />
+  </g>
+  <polyline points="402,522 482,602 628,440" fill="none" stroke="#111111" stroke-width="72"
+            stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

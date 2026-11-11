@@ -128,7 +128,7 @@ private struct DayCell: View {
             }
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(day.formatted(date: .complete, time: .omitted) + (events.isEmpty ? ", keine Termine" : ", \(events.count) Termine"))
+        .accessibilityLabel(day.formatted(date: .complete, time: .omitted) + (events.isEmpty ? L(", keine Termine") : L(", \(events.count) Termine")))
     }
 }
 

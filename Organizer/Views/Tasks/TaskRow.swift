@@ -25,8 +25,8 @@ struct TaskRow: View {
                     .contentTransition(.symbolEffect(.replace))
             }
             .buttonStyle(.plain)
-            .help(task.isOpen ? "Als erledigt markieren" : "Wieder öffnen")
-            .accessibilityLabel(task.isOpen ? "Erledigen" : "Wieder öffnen")
+            .help(task.isOpen ? L("Als erledigt markieren") : L("Wieder öffnen"))
+            .accessibilityLabel(task.isOpen ? L("Erledigen") : L("Wieder öffnen"))
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
@@ -34,7 +34,7 @@ struct TaskRow: View {
                         Text(String(repeating: "!", count: min(task.priority.rawValue, 3)))
                             .fontWeight(.bold)
                             .foregroundStyle(.orange)
-                            .accessibilityLabel("Priorität \(task.priority.title)")
+                            .accessibilityLabel("Priorität \(task.priority.localizedTitle)")
                     }
                     if isEditingTitle {
                         TextField("Titel", text: $draftTitle)
@@ -43,7 +43,7 @@ struct TaskRow: View {
                             .onSubmit(commitTitle)
                             .onExitCommand { isEditingTitle = false }
                     } else {
-                        Text(task.title.isEmpty ? "Ohne Titel" : task.title)
+                        Text(task.title.isEmpty ? L("Ohne Titel") : task.title)
                             .strikethrough(task.status == .cancelled)
                             .foregroundStyle(showsDone ? .secondary : .primary)
                             .onTapGesture(count: 2, perform: startEditing)
@@ -85,7 +85,7 @@ struct TaskRow: View {
                     Image(systemName: task.due == nil ? "clock" : "calendar")
                 }
                 .foregroundStyle(isOverdue ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
-                .help(task.due == nil ? "Geplant" : "Fällig")
+                .help(task.due == nil ? L("Geplant") : L("Fällig"))
             }
             if task.recurrence != nil {
                 Image(systemName: "repeat")
@@ -146,9 +146,9 @@ struct TaskRow: View {
 
     static func relativeDay(_ date: Date) -> String {
         let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return "Heute" }
-        if calendar.isDateInTomorrow(date) { return "Morgen" }
-        if calendar.isDateInYesterday(date) { return "Gestern" }
+        if calendar.isDateInToday(date) { return L("Heute") }
+        if calendar.isDateInTomorrow(date) { return L("Morgen") }
+        if calendar.isDateInYesterday(date) { return L("Gestern") }
         let sameYear = calendar.isDate(date, equalTo: .now, toGranularity: .year)
         return date.formatted(sameYear ? .dateTime.weekday(.abbreviated).day().month(.abbreviated)
                                        : .dateTime.day().month(.abbreviated).year())
@@ -162,7 +162,7 @@ struct TaskMenuItems: View {
     let task: TaskItem
 
     var body: some View {
-        Button(task.isOpen ? "Als erledigt markieren" : "Wieder öffnen") {
+        Button(task.isOpen ? L("Als erledigt markieren") : L("Wieder öffnen")) {
             model.tasks.setDone(task, task.isOpen, undoManager: undoManager)
         }
 
@@ -185,7 +185,7 @@ struct TaskMenuItems: View {
             set: { model.tasks.setPriority(task, $0, undoManager: undoManager) }
         )) {
             ForEach(TaskPriority.allCases.reversed(), id: \.self) { priority in
-                Text(priority.title).tag(priority)
+                Text(priority.localizedTitle).tag(priority)
             }
         }
 

@@ -91,7 +91,7 @@ struct NewEventSheet: View {
             model.calendarState.selectedDay = calendar.startOfDay(for: eventStart)
             dismiss()
         } catch {
-            errorMessage = "Termin konnte nicht gespeichert werden: \(error.localizedDescription)"
+            errorMessage = L("Termin konnte nicht gespeichert werden: \(localizedMessage(error))")
         }
     }
 }

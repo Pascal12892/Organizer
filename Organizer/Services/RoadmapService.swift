@@ -22,7 +22,7 @@ final class RoadmapService {
     // MARK: - Ändern
 
     func setDates(of milestone: Milestone, start: Date?, end: Date?, undoManager: UndoManager?) {
-        edit(milestone.relativePath, actionName: "Meilenstein verschieben", undoManager: undoManager) { raw in
+        edit(milestone.relativePath, actionName: L("Meilenstein verschieben"), undoManager: undoManager) { raw in
             RoadmapEditor.setting([
                 ("start", start.map { OrganizerDateFormat.string(from: $0, includingTime: false) }),
                 ("ende", end.map { OrganizerDateFormat.string(from: $0, includingTime: false) }),
@@ -31,7 +31,7 @@ final class RoadmapService {
     }
 
     func setStatus(of milestone: Milestone, _ status: MilestoneStatus, undoManager: UndoManager?) {
-        edit(milestone.relativePath, actionName: "Status ändern", undoManager: undoManager) { raw in
+        edit(milestone.relativePath, actionName: L("Status ändern"), undoManager: undoManager) { raw in
             RoadmapEditor.setting([("status", status.rawValue)], milestoneAt: milestone.headingLine, in: raw)
         }
     }
@@ -39,13 +39,13 @@ final class RoadmapService {
     func addTask(_ title: String, due: Date?, to milestone: Milestone, undoManager: UndoManager?) {
         let trimmed = title.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
-        edit(milestone.relativePath, actionName: "Aufgabe hinzufügen", undoManager: undoManager) { raw in
+        edit(milestone.relativePath, actionName: L("Aufgabe hinzufügen"), undoManager: undoManager) { raw in
             RoadmapEditor.insertingTask(TaskLine.make(title: trimmed, due: due), milestoneAt: milestone.headingLine, in: raw)
         }
     }
 
     func addMilestone(_ title: String, start: Date?, end: Date?, to project: RoadmapProject, undoManager: UndoManager?) {
-        edit(project.relativePath, actionName: "Meilenstein anlegen", undoManager: undoManager) { raw in
+        edit(project.relativePath, actionName: L("Meilenstein anlegen"), undoManager: undoManager) { raw in
             RoadmapEditor.appendingMilestone(title: title, start: start, end: end, to: raw)
         }
     }
@@ -58,15 +58,15 @@ final class RoadmapService {
             let content = RoadmapEditor.newProject(title: title, area: area, start: start, end: end, color: color)
             let path = try writer.createNote(folder: RoadmapParser.folder, title: title, content: content)
             undoManager?.registerUndo(withTarget: self) { service in
-                do { try service.writer?.moveToTrash(path) } catch { service.lastError = error.localizedDescription }
+                do { try service.writer?.moveToTrash(path) } catch { service.lastError = localizedMessage(error) }
                 Task { await service.vault.rescan() }
             }
-            undoManager?.setActionName("Projekt anlegen")
+            undoManager?.setActionName(L("Projekt anlegen"))
             lastError = nil
             Task { await vault.rescan() }
             return path
         } catch {
-            lastError = "Projekt konnte nicht angelegt werden: \(error.localizedDescription)"
+            lastError = L("Projekt konnte nicht angelegt werden: \(localizedMessage(error))")
             return nil
         }
     }
@@ -83,7 +83,7 @@ final class RoadmapService {
             registerUndo(path: path, from: new, to: old, actionName: actionName, undoManager: undoManager)
             lastError = nil
         } catch {
-            lastError = error.localizedDescription
+            lastError = localizedMessage(error)
         }
         Task { await vault.rescan() }
     }
@@ -96,7 +96,7 @@ final class RoadmapService {
                 try writer.save(path, newContent: previous, expected: current)
                 service.registerUndo(path: path, from: previous, to: current, actionName: actionName, undoManager: undoManager)
             } catch {
-                service.lastError = "Rückgängig nicht möglich: \(error.localizedDescription)"
+                service.lastError = L("Rückgängig nicht möglich: \(localizedMessage(error))")
             }
             Task { await service.vault.rescan() }
         }
@@ -123,15 +123,15 @@ final class RoadmapService {
 
     static func colorTitle(_ name: String) -> String {
         switch name {
-        case "green": "Grün"
-        case "orange": "Orange"
-        case "red": "Rot"
-        case "purple": "Lila"
-        case "pink": "Pink"
-        case "teal": "Türkis"
-        case "yellow": "Gelb"
-        case "gray": "Grau"
-        default: "Blau"
+        case "green": L("Grün")
+        case "orange": L("Orange")
+        case "red": L("Rot")
+        case "purple": L("Lila")
+        case "pink": L("Pink")
+        case "teal": L("Türkis")
+        case "yellow": L("Gelb")
+        case "gray": L("Grau")
+        default: L("Blau")
         }
     }
 }

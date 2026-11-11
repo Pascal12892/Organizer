@@ -21,10 +21,10 @@ struct MilestoneInspector: View {
             }
 
             Section("Zeitraum") {
-                optionalDate("Beginn", date: milestone.start) { date in
+                optionalDate(L("Beginn"), date: milestone.start) { date in
                     model.roadmap.setDates(of: milestone, start: date, end: milestone.end, undoManager: undoManager)
                 }
-                optionalDate("Ende", date: milestone.end) { date in
+                optionalDate(L("Ende"), date: milestone.end) { date in
                     model.roadmap.setDates(of: milestone, start: milestone.start, end: date, undoManager: undoManager)
                 }
                 Picker("Status", selection: Binding(
@@ -32,7 +32,7 @@ struct MilestoneInspector: View {
                     set: { model.roadmap.setStatus(of: milestone, $0, undoManager: undoManager) }
                 )) {
                     ForEach(MilestoneStatus.allCases, id: \.self) { status in
-                        Label(status.rawValue.capitalized, systemImage: StatusSymbol.name(for: status)).tag(status)
+                        Label(status.localizedTitle, systemImage: StatusSymbol.name(for: status)).tag(status)
                     }
                 }
             }
@@ -41,8 +41,8 @@ struct MilestoneInspector: View {
                 let relevant = milestone.tasks.filter { $0.status != .cancelled }
                 ProgressView(value: milestone.progress) {
                     Text(relevant.isEmpty
-                         ? (milestone.status == .done ? "Erledigt" : "Noch keine Aufgaben")
-                         : "\(relevant.filter { $0.status == .done }.count) von \(relevant.count) Aufgaben erledigt")
+                         ? (milestone.status == .done ? L("Erledigt") : L("Noch keine Aufgaben"))
+                         : L("\(relevant.filter { $0.status == .done }.count) von \(relevant.count) Aufgaben erledigt"))
                 }
                 if milestone.isOverdue {
                     Label("Das Ende ist überschritten.", systemImage: "exclamationmark.circle.fill")
@@ -124,7 +124,7 @@ struct ProjectInspector: View {
                         Text(span.start.formatted(date: .abbreviated, time: .omitted) + " – " + span.end.formatted(date: .abbreviated, time: .omitted))
                     }
                 }
-                LabeledContent("Status") { Text(project.status.rawValue.capitalized) }
+                LabeledContent("Status") { Text(project.status.localizedTitle) }
                 ProgressView(value: project.progress) {
                     Text("\(project.milestones.filter { $0.status == .done }.count) von \(project.milestones.count) Meilensteinen erledigt")
                 }

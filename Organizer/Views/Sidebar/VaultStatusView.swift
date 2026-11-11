@@ -41,7 +41,7 @@ struct VaultStatusView: View {
                     Button {
                         showsIssues = true
                     } label: {
-                        Label(issues.count == 1 ? "1 Datei mit Problemen" : "\(issues.count) Dateien mit Problemen",
+                        Label(issues.count == 1 ? L("1 Datei mit Problemen") : L("\(issues.count) Dateien mit Problemen"),
                               systemImage: "exclamationmark.triangle.fill")
                             .symbolRenderingMode(.multicolor)
                     }

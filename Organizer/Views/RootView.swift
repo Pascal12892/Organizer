@@ -57,7 +57,7 @@ private struct NotesSplitView: View {
             noteDetail
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .searchable(text: $notes.searchText, placement: .toolbar, prompt: "Suchen")
+        .searchable(text: $notes.searchText, placement: .toolbar, prompt: L("Suchen"))
         .searchFocused($searchFocused)
         .onChange(of: model.searchFocusRequest) { searchFocused = true }
     }

@@ -16,8 +16,8 @@ struct AreasSettingsView: View {
                 ))
             } footer: {
                 Text(model.settings.settings.automaticAreas
-                     ? "Jeder Ordner auf oberster Ebene ist ein Bereich, seine Unterordner sind die Themen. Die Seitenleiste zeigt alle Ordner wie in Obsidian."
-                     : "Nur die unten aufgeführten Ordner sind Bereiche und erscheinen in der Seitenleiste.")
+                     ? L("Jeder Ordner auf oberster Ebene ist ein Bereich, seine Unterordner sind die Themen. Die Seitenleiste zeigt alle Ordner wie in Obsidian.")
+                     : L("Nur die unten aufgeführten Ordner sind Bereiche und erscheinen in der Seitenleiste."))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -101,10 +101,10 @@ struct AreasSettingsView: View {
 
     private func addArea() {
         var areas = model.settings.settings.areas
-        var name = "Neuer Bereich"
+        var name = L("Neuer Bereich")
         var counter = 2
         while areas.contains(name) {
-            name = "Neuer Bereich \(counter)"
+            name = L("Neuer Bereich \(counter)")
             counter += 1
         }
         areas.append(name)

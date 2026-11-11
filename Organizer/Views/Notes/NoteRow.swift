@@ -15,7 +15,7 @@ struct NoteRow: View {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(note.modified, format: Self.dateStyle(for: note.modified))
                     .foregroundStyle(.primary)
-                Text(note.excerpt.isEmpty ? "Kein weiterer Text" : note.excerpt)
+                Text(note.excerpt.isEmpty ? L("Kein weiterer Text") : note.excerpt)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }

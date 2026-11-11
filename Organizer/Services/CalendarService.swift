@@ -69,7 +69,7 @@ final class CalendarService {
         do {
             _ = try await store.requestFullAccessToEvents()
         } catch {
-            lastError = "Zugriff auf den Kalender fehlgeschlagen: \(error.localizedDescription)"
+            lastError = L("Zugriff auf den Kalender fehlgeschlagen: \(localizedMessage(error))")
         }
         access = Self.currentAccess()
         if access == .fullAccess { reloadCalendars() }
@@ -83,7 +83,7 @@ final class CalendarService {
                     id: calendar.calendarIdentifier,
                     title: calendar.title,
                     color: Color(cgColor: calendar.cgColor),
-                    sourceTitle: calendar.source?.title ?? "Andere",
+                    sourceTitle: calendar.source?.title ?? L("Andere"),
                     allowsModifications: calendar.allowsContentModifications,
                     hex: Self.hex(calendar.cgColor)
                 )
@@ -134,7 +134,7 @@ final class CalendarService {
     @discardableResult
     func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?) throws -> String {
         guard let calendar = store.calendar(withIdentifier: calendarID) else {
-            throw CocoaError(.fileNoSuchFile, userInfo: [NSLocalizedDescriptionKey: "Der Kalender existiert nicht mehr."])
+            throw CocoaError(.fileNoSuchFile, userInfo: [NSLocalizedDescriptionKey: L("Der Kalender existiert nicht mehr.")])
         }
         let event = EKEvent(eventStore: store)
         event.title = title
@@ -166,7 +166,7 @@ final class CalendarService {
     private static func info(_ event: EKEvent) -> CalendarEventInfo {
         CalendarEventInfo(
             id: event.calendarItemIdentifier + "|" + String(event.startDate.timeIntervalSinceReferenceDate),
-            title: event.title ?? "Ohne Titel",
+            title: event.title ?? L("Ohne Titel"),
             start: event.startDate,
             end: event.endDate,
             isAllDay: event.isAllDay,

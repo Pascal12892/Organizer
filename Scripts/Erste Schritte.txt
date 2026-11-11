@@ -1,0 +1,30 @@
+ORGANIZER – ERSTE SCHRITTE
+==========================
+
+1. „Organizer“ auf „Programme“ ziehen.
+2. Organizer öffnen. Beim ersten Mal meldet macOS: „Apple konnte nicht überprüfen …“.
+   Das liegt daran, dass die App nicht über den App Store kommt. So öffnest du sie trotzdem:
+   Systemeinstellungen › Datenschutz & Sicherheit › ganz unten „Trotzdem öffnen“.
+3. Deinen Obsidian-Vault auswählen (Ablage › Vault öffnen … oder ⇧⌘O).
+   Organizer liest und schreibt nur Markdown-Dateien darin. Ohne Obsidian geht auch
+   jeder normale Ordner mit .md-Dateien.
+4. Optional: Kalender, Erinnerungen und Mitteilungen erlauben, wenn macOS fragt.
+
+Voraussetzung: macOS 26 oder neuer.
+Sprache: Einstellungen (⌘,) › Allgemein › Sprache – Deutsch, English, العربية.
+Claude: Einstellungen › Claude zeigt, wie du Organizer mit Claude Code oder Claude Desktop verbindest.
+
+
+ORGANIZER – GETTING STARTED
+===========================
+
+1. Drag “Organizer” to “Applications”.
+2. Open Organizer. The first time, macOS says Apple could not verify it, because it does
+   not come from the App Store. To open it anyway: System Settings › Privacy & Security ›
+   “Open Anyway” at the bottom.
+3. Choose your Obsidian vault (File › Open Vault … or ⇧⌘O). Organizer only reads and writes
+   Markdown files in it. Any folder with .md files works too.
+4. Optionally allow Calendar, Reminders and Notifications when macOS asks.
+
+Requires macOS 26 or later.
+Language: Settings (⌘,) › General › Language – Deutsch, English, العربية.

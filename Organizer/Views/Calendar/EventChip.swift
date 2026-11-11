@@ -87,8 +87,8 @@ struct EventChip: View {
     }
 
     private var accessibilityText: String {
-        if event.isAllDay { return "\(event.title), ganztägig" }
-        return "\(event.title), \(event.start.formatted(date: .omitted, time: .shortened)) bis \(event.end.formatted(date: .omitted, time: .shortened))"
+        if event.isAllDay { return L("\(event.title), ganztägig") }
+        return L("\(event.title), \(event.start.formatted(date: .omitted, time: .shortened)) bis \(event.end.formatted(date: .omitted, time: .shortened))")
     }
 }
 
@@ -141,7 +141,7 @@ struct EventDetailView: View {
         if event.isAllDay {
             let last = Calendar.current.date(byAdding: .second, value: -1, to: event.end) ?? event.end
             if Calendar.current.isDate(event.start, inSameDayAs: last) {
-                return event.start.formatted(date: .complete, time: .omitted) + ", ganztägig"
+                return event.start.formatted(date: .complete, time: .omitted) + L(", ganztägig")
             }
             return (event.start..<last).formatted(.interval.day().month(.wide).year())
         }

@@ -56,7 +56,7 @@ struct OrganizerCommands: Commands {
         }
 
         CommandMenu("Notiz") {
-            Button(model.notes.isEditing ? "Vorschau zeigen" : "Bearbeiten") {
+            Button(model.notes.isEditing ? L("Vorschau zeigen") : L("Bearbeiten")) {
                 model.notes.isEditing.toggle()
             }
             .keyboardShortcut("e")

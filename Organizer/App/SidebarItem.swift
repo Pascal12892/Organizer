@@ -14,11 +14,11 @@ enum SidebarItem: Hashable {
 
     var title: String {
         switch self {
-        case .dashboard: "Dashboard"
-        case .notes: "Notizen"
-        case .calendar: "Kalender"
-        case .tasks: "Aufgaben"
-        case .roadmap: "Roadmap"
+        case .dashboard: L("Dashboard")
+        case .notes: L("Notizen")
+        case .calendar: L("Kalender")
+        case .tasks: L("Aufgaben")
+        case .roadmap: L("Roadmap")
         case .folder(let path): path.split(separator: "/").last.map(String.init) ?? path
         }
     }

@@ -123,7 +123,7 @@ private struct CalendarContent: View {
                     set: { newScope in model.settings.update { $0.calendarScope = newScope } }
                 )) {
                     ForEach(CalendarScope.allCases, id: \.self) { scope in
-                        Text(scope.title).tag(scope)
+                        Text(scope.localizedTitle).tag(scope)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -182,7 +182,7 @@ private struct CalendarsMenu: View {
         } label: {
             Label("Kalender", systemImage: hidden.isEmpty ? "calendar" : "calendar.badge.minus")
         }
-        .help(hidden.isEmpty ? "Angezeigte Kalender wählen" : "\(hidden.count) Kalender ausgeblendet")
+        .help(hidden.isEmpty ? L("Angezeigte Kalender wählen") : L("\(hidden.count) Kalender ausgeblendet"))
     }
 }
 

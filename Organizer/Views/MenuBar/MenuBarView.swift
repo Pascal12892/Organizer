@@ -42,7 +42,7 @@ struct MenuBarView: View {
                             RoundedRectangle(cornerRadius: 1.5)
                                 .fill(model.calendar.color(for: event.calendarID))
                                 .frame(width: 3, height: 16)
-                            Text(event.isAllDay ? "ganztägig" : event.start.formatted(date: .omitted, time: .shortened))
+                            Text(event.isAllDay ? L("ganztägig") : event.start.formatted(date: .omitted, time: .shortened))
                                 .monospacedDigit()
                                 .foregroundStyle(.secondary)
                                 .frame(width: 66, alignment: .leading)

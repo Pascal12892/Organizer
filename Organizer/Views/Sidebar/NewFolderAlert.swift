@@ -25,9 +25,9 @@ struct NewFolderAlert: ViewModifier {
 
     private var title: String {
         guard let parent = model.newFolderParent else { return "" }
-        if parent.isEmpty { return "Neuer Ordner im Vault" }
+        if parent.isEmpty { return L("Neuer Ordner im Vault") }
         let name = parent.split(separator: "/").last.map(String.init) ?? parent
-        return "Neuer Ordner in „\(name)“"
+        return L("Neuer Ordner in „\(name)“")
     }
 
     private func create() {
@@ -38,7 +38,7 @@ struct NewFolderAlert: ViewModifier {
             do {
                 try await model.createFolder(named: folderName, in: parent, undoManager: undoManager)
             } catch {
-                model.writeError = "Ordner konnte nicht angelegt werden: \(error.localizedDescription)"
+                model.writeError = L("Ordner konnte nicht angelegt werden: \(localizedMessage(error))")
             }
         }
     }

@@ -10,17 +10,17 @@ enum HotKeyPreset: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .controlOptionSpace: "⌃⌥ Leertaste"
+        case .controlOptionSpace: L("⌃⌥ Leertaste")
         case .commandShiftN: "⇧⌘N"
         case .controlOptionN: "⌃⌥N"
-        case .off: "Aus"
+        case .off: L("Aus")
         }
     }
 
     /// Hinweis, falls das Kürzel anderen Apps etwas wegnimmt.
     var warning: String? {
         switch self {
-        case .commandShiftN: "Im Finder ist ⇧⌘N „Neuer Ordner“ – solange Organizer läuft, öffnet es stattdessen die Schnellerfassung."
+        case .commandShiftN: L("Im Finder ist ⇧⌘N „Neuer Ordner“ – solange Organizer läuft, öffnet es stattdessen die Schnellerfassung.")
         default: nil
         }
     }

@@ -117,10 +117,10 @@ private struct MarkdownListView: View {
             if let line = item.sourceLine, let toggleCheckbox {
                 Button { toggleCheckbox.perform(line) } label: { image }
                     .buttonStyle(.plain)
-                    .help(checked ? "Wieder öffnen" : "Als erledigt markieren")
-                    .accessibilityLabel(checked ? "Erledigt, wieder öffnen" : "Offen, erledigen")
+                    .help(checked ? L("Wieder öffnen") : L("Als erledigt markieren"))
+                    .accessibilityLabel(checked ? L("Erledigt, wieder öffnen") : L("Offen, erledigen"))
             } else {
-                image.accessibilityLabel(checked ? "Erledigt" : "Offen")
+                image.accessibilityLabel(checked ? L("Erledigt") : L("Offen"))
             }
         } else if list.ordered {
             Text("\(list.start + index).")

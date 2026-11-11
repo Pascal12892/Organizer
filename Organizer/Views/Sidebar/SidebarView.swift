@@ -19,7 +19,7 @@ struct SidebarView: View {
             }
 
             if !model.folderTree.isEmpty {
-                Section(model.settings.settings.automaticAreas ? "Ordner" : "Bereiche") {
+                Section(model.settings.settings.automaticAreas ? L("Ordner") : L("Bereiche")) {
                     ForEach(visibleTopLevel) { node in
                         FolderRow(node: node, counts: counts)
                     }
@@ -123,7 +123,7 @@ private struct FolderRow: View {
                         if isDirectory {
                             model.folderLinks.link([url], to: target, undoManager: undoManager)
                         } else {
-                            model.writeError = "„\(url.lastPathComponent)“ ist kein Ordner. Verknüpfen lassen sich nur Ordner."
+                            model.writeError = L("„\(url.lastPathComponent)“ ist kein Ordner. Verknüpfen lassen sich nur Ordner.")
                         }
                     }
                 }

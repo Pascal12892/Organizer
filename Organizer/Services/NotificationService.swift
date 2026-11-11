@@ -21,7 +21,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         super.init()
         let center = UNUserNotificationCenter.current()
         center.delegate = self
-        let done = UNNotificationAction(identifier: Self.doneAction, title: "Erledigt", options: [])
+        let done = UNNotificationAction(identifier: Self.doneAction, title: L("Erledigt"), options: [])
         center.setNotificationCategories([
             UNNotificationCategory(identifier: Self.category, actions: [done], intentIdentifiers: []),
         ])
@@ -67,7 +67,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         for task in model.tasks.tasks where task.isOpen {
             guard let due = task.relevantDate, let fire = fireDate(for: due), fire > now else { continue }
             let content = UNMutableNotificationContent()
-            content.title = task.due == nil ? "Heute geplant" : "Heute fällig"
+            content.title = task.due == nil ? L("Heute geplant") : L("Heute fällig")
             content.body = task.title
             content.subtitle = [task.area, task.topic].compactMap { $0 }.joined(separator: " › ")
             content.sound = .default
@@ -81,7 +81,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
             for milestone in project.milestones where milestone.status != .done {
                 guard let end = milestone.end, let fire = fireDate(for: end), fire > now else { continue }
                 let content = UNMutableNotificationContent()
-                content.title = "Meilenstein endet heute"
+                content.title = L("Meilenstein endet heute")
                 content.body = milestone.title
                 content.subtitle = project.title
                 content.sound = .default

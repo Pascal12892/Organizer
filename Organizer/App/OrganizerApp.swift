@@ -42,7 +42,7 @@ struct OrganizerApp: App {
             MenuBarView()
                 .environment(model)
         } label: {
-            Image("MenuBarIcon")
+            Image(L("MenuBarIcon"))
                 .accessibilityLabel("Organizer")
         }
         .menuBarExtraStyle(.window)

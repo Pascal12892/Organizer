@@ -42,10 +42,10 @@ struct DashboardView: View {
 
     private var greeting: String {
         switch Calendar.current.component(.hour, from: .now) {
-        case 5..<11: "Guten Morgen"
-        case 11..<17: "Guten Tag"
-        case 17..<23: "Guten Abend"
-        default: "Hallo"
+        case 5..<11: L("Guten Morgen")
+        case 11..<17: L("Guten Tag")
+        case 17..<23: L("Guten Abend")
+        default: L("Hallo")
         }
     }
 }
@@ -97,7 +97,7 @@ private struct EventsCard: View {
     var body: some View {
         DashboardCard(title: "Heute und morgen", systemImage: "calendar", showAll: { model.sidebarSelection = .calendar }) {
             if model.calendar.access != .fullAccess {
-                EmptyCardText(text: "Kein Zugriff auf den Kalender.")
+                EmptyCardText(text: L("Kein Zugriff auf den Kalender."))
                 Button("Zugriff erlauben …") { Task { await model.calendar.requestAccess() } }
             } else {
                 let calendar = Calendar.current
@@ -106,7 +106,7 @@ private struct EventsCard: View {
                 let events = model.calendar.events(in: interval, hiddenCalendarIDs: model.settings.settings.hiddenCalendarIDs)
                 ForEach([today, calendar.date(byAdding: .day, value: 1, to: today)!], id: \.self) { day in
                     let dayEvents = CalendarMath.events(events, on: day, calendar: calendar)
-                    Text(calendar.isDateInToday(day) ? "Heute" : "Morgen")
+                    Text(calendar.isDateInToday(day) ? L("Heute") : L("Morgen"))
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.secondary)
                     if dayEvents.isEmpty {
@@ -132,7 +132,7 @@ private struct DashboardEventRow: View {
                 RoundedRectangle(cornerRadius: 1.5)
                     .fill(model.calendar.color(for: event.calendarID))
                     .frame(width: 3, height: 18)
-                Text(event.isAllDay ? "ganztägig" : event.start.formatted(date: .omitted, time: .shortened))
+                Text(event.isAllDay ? L("ganztägig") : event.start.formatted(date: .omitted, time: .shortened))
                     .monospacedDigit()
                     .foregroundStyle(.secondary)
                     .frame(width: 70, alignment: .leading)
@@ -162,7 +162,7 @@ private struct TasksCard: View {
             model.sidebarSelection = .tasks
         }) {
             if tasks.isEmpty {
-                EmptyCardText(text: "Heute ist nichts fällig. 🎉")
+                EmptyCardText(text: L("Heute ist nichts fällig. 🎉"))
             }
             ForEach(tasks.prefix(8)) { task in
                 TaskRow(task: task)
@@ -183,7 +183,7 @@ private struct RecentNotesCard: View {
         DashboardCard(title: "Zuletzt bearbeitet", systemImage: "clock", showAll: { model.sidebarSelection = .notes }) {
             let notes = model.vault.notes.filter { !RoadmapParser.isRoadmapNote($0) }.prefix(6)
             if notes.isEmpty {
-                EmptyCardText(text: model.vault.state == .ready ? "Noch keine Notizen." : "Kein Vault geöffnet.")
+                EmptyCardText(text: model.vault.state == .ready ? L("Noch keine Notizen.") : L("Kein Vault geöffnet."))
             }
             ForEach(notes) { note in
                 Button {
@@ -221,7 +221,7 @@ private struct MilestonesCard: View {
                 .sorted { ($0.1.end ?? .distantFuture) < ($1.1.end ?? .distantFuture) }
                 .prefix(5)
             if upcoming.isEmpty {
-                EmptyCardText(text: "Keine offenen Meilensteine.")
+                EmptyCardText(text: L("Keine offenen Meilensteine."))
             }
             ForEach(Array(upcoming), id: \.1.id) { project, milestone in
                 HStack(spacing: 8) {

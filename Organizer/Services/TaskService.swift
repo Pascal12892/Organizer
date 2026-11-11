@@ -11,8 +11,8 @@ enum TaskStorage: String, Codable, CaseIterable {
 
     var title: String {
         switch self {
-        case .central: "Zentral in _Organizer/Tasks.md"
-        case .perFolder: "In „Aufgaben.md“ im Bereich bzw. Thema"
+        case .central: L("Zentral in _Organizer/Tasks.md")
+        case .perFolder: L("In „Aufgaben.md“ im Bereich bzw. Thema")
         }
     }
 }
@@ -62,21 +62,21 @@ final class TaskService {
 
     func setDone(_ task: TaskItem, _ done: Bool, undoManager: UndoManager?) {
         if done { NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now) }
-        change(task, to: TaskLine.setting(task.rawLine, done: done), actionName: done ? "Aufgabe erledigen" : "Aufgabe öffnen", undoManager: undoManager)
+        change(task, to: TaskLine.setting(task.rawLine, done: done), actionName: done ? L("Aufgabe erledigen") : L("Aufgabe öffnen"), undoManager: undoManager)
     }
 
     func setDue(_ task: TaskItem, _ due: Date?, undoManager: UndoManager?) {
-        change(task, to: TaskLine.setting(task.rawLine, due: due), actionName: "Fälligkeit ändern", undoManager: undoManager)
+        change(task, to: TaskLine.setting(task.rawLine, due: due), actionName: L("Fälligkeit ändern"), undoManager: undoManager)
     }
 
     func setPriority(_ task: TaskItem, _ priority: TaskPriority, undoManager: UndoManager?) {
-        change(task, to: TaskLine.setting(task.rawLine, priority: priority), actionName: "Priorität ändern", undoManager: undoManager)
+        change(task, to: TaskLine.setting(task.rawLine, priority: priority), actionName: L("Priorität ändern"), undoManager: undoManager)
     }
 
     func rename(_ task: TaskItem, to title: String, undoManager: UndoManager?) {
         let trimmed = title.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty, trimmed != task.title else { return }
-        change(task, to: TaskLine.setting(task.rawLine, title: trimmed), actionName: "Aufgabe umbenennen", undoManager: undoManager)
+        change(task, to: TaskLine.setting(task.rawLine, title: trimmed), actionName: L("Aufgabe umbenennen"), undoManager: undoManager)
     }
 
     /// Mehrere Änderungen an einer Aufgabe in einem Schritt (eine Zeile, ein Rückgängig).
@@ -85,18 +85,18 @@ final class TaskService {
         if let done { line = TaskLine.setting(line, done: done) }
         if let due { line = TaskLine.setting(line, due: due) }
         if let priority { line = TaskLine.setting(line, priority: priority) }
-        change(task, to: line, actionName: "Aufgabe ändern", undoManager: undoManager)
+        change(task, to: line, actionName: L("Aufgabe ändern"), undoManager: undoManager)
     }
 
     /// Entfernt die Zeile. ⌘Z fügt sie an derselben Stelle wieder ein.
     func delete(_ task: TaskItem, undoManager: UndoManager?) {
-        change(task, to: nil, actionName: "Aufgabe löschen", undoManager: undoManager)
+        change(task, to: nil, actionName: L("Aufgabe löschen"), undoManager: undoManager)
     }
 
     /// Checkbox in der Notiz-Vorschau angeklickt.
     func toggleCheckbox(in relativePath: String, line: Int, undoManager: UndoManager?) {
         guard let task = tasks.first(where: { $0.relativePath == relativePath && $0.lineNumber == line }) else {
-            lastError = "Die Aufgabe wurde nicht gefunden. Die Datei hat sich vermutlich gerade geändert."
+            lastError = L("Die Aufgabe wurde nicht gefunden. Die Datei hat sich vermutlich gerade geändert.")
             return
         }
         setDone(task, task.isOpen, undoManager: undoManager)
@@ -125,10 +125,10 @@ final class TaskService {
 
         do {
             let index = try writer.appendLine(path, line: line, header: header)
-            registerUndo(path: path, lineNumber: index, from: line, to: nil, actionName: "Aufgabe hinzufügen", undoManager: undoManager)
+            registerUndo(path: path, lineNumber: index, from: line, to: nil, actionName: L("Aufgabe hinzufügen"), undoManager: undoManager)
             refresh()
         } catch {
-            lastError = "Aufgabe konnte nicht gespeichert werden: \(error.localizedDescription)"
+            lastError = L("Aufgabe konnte nicht gespeichert werden: \(localizedMessage(error))")
         }
     }
 
@@ -161,7 +161,7 @@ final class TaskService {
             registerUndo(path: path, lineNumber: index, from: new, to: old, actionName: actionName, undoManager: undoManager)
             refresh()
         } catch {
-            lastError = error.localizedDescription
+            lastError = localizedMessage(error)
             refresh()
         }
     }

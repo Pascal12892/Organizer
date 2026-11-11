@@ -19,7 +19,7 @@ struct NoteListView: View {
                 LinkedFoldersSection(folder: path)
             }
             ForEach(sections) { section in
-                Section(section.title) {
+                Section(section.localizedTitle) {
                     ForEach(section.notes) { note in
                         NoteRow(note: note, showsLocation: showsLocation)
                             .tag(note.id)
@@ -42,7 +42,7 @@ struct NoteListView: View {
                     Divider()
                 }
                 Button("Im Finder zeigen") { model.revealInFinder(selected) }
-                Button(selected.count == 1 ? "Pfad kopieren" : "Pfade kopieren") {
+                Button(selected.count == 1 ? L("Pfad kopieren") : L("Pfade kopieren")) {
                     copyPaths(selected)
                 }
             }
@@ -61,7 +61,7 @@ struct NoteListView: View {
         }
         .quickLookPreview($quickLookURL)
         .navigationTitle(title)
-        .navigationSubtitle(count == 1 ? "1 Notiz" : "\(count) Notizen")
+        .navigationSubtitle(count == 1 ? L("1 Notiz") : L("\(count) Notizen"))
         .toolbar {
             ToolbarItem {
                 TagFilterMenu(tags: notesModel.availableTags(in: scope), selection: $notesModel.tagFilter)
@@ -90,7 +90,7 @@ struct NoteListView: View {
 
     private var title: String {
         switch scope {
-        case .all: "Notizen"
+        case .all: L("Notizen")
         case .area(let area): area
         case .topic(_, let name): name
         case .folder(let path): path.split(separator: "/").last.map(String.init) ?? path
@@ -155,7 +155,7 @@ private struct TagFilterMenu: View {
                   ? "line.3.horizontal.decrease.circle"
                   : "line.3.horizontal.decrease.circle.fill")
         }
-        .help(selection.map { "Gefiltert nach #\($0)" } ?? "Nach Tag filtern")
+        .help(selection.map { L("Gefiltert nach #\($0)") } ?? L("Nach Tag filtern"))
         .disabled(tags.isEmpty && selection == nil)
     }
 }

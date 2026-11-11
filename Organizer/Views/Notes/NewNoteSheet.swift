@@ -70,12 +70,12 @@ struct NewNoteSheet: View {
     private var propertiesPreview: String {
         let (area, topic) = model.settings.layout.classify(folder: folder)
         var parts: [String] = switch (area, topic) {
-        case let (area?, topic?): ["Bereich \(area)", "Thema \(topic)"]
-        case let (area?, nil): ["Bereich \(area)"]
-        default: ["Kein Bereich"]
+        case let (area?, topic?): [L("Bereich \(area)"), L("Thema \(topic)")]
+        case let (area?, nil): [L("Bereich \(area)")]
+        default: [L("Kein Bereich")]
         }
         if let event = extraProperties.first(where: { $0.key == "termin" })?.value.stringValue {
-            parts.append("Termin „\(event)“")
+            parts.append(L("Termin „\(event)“"))
         }
         return parts.joined(separator: " · ")
     }
@@ -92,7 +92,7 @@ struct NewNoteSheet: View {
                 )
                 dismiss()
             } catch {
-                errorMessage = error.localizedDescription
+                errorMessage = localizedMessage(error)
                 isCreating = false
             }
         }

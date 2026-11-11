@@ -8,7 +8,7 @@ struct ChooseVaultView: View {
 
     var body: some View {
         ContentUnavailableView {
-            Label(message == nil ? "Kein Vault ausgewählt" : "Kein Zugriff auf den Vault",
+            Label(message == nil ? L("Kein Vault ausgewählt") : L("Kein Zugriff auf den Vault"),
                   systemImage: message == nil ? "folder.badge.questionmark" : "lock.trianglebadge.exclamationmark")
         } description: {
             if let message {
@@ -22,7 +22,7 @@ struct ChooseVaultView: View {
                 Text("Wähle den Ordner deines Obsidian-Vaults, um deine Notizen hier zu sehen.")
             }
         } actions: {
-            Button(message == nil ? "Vault auswählen …" : "Vault erneut auswählen …") {
+            Button(message == nil ? L("Vault auswählen …") : L("Vault erneut auswählen …")) {
                 model.chooseVault()
             }
             .buttonStyle(.borderedProminent)

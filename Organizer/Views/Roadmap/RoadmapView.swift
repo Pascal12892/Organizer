@@ -13,9 +13,9 @@ enum RoadmapZoom: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .weeks: "Wochen"
-        case .months: "Monate"
-        case .quarters: "Quartale"
+        case .weeks: L("Wochen")
+        case .months: L("Monate")
+        case .quarters: L("Quartale")
         }
     }
 
@@ -59,7 +59,7 @@ struct RoadmapView: View {
             }
         }
         .navigationTitle("Roadmap")
-        .navigationSubtitle(projects.isEmpty ? "" : (projects.count == 1 ? "1 Projekt" : "\(projects.count) Projekte"))
+        .navigationSubtitle(projects.isEmpty ? "" : (projects.count == 1 ? L("1 Projekt") : L("\(projects.count) Projekte")))
         .inspector(isPresented: Binding(get: { selection != nil }, set: { if !$0 { selection = nil } })) {
             inspector(projects: projects)
                 .inspectorColumnWidth(min: 260, ideal: 300, max: 420)
@@ -294,9 +294,9 @@ private struct TimeGrid: View {
         }
         while date < range.end {
             let label: String = switch zoom {
-            case .weeks: "KW \(calendar.component(.weekOfYear, from: date)) · " + date.formatted(.dateTime.day().month(.abbreviated))
+            case .weeks: L("KW \(calendar.component(.weekOfYear, from: date)) · ") + date.formatted(.dateTime.day().month(.abbreviated))
             case .months: date.formatted(.dateTime.month(.wide).year())
-            case .quarters: "Q\((calendar.component(.month, from: date) - 1) / 3 + 1) " + date.formatted(.dateTime.year())
+            case .quarters: L("Q\((calendar.component(.month, from: date) - 1) / 3 + 1) ") + date.formatted(.dateTime.year())
             }
             result.append((date, label))
             date = calendar.date(byAdding: step, to: date)!
@@ -364,8 +364,8 @@ struct StatusIcon: View {
     var body: some View {
         Image(systemName: symbol)
             .foregroundStyle(color)
-            .help(isOverdue ? "Überfällig" : status.rawValue.capitalized)
-            .accessibilityLabel(isOverdue ? "Überfällig" : status.rawValue)
+            .help(isOverdue ? L("Überfällig") : status.localizedTitle)
+            .accessibilityLabel(isOverdue ? L("Überfällig") : status.localizedTitle)
     }
 
     private var symbol: String { StatusSymbol.name(for: status) }
@@ -493,7 +493,7 @@ struct MilestoneMenu: View {
             set: { model.roadmap.setStatus(of: milestone, $0, undoManager: undoManager) }
         )) {
             ForEach(MilestoneStatus.allCases, id: \.self) { status in
-                Text(status.rawValue.capitalized).tag(status)
+                Text(status.localizedTitle).tag(status)
             }
         }
         Divider()

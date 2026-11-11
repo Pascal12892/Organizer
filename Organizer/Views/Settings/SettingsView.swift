@@ -68,7 +68,7 @@ private struct GeneralSettingsView: View {
                         }
                     }
                     Spacer()
-                    Button(model.vault.rootURL == nil ? "Vault auswählen …" : "Anderen Vault wählen …") {
+                    Button(model.vault.rootURL == nil ? L("Vault auswählen …") : L("Anderen Vault wählen …")) {
                         model.chooseVault()
                     }
                 }
@@ -105,6 +105,8 @@ private struct GeneralSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            LanguageSection()
+
             NotificationSettingsSection()
 
             if let error = model.settings.lastError {
@@ -115,6 +117,41 @@ private struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+/// Sprache der Oberfläche.
+private struct LanguageSection: View {
+    @State private var selection = AppLanguage.current
+    @State private var needsRestart = false
+
+    var body: some View {
+        Section {
+            Picker("Sprache", selection: $selection) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.displayName).tag(language)
+                }
+            }
+            .onChange(of: selection) { _, language in
+                language.apply()
+                needsRestart = true
+            }
+            if needsRestart {
+                HStack {
+                    Label("Die neue Sprache gilt nach einem Neustart von Organizer.", systemImage: "arrow.clockwise")
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Jetzt neu starten") { AppLanguage.relaunch() }
+                        .buttonStyle(.borderedProminent)
+                }
+            }
+        } header: {
+            Text("Sprache")
+        } footer: {
+            Text("Betrifft nur die Oberfläche. Dateien im Vault (z. B. „bereich:“, „Tasks.md“) bleiben unverändert, damit sie in jeder Sprache lesbar bleiben.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 

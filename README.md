@@ -12,6 +12,7 @@ Kein Server, keine Cloud, kein Account.
 
     open Organizer.xcodeproj                                    # in Xcode: ⌘R (Debug, zum Entwickeln)
     Scripts/install-app.sh                                      # optimierter Build nach /Applications – für den Alltag
+    Scripts/package-app.sh                                      # DMG zum Weitergeben → dist/Organizer-<Version>.dmg
     cd Packages/OrganizerCore && swift test                     # Parser-Tests
 
 Die App läuft in der Sandbox. Der Zugriff auf den Vault wird als Security-Scoped Bookmark gespeichert.
@@ -75,3 +76,15 @@ Organizer selbst braucht dafür keinen Internetzugang.
 | ⌘← ⌘→ ⌘T | Kalender zurück, weiter, heute |
 | ⌃⌥ Leertaste | Schnellerfassung aus jeder App |
 | ⌘Z / ⇧⌘Z | Rückgängig / Wiederholen |
+
+## Sprachen
+
+Deutsch, English und العربية (Einstellungen › Allgemein › Sprache, wirkt nach Neustart; Arabisch von rechts nach links).
+Texte stehen in `Organizer/Localizable.xcstrings`. Im Code: SwiftUI-Literale werden automatisch übersetzt,
+alles andere läuft über `L("…")`. Daten im Vault (Frontmatter-Schlüssel, Status, Dateinamen) bleiben bewusst deutsch.
+
+## Weitergeben
+
+`Scripts/package-app.sh` baut eine universelle App (Apple Silicon und Intel) mit eingebautem MCP-Server und packt sie
+mit Kurzanleitung in ein DMG. Ohne Apple-Entwicklerkonto ist sie nur lokal signiert: Empfänger müssen sie einmal unter
+Systemeinstellungen › Datenschutz & Sicherheit › „Trotzdem öffnen“ freigeben. Voraussetzung: macOS 26.

@@ -19,7 +19,7 @@ struct TasksView: View {
                             .tag(task.id)
                     }
                 } header: {
-                    Text(section.title)
+                    Text(section.localizedTitle)
                         .foregroundStyle(section.isOverdue ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
                 }
             }
@@ -50,7 +50,7 @@ struct TasksView: View {
                     set: { newFilter in model.settings.update { $0.taskFilter = newFilter } }
                 )) {
                     ForEach(TaskFilter.allCases, id: \.self) { filter in
-                        Text(filter.title).tag(filter)
+                        Text(filter.localizedTitle).tag(filter)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -69,7 +69,7 @@ struct TasksView: View {
                     Label("Nach Bereich filtern", systemImage: model.taskAreaFilter == nil
                           ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
                 }
-                .help(model.taskAreaFilter.map { "Nur \($0)" } ?? "Nach Bereich filtern")
+                .help(model.taskAreaFilter.map { L("Nur \($0)") } ?? L("Nach Bereich filtern"))
             }
         }
     }
@@ -80,8 +80,8 @@ struct TasksView: View {
 
     private var subtitle: String {
         let counts = model.tasks.counts
-        var parts = ["\(counts.open) offen"]
-        if counts.overdue > 0 { parts.append("\(counts.overdue) überfällig") }
+        var parts = [L("\(counts.open) offen")]
+        if counts.overdue > 0 { parts.append(L("\(counts.overdue) überfällig")) }
         return parts.joined(separator: ", ")
     }
 

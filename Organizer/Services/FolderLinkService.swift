@@ -79,7 +79,7 @@ final class FolderLinkService {
 
     private func load(_ path: String) -> LinkedFolder.Status {
         guard let url = accessibleURL(for: path) else {
-            return settings.settings.folderBookmarks[path] == nil ? .needsAccess : .failed("Zugriff abgelaufen. Bitte erneut erlauben.")
+            return settings.settings.folderBookmarks[path] == nil ? .needsAccess : .failed(L("Zugriff abgelaufen. Bitte erneut erlauben."))
         }
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isDirectory), isDirectory.boolValue else {
@@ -95,7 +95,7 @@ final class FolderLinkService {
             .sorted { ($0.modified ?? .distantPast) > ($1.modified ?? .distantPast) }
             return .available(files: Array(files.prefix(Self.maxListedFiles)), total: files.count)
         } catch {
-            return .failed("Ordner konnte nicht gelesen werden: \(error.localizedDescription)")
+            return .failed(L("Ordner konnte nicht gelesen werden: \(localizedMessage(error))"))
         }
     }
 
@@ -117,9 +117,9 @@ final class FolderLinkService {
     /// Ordner per Dialog wählen und mit `folder` verknüpfen (mehrere möglich).
     func chooseAndLink(to folder: String, undoManager: UndoManager?) {
         let panel = NSOpenPanel()
-        panel.title = "Mac-Ordner verknüpfen"
-        panel.message = "Wähle einen oder mehrere Ordner, die zu „\(Self.displayName(folder))“ gehören."
-        panel.prompt = "Verknüpfen"
+        panel.title = L("Mac-Ordner verknüpfen")
+        panel.message = L("Wähle einen oder mehrere Ordner, die zu „\(Self.displayName(folder))“ gehören.")
+        panel.prompt = L("Verknüpfen")
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = true
@@ -138,27 +138,27 @@ final class FolderLinkService {
                 let bookmark = try SecurityScopedBookmark.make(for: url)
                 settings.update { $0.folderBookmarks[path] = bookmark }
             } catch {
-                lastError = "Zugriff auf „\(url.lastPathComponent)“ konnte nicht gespeichert werden: \(error.localizedDescription)"
+                lastError = L("Zugriff auf „\(url.lastPathComponent)“ konnte nicht gespeichert werden: \(localizedMessage(error))")
                 continue
             }
             if !paths.contains(path) { paths.append(path) }
         }
-        writeLinks(paths, for: folder, actionName: "Ordner verknüpfen", undoManager: undoManager)
+        writeLinks(paths, for: folder, actionName: L("Ordner verknüpfen"), undoManager: undoManager)
     }
 
     /// Zugriff für einen Pfad aus dem Frontmatter erneut erlauben.
     func grantAccess(to path: String) {
         let panel = NSOpenPanel()
-        panel.title = "Zugriff erlauben"
-        panel.message = "Wähle den Ordner „\((path as NSString).lastPathComponent)“, damit Organizer ihn anzeigen darf."
-        panel.prompt = "Erlauben"
+        panel.title = L("Zugriff erlauben")
+        panel.message = L("Wähle den Ordner „\((path as NSString).lastPathComponent)“, damit Organizer ihn anzeigen darf.")
+        panel.prompt = L("Erlauben")
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.directoryURL = URL(filePath: path, directoryHint: .isDirectory)
         guard panel.runModal() == .OK, let url = panel.url else { return }
         let chosen = url.standardizedFileURL.path(percentEncoded: false).trimmingSuffix("/")
         guard chosen == path else {
-            lastError = "Du hast „\(chosen)“ gewählt, verknüpft ist aber „\(path)“. Wähle genau diesen Ordner oder verknüpfe den neuen zusätzlich."
+            lastError = L("Du hast „\(chosen)“ gewählt, verknüpft ist aber „\(path)“. Wähle genau diesen Ordner oder verknüpfe den neuen zusätzlich.")
             return
         }
         do {
@@ -167,13 +167,13 @@ final class FolderLinkService {
             accessing[path] = nil
             cache[path] = load(path)
         } catch {
-            lastError = error.localizedDescription
+            lastError = localizedMessage(error)
         }
     }
 
     func unlink(_ path: String, from folder: String, undoManager: UndoManager?) {
         let paths = linkedPaths(for: folder).filter { $0 != path }
-        writeLinks(paths, for: folder, actionName: "Verknüpfung entfernen", undoManager: undoManager)
+        writeLinks(paths, for: folder, actionName: L("Verknüpfung entfernen"), undoManager: undoManager)
     }
 
     // MARK: - _index.md schreiben
@@ -205,14 +205,14 @@ final class FolderLinkService {
                 let formatted = FrontmatterEditor.setting(Self.propertyKey, list: paths, in: content)
                 try writer.createFile(indexPath, content: formatted)
                 undoManager?.registerUndo(withTarget: self) { service in
-                    do { try writer.moveToTrash(indexPath) } catch { service.lastError = error.localizedDescription }
+                    do { try writer.moveToTrash(indexPath) } catch { service.lastError = localizedMessage(error) }
                     Task { await service.vault.rescan() }
                 }
             }
             undoManager?.setActionName(actionName)
             lastError = nil
         } catch {
-            lastError = "„\(indexPath)“ konnte nicht geschrieben werden: \(error.localizedDescription)"
+            lastError = L("„\(indexPath)“ konnte nicht geschrieben werden: \(localizedMessage(error))")
         }
         Task {
             await vault.rescan()
@@ -230,7 +230,7 @@ final class FolderLinkService {
             }
             undoManager?.setActionName(actionName)
         } catch {
-            lastError = error.localizedDescription
+            lastError = localizedMessage(error)
         }
         Task { await vault.rescan() }
     }

@@ -153,7 +153,7 @@ private struct FileRow: View {
             Button("Übersicht") { quickLookURL = file.url }
             Button("Im Finder zeigen") { NSWorkspace.shared.activateFileViewerSelecting([file.url]) }
         }
-        .help(file.isDirectory ? "Doppelklick öffnet den Ordner im Finder" : "Doppelklick öffnet die Datei")
+        .help(file.isDirectory ? L("Doppelklick öffnet den Ordner im Finder") : L("Doppelklick öffnet die Datei"))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { NSWorkspace.shared.open(file.url) }
     }

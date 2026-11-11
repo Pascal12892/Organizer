@@ -7,9 +7,9 @@ enum CaptureKind: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .task: "Aufgabe"
-        case .event: "Termin"
-        case .note: "Notiz"
+        case .task: L("Aufgabe")
+        case .event: L("Termin")
+        case .note: L("Notiz")
         }
     }
 
@@ -23,9 +23,9 @@ enum CaptureKind: String, CaseIterable {
 
     var placeholder: String {
         switch self {
-        case .task: "Aufgabe, z. B. „Hausarbeit Kapitel 2 bis Freitag #uni !!“"
-        case .event: "Termin, z. B. „Lerngruppe morgen 14 Uhr“"
-        case .note: "Titel der Notiz, z. B. „Idee für das Projekt #arbeit“"
+        case .task: L("Aufgabe, z. B. „Hausarbeit Kapitel 2 bis Freitag #uni !!“")
+        case .event: L("Termin, z. B. „Lerngruppe morgen 14 Uhr“")
+        case .note: L("Titel der Notiz, z. B. „Idee für das Projekt #arbeit“")
         }
     }
 }
@@ -113,13 +113,13 @@ struct QuickCaptureView: View {
                     Label("Ohne Datum", systemImage: "calendar")
                 }
                 if parsed.priority > .none {
-                    Label(parsed.priority.title, systemImage: "exclamationmark")
+                    Label(parsed.priority.localizedTitle, systemImage: "exclamationmark")
                 }
                 if let area = area(for: parsed) { Label(area, systemImage: SidebarItem.areaSymbol(for: area)) }
             case .event:
                 if let date = parsed.date {
                     Label(parsed.hasTime ? date.formatted(.dateTime.weekday(.abbreviated).day().month().hour().minute())
-                                         : date.formatted(.dateTime.weekday(.abbreviated).day().month()) + ", ganztägig",
+                                         : date.formatted(.dateTime.weekday(.abbreviated).day().month()) + L(", ganztägig"),
                           systemImage: "clock")
                 } else {
                     Label("Wann? z. B. „Freitag 14 Uhr“", systemImage: "questionmark.circle")
@@ -145,30 +145,30 @@ struct QuickCaptureView: View {
             model.tasks.add(title: title, due: parsed.date.map { Calendar.current.startOfDay(for: $0) },
                             priority: parsed.priority, area: area(for: parsed), topic: topic(for: parsed), undoManager: undo)
             if let error = model.tasks.lastError { return show(error, isError: true) }
-            finish("Aufgabe „\(title)“ angelegt")
+            finish(L("Aufgabe „\(title)“ angelegt"))
 
         case .event:
             guard model.calendar.access == .fullAccess else {
-                return show("Erlaube zuerst den Zugriff auf den Kalender (Kalenderansicht).", isError: true)
+                return show(L("Erlaube zuerst den Zugriff auf den Kalender (Kalenderansicht)."), isError: true)
             }
-            guard let start = parsed.date else { return show("Wann? Zum Beispiel „Freitag 14 Uhr“.", isError: true) }
-            guard let calendarID = model.calendar.defaultCalendarID else { return show("Kein beschreibbarer Kalender vorhanden.", isError: true) }
+            guard let start = parsed.date else { return show(L("Wann? Zum Beispiel „Freitag 14 Uhr“."), isError: true) }
+            guard let calendarID = model.calendar.defaultCalendarID else { return show(L("Kein beschreibbarer Kalender vorhanden."), isError: true) }
             do {
                 try model.createEvent(title: title, start: start,
                                       end: parsed.hasTime ? start.addingTimeInterval(3600) : start,
                                       isAllDay: !parsed.hasTime, calendarID: calendarID, notes: nil, undoManager: undo)
-                finish("Termin „\(title)“ angelegt")
+                finish(L("Termin „\(title)“ angelegt"))
             } catch {
-                show(error.localizedDescription, isError: true)
+                show(localizedMessage(error), isError: true)
             }
 
         case .note:
             Task {
                 do {
                     try await model.createNote(title: title, folder: noteFolder(for: parsed), openInEditor: style == .inline, undoManager: undo)
-                    finish("Notiz „\(title)“ angelegt")
+                    finish(L("Notiz „\(title)“ angelegt"))
                 } catch {
-                    show(error.localizedDescription, isError: true)
+                    show(localizedMessage(error), isError: true)
                 }
             }
         }
