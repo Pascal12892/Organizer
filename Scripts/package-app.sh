@@ -23,6 +23,9 @@ MCP="$(swift build "${MCP_ARGS[@]}" --show-bin-path)/organizer-mcp"
 mkdir -p "$APP/Contents/Helpers"
 cp "$MCP" "$APP/Contents/Helpers/organizer-mcp"
 
+cp "$PROJECT/LICENSE" "$APP/Contents/Resources/LICENSE.txt"
+cp "$PROJECT/THIRD-PARTY-NOTICES.md" "$APP/Contents/Resources/THIRD-PARTY-NOTICES.md"
+
 echo "3/4 Signiere neu (ohne Entwicklerkonto: lokal signiert) …"
 ENTITLEMENTS="$BUILD/Organizer.entitlements.plist"
 codesign -d --entitlements :- "$APP" > "$ENTITLEMENTS" 2>/dev/null
@@ -36,6 +39,8 @@ rm -rf "$STAGE" && mkdir -p "$STAGE" "$DIST"
 ditto "$APP" "$STAGE/Organizer.app"
 ln -s /Applications "$STAGE/Programme"
 cp "$PROJECT/Scripts/Erste Schritte.txt" "$STAGE/Erste Schritte – Getting Started.txt"
+cp "$PROJECT/LICENSE" "$STAGE/Lizenz – License.txt"
+cp "$PROJECT/THIRD-PARTY-NOTICES.md" "$STAGE/Drittanbieter – Third-Party Notices.md"
 DMG="$DIST/Organizer-$VERSION.dmg"
 rm -f "$DMG"
 hdiutil create -volname "Organizer $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null

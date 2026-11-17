@@ -1,90 +1,116 @@
-# Organizer
+<p align="center">
+  <img src="Design/AppIcon-1024.png" width="128" alt="Organizer-Symbol">
+</p>
 
-Lokale macOS-App (macOS 26+, SwiftUI) als Zentrale für Obsidian-Vault, Apple Kalender, Aufgaben und Roadmap.
-Kein Server, keine Cloud, kein Account.
+<h1 align="center">Organizer</h1>
 
-- `Organizer/` – App (MVVM: `App/`, `Services/`, `ViewModels/`, `Views/`)
-- `Packages/OrganizerCore/` – Modelle und Parser ohne UI, mit Unit Tests
-- `Samples/Beispiel-Vault/` – kleiner Vault zum Ausprobieren
-- `Docs/VAULT-FORMAT.md` – welche Dateien Organizer wie liest und schreibt
+<p align="center">
+  Notizen aus Obsidian, Apple Kalender, Aufgaben mit Deadlines und eine Roadmap – in einer Mac-App.<br>
+  Lokal, ohne Server, ohne Cloud, ohne Account.
+</p>
 
-## Bauen und testen
+<p align="center">
+  <a href="#download">Download</a> ·
+  <a href="#funktionen">Funktionen</a> ·
+  <a href="#erste-schritte">Erste Schritte</a> ·
+  <a href="Docs/VAULT-FORMAT.md">Dateiformat</a> ·
+  <a href="Docs/ENTWICKLUNG.md">Entwicklung</a> ·
+  <a href="#english">English</a>
+</p>
 
-    open Organizer.xcodeproj                                    # in Xcode: ⌘R (Debug, zum Entwickeln)
-    Scripts/install-app.sh                                      # optimierter Build nach /Applications – für den Alltag
-    Scripts/package-app.sh                                      # DMG zum Weitergeben → dist/Organizer-<Version>.dmg
-    cd Packages/OrganizerCore && swift test                     # Parser-Tests
+---
 
-Die App läuft in der Sandbox. Der Zugriff auf den Vault wird als Security-Scoped Bookmark gespeichert.
-Bei lokaler Ad-hoc-Signierung kann ein Bookmark nach einem Neubuild ungültig werden. Organizer fragt dann nach dem Ordner.
-Mit einem Apple-ID-Team unter *Signing & Capabilities* passiert das nicht.
+## Die Idee
 
-## Schnellerfassung
+Obsidian bleibt die einzige Quelle. Organizer liest und schreibt ganz normale Markdown-Dateien in deinem Vault –
+alles, was die App anlegt, ist in Obsidian ohne Organizer lesbar und bearbeitbar. Dazu kommen deine Termine aus
+dem Apple Kalender, Aufgaben mit Deadlines und eine Roadmap für Projekte, in einer Oberfläche, die sich wie eine
+App von Apple anfühlt.
 
-Systemweit mit **⌃⌥ Leertaste** (änderbar unter Einstellungen › Allgemein) oder im Dashboard.
-⇥ wechselt zwischen Aufgabe, Termin und Notiz, ⏎ speichert, esc schließt.
+## Funktionen
 
-Verstanden werden u. a.: heute, morgen, übermorgen, Freitag, nächsten Montag, nächste Woche, Ende der Woche,
-in 3 Tagen, in zwei Wochen, 20.11., 20. November, 2026-11-20, 14 Uhr, um 9, 18:30, abends –
-dazu `!`/`!!`/`!!!` als Priorität und `#bereich` zur Zuordnung.
+- **Dashboard** – Termine heute und morgen, fällige Aufgaben, zuletzt bearbeitete Notizen, nächste Meilensteine.
+- **Notizen** – der Ordnerbaum deines Vaults, Volltextsuche, Markdown-Vorschau, Bearbeiten mit automatischem Speichern,
+  „In Obsidian öffnen“. Änderungen aus Obsidian erscheinen sofort.
+- **Aufgaben** – jede Zeile `- [ ] …` im Vault, im Format des Obsidian-Plugins [Tasks](https://publish.obsidian.md/tasks/):
+  Heute, Diese Woche, nach Bereich, Erledigt. Abhaken, Datum, Priorität – geändert wird immer genau eine Zeile.
+- **Kalender** – Tag, Woche, Monat aus dem Apple Kalender; Termine anlegen; fällige Aufgaben per Drag and Drop verschieben.
+- **Roadmap** – Projekte mit Meilensteinen als Zeitleiste, Fortschritt aus den Aufgaben.
+- **Mac-Ordner pro Thema** – Projektordner vom Schreibtisch mit einem Thema verknüpfen.
+- **Schnellerfassung** – mit ⌃⌥ Leertaste aus jeder App: „Hausarbeit bis Freitag #uni !!“ wird eine Aufgabe mit Datum,
+  Bereich und Priorität.
+- **Apple Erinnerungen** (optional) – Aufgaben mit Datum auch auf dem iPhone; Abhaken dort landet wieder im Markdown.
+- **Menüleiste, Mitteilungen, Widgets** – heute auf einen Blick, Erinnerung am Fälligkeitstag.
+- **Claude** (optional) – über [MCP](https://modelcontextprotocol.io) mit Claude Code oder Claude Desktop: Claude legt
+  Notizen, Aufgaben und Termine an – über dein eigenes Claude-Abo, Organizer selbst bleibt offline.
+- **Deutsch, English, العربية** – umschaltbar in den Einstellungen.
 
-## Drag and Drop
+## Download
 
-- Aufgaben auf einen Tag im Kalender ziehen → Fälligkeit.
-- Notizen auf einen Ordner in der Seitenleiste ziehen → verschieben (Bereich/Thema im Frontmatter werden angepasst).
-- Ordner aus dem Finder auf einen Ordner in der Seitenleiste ziehen → als Mac-Ordner verknüpfen.
+Die aktuelle Version gibt es unter [**Releases**](../../releases) als `Organizer-<Version>.dmg`.
 
-Alles lässt sich mit ⌘Z rückgängig machen.
+**Voraussetzung:** macOS 26 oder neuer, Apple Silicon oder Intel.
 
-## Claude über MCP (mit deinem Claude-Abo)
+1. DMG öffnen und **Organizer** auf **Programme** ziehen.
+2. Beim ersten Start meldet macOS, dass Apple die App nicht überprüfen konnte – sie kommt nicht aus dem App Store.
+   Öffnen trotzdem: **Systemeinstellungen › Datenschutz & Sicherheit › „Trotzdem öffnen“** (nur einmal nötig).
 
-Organizer bringt einen MCP-Server mit (`Packages/OrganizerCore/Sources/organizer-mcp`). Damit nutzt Claude in der
-Desktop-App oder in Claude Code – über dein Abo, ohne API-Schlüssel – deinen Vault, deine Aufgaben und den Kalender:
-Notizen suchen, lesen, anlegen und ergänzen, Aufgaben ansehen, anlegen und ändern, Roadmap ansehen, Termine ansehen und anlegen.
+## Erste Schritte
 
-1. Einmalig installieren: `Scripts/install-mcp.sh` (legt `~/.local/bin/organizer-mcp` an).
-2. Verbinden – die fertigen Befehle mit deinem Vault-Pfad stehen in Organizer unter Einstellungen › Claude:
-   - Claude Code: `claude mcp add --scope user organizer -- ~/.local/bin/organizer-mcp --vault "/Pfad/zum/Vault"`
-   - Claude Desktop: Eintrag `organizer` unter `mcpServers` in `claude_desktop_config.json`.
+1. **Vault wählen** – Ablage › Vault öffnen … (⇧⌘O). Jeder Ordner mit `.md`-Dateien funktioniert, auch ohne Obsidian.
+2. **Bereiche** – Ordner auf oberster Ebene sind Bereiche (z. B. `Uni`, `Arbeit`), ihre Unterordner Themen.
+3. **Kalender, Erinnerungen, Mitteilungen** – erlauben, wenn macOS fragt (alles optional).
+4. **Sprache** – Einstellungen (⌘,) › Allgemein › Sprache.
 
-Claude fragt vor jedem Werkzeugaufruf. Der Server schreibt wie Organizer nur zeilengenau und überschreibt nie Dateien.
-Organizer selbst braucht dafür keinen Internetzugang.
+Wichtige Tastenkürzel: ⌘1–⌘5 Bereiche · ⌘N neu · ⌘F suchen · ⌘E bearbeiten · ⌃⌥ Leertaste Schnellerfassung · ⌘Z rückgängig.
 
-## Menüleiste, Mitteilungen, Widgets
+## Datenschutz
 
-- **Menüleiste:** Symbol mit den Terminen und Aufgaben von heute und einer Schnellerfassung
-  (abschaltbar unter Einstellungen › Allgemein).
-- **Mitteilungen:** Erinnerung am Fälligkeitstag zur gewählten Uhrzeit, für Aufgaben und Meilensteine.
-  In der Mitteilung lässt sich eine Aufgabe direkt abhaken.
-- **Widgets:** „Heutige Aufgaben“ und „Nächste Termine“ für den Schreibtisch und die Mitteilungszentrale.
-  Die App schreibt dafür einen kleinen Auszug in einen gemeinsamen App-Group-Container.
-  **Voraussetzung:** In Xcode unter *Signing & Capabilities* für beide Targets (Organizer, OrganizerWidgets)
-  dein Team auswählen. Ohne Team gibt es keine gültige App Group, die Widgets zeigen dann nur einen Hinweis.
+- Organizer arbeitet **vollständig lokal** und hat **keinen Internetzugang** (App-Sandbox ohne Netzwerkrecht).
+- Zugriff nur auf Ordner, die du ausdrücklich auswählst, und – wenn du es erlaubst – auf Kalender und Erinnerungen.
+- Keine Analyse, keine Telemetrie, kein Account.
+- Die optionale Claude-Anbindung läuft über die Claude-App bzw. Claude Code mit deinem eigenen Konto; Organizer
+  sendet selbst nichts.
 
-## Tastatur
+## Dein Vault bleibt deiner
 
-| Kürzel | Aktion |
-|---|---|
-| ⌘1 … ⌘5 | Dashboard, Notizen, Kalender, Aufgaben, Roadmap |
-| ⌘N | Neue Notiz (im Kalender: Termin, in Aufgaben: Aufgabe) |
-| ⌥⌘N | Neuer Ordner |
-| ⌘F | Suchen |
-| ⌘E | Bearbeiten / Vorschau |
-| ⌥⌘O | In Obsidian öffnen |
-| Leertaste | Quick Look (Notizliste), abhaken (Aufgaben) |
-| ⏎ | Notiz bearbeiten, im Kalender Tag öffnen |
-| ⌘← ⌘→ ⌘T | Kalender zurück, weiter, heute |
-| ⌃⌥ Leertaste | Schnellerfassung aus jeder App |
-| ⌘Z / ⇧⌘Z | Rückgängig / Wiederholen |
+- Organizer überschreibt keine Dateien ungefragt und ändert bei Aufgaben immer nur die betroffene Zeile.
+- Vor jedem Speichern wird geprüft, ob die Datei inzwischen in Obsidian geändert wurde – dann gewinnt nichts ungefragt.
+- Fast alles lässt sich mit ⌘Z rückgängig machen.
+- Das genaue Format (Frontmatter, Aufgaben, Roadmap, verknüpfte Ordner) steht in [Docs/VAULT-FORMAT.md](Docs/VAULT-FORMAT.md).
 
-## Sprachen
+## Selbst bauen
 
-Deutsch, English und العربية (Einstellungen › Allgemein › Sprache, wirkt nach Neustart; Arabisch von rechts nach links).
-Texte stehen in `Organizer/Localizable.xcstrings`. Im Code: SwiftUI-Literale werden automatisch übersetzt,
-alles andere läuft über `L("…")`. Daten im Vault (Frontmatter-Schlüssel, Status, Dateinamen) bleiben bewusst deutsch.
+Voraussetzungen: Xcode 27 (macOS 26 SDK).
 
-## Weitergeben
+```bash
+git clone https://github.com/Pascal12892/Organizer.git
+cd Organizer
+open Organizer.xcodeproj                 # ⌘R in Xcode
+Scripts/package-app.sh                   # DMG unter dist/
+cd Packages/OrganizerCore && swift test  # Tests
+```
 
-`Scripts/package-app.sh` baut eine universelle App (Apple Silicon und Intel) mit eingebautem MCP-Server und packt sie
-mit Kurzanleitung in ein DMG. Ohne Apple-Entwicklerkonto ist sie nur lokal signiert: Empfänger müssen sie einmal unter
-Systemeinstellungen › Datenschutz & Sicherheit › „Trotzdem öffnen“ freigeben. Voraussetzung: macOS 26.
+Mehr dazu in [Docs/ENTWICKLUNG.md](Docs/ENTWICKLUNG.md).
+
+## Lizenz
+
+[MIT](LICENSE) © 2026 Pascal Lupo. Verwendete Open-Source-Komponenten: [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+Organizer ist ein unabhängiges Projekt und steht in keiner Verbindung zu Obsidian, Apple oder Anthropic.
+
+---
+
+## English
+
+**Organizer** is a local macOS app that brings your Obsidian notes, Apple Calendar, tasks with deadlines and a project
+roadmap together in one place. Obsidian stays the single source of truth: Organizer reads and writes plain Markdown
+files in your vault (tasks use the format of the Obsidian [Tasks](https://publish.obsidian.md/tasks/) plugin).
+No server, no cloud, no account – and no network access at all.
+
+- Download the DMG from [Releases](../../releases). Requires macOS 26 or later (Apple Silicon or Intel).
+  On first launch, allow it via *System Settings › Privacy & Security › Open Anyway*, since it is not from the App Store.
+- Choose your vault with *File › Open Vault …* (⇧⌘O). Switch the language to English in *Settings › General › Language*.
+- Optional: sync tasks with Apple Reminders, connect Claude Code or Claude Desktop via MCP.
+
+Licensed under the [MIT License](LICENSE).
