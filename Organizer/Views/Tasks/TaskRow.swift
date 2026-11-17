@@ -9,6 +9,7 @@ struct TaskRow: View {
     var showsArea = true
 
     @State private var isCompleting = false
+    @State private var showsDuePicker = false
     @State private var isEditingTitle = false
     @State private var draftTitle = ""
     @FocusState private var titleFocused: Bool
@@ -59,7 +60,10 @@ struct TaskRow: View {
         .draggable(DragPayload.task(task.id)) {
             Label(task.title, systemImage: "checklist").padding(6)
         }
-        .contextMenu { TaskMenuItems(task: task) }
+        .contextMenu { TaskMenuItems(task: task) { showsDuePicker = true } }
+        .popover(isPresented: $showsDuePicker, arrowEdge: .trailing) {
+            DuePicker(initial: task.due) { model.tasks.setDue(task, $0, undoManager: undoManager) }
+        }
         .swipeActions(edge: .leading) {
             Button(task.isOpen ? "Erledigt" : "Öffnen", systemImage: task.isOpen ? "checkmark" : "arrow.uturn.backward") {
                 model.tasks.setDone(task, task.isOpen, undoManager: undoManager)
@@ -79,13 +83,18 @@ struct TaskRow: View {
     private var details: some View {
         HStack(spacing: 10) {
             if let date = task.relevantDate {
-                Label {
-                    Text(Self.relativeDay(date))
-                } icon: {
-                    Image(systemName: task.due == nil ? "clock" : "calendar")
+                Button {
+                    showsDuePicker = true
+                } label: {
+                    Label {
+                        Text(Self.relativeDay(date))
+                    } icon: {
+                        Image(systemName: task.due == nil ? "clock" : "calendar")
+                    }
                 }
+                .buttonStyle(.plain)
                 .foregroundStyle(isOverdue ? AnyShapeStyle(.red) : AnyShapeStyle(.secondary))
-                .help(task.due == nil ? L("Geplant") : L("Fällig"))
+                .help(task.due == nil ? L("Geplant – klicken zum Ändern") : L("Fällig – klicken zum Ändern"))
             }
             if task.recurrence != nil {
                 Image(systemName: "repeat")
@@ -160,6 +169,8 @@ struct TaskMenuItems: View {
     @Environment(AppModel.self) private var model
     @Environment(\.undoManager) private var undoManager
     let task: TaskItem
+    /// Öffnet den Kalender zur Datumswahl (vom Aufrufer, weil ein Kontextmenü kein Popover zeigen kann).
+    var chooseDate: (() -> Void)? = nil
 
     var body: some View {
         Button(task.isOpen ? L("Als erledigt markieren") : L("Wieder öffnen")) {
@@ -173,6 +184,9 @@ struct TaskMenuItems: View {
             Button("Morgen") { setDue(calendar.date(byAdding: .day, value: 1, to: today)) }
             Button("Nächste Woche") {
                 setDue(calendar.nextDate(after: today, matching: DateComponents(weekday: calendar.firstWeekday), matchingPolicy: .nextTime))
+            }
+            if let chooseDate {
+                Button("Datum wählen …", action: chooseDate)
             }
             if task.due != nil {
                 Divider()

@@ -116,9 +116,14 @@ private struct NewTaskField: View {
 
     @State private var title = ""
     @State private var due: Date?
+    @State private var showsDuePicker = false
     @FocusState private var focused: Bool
 
     var body: some View {
+        // Ein Datum im Text („bis Freitag“, „25.11.“) hat Vorrang vor der Auswahl rechts.
+        let parsed = NaturalDateParser.parse(title)
+        let effectiveDue = parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due
+
         HStack(spacing: 10) {
             Image(systemName: "plus.circle.fill")
                 .font(.title3)
@@ -136,14 +141,18 @@ private struct NewTaskField: View {
                 Button("Nächste Woche") {
                     due = calendar.nextDate(after: today, matching: DateComponents(weekday: calendar.firstWeekday), matchingPolicy: .nextTime)
                 }
+                Button("Datum wählen …") { showsDuePicker = true }
                 Divider()
                 Button("Ohne Datum") { due = nil }
             } label: {
-                Label(due.map(TaskRow.relativeDay) ?? "Ohne Datum", systemImage: "calendar")
+                Label(effectiveDue.map(TaskRow.relativeDay) ?? L("Ohne Datum"), systemImage: "calendar")
             }
             .menuStyle(.borderlessButton)
             .fixedSize()
-            .help("Fälligkeit")
+            .help(parsed.date != nil ? L("Datum aus dem Text erkannt") : L("Fälligkeit"))
+            .popover(isPresented: $showsDuePicker, arrowEdge: .top) {
+                DuePicker(initial: due) { due = $0 }
+            }
 
             if let area = model.taskAreaFilter {
                 Text(area)
@@ -161,7 +170,10 @@ private struct NewTaskField: View {
     }
 
     private func add() {
-        model.tasks.add(title: title, due: due, area: model.taskAreaFilter, topic: nil, undoManager: undoManager)
+        let parsed = NaturalDateParser.parse(title)
+        let dueDate = parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due
+        model.tasks.add(title: parsed.title.isEmpty ? title : parsed.title, due: dueDate, priority: parsed.priority,
+                        area: model.taskAreaFilter, topic: nil, undoManager: undoManager)
         title = ""
         focused = true
     }

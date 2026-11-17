@@ -1405,6 +1405,54 @@
         }
       }
     },
+    "Datum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التاريخ"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
+    "Datum aus dem Text erkannt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم التعرّف على التاريخ من النص"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date recognized from the text"
+          }
+        }
+      }
+    },
+    "Datum wählen …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار التاريخ …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Date …"
+          }
+        }
+      }
+    },
     "Den Eintrag „organizer“ in „mcpServers“ der Datei claude_desktop_config.json einfügen und Claude neu starten.": {
       "localizations": {
         "ar": {
@@ -2061,6 +2109,22 @@
         }
       }
     },
+    "Fällig – klicken zum Ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستحقة – انقر للتغيير"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Due – click to change"
+          }
+        }
+      }
+    },
     "Fälligkeit": {
       "localizations": {
         "ar": {
@@ -2185,6 +2249,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Planned"
+          }
+        }
+      }
+    },
+    "Geplant – klicken zum Ändern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطط لها – انقر للتغيير"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planned – click to change"
           }
         }
       }
@@ -6444,6 +6524,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Overdue"
+          }
+        }
+      }
+    },
+    "Übernehmen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
           }
         }
       }
