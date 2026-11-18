@@ -43,5 +43,5 @@ cp "$PROJECT/LICENSE" "$STAGE/Lizenz – License.txt"
 cp "$PROJECT/THIRD-PARTY-NOTICES.md" "$STAGE/Drittanbieter – Third-Party Notices.md"
 DMG="$DIST/Organizer-$VERSION.dmg"
 rm -f "$DMG"
-hdiutil create -volname "Organizer $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
+hdiutil create -volname "Organizer $VERSION" -srcfolder "$STAGE" -ov -format ULMO "$DMG" >/dev/null
 echo "Fertig: $DMG ($(du -h "$DMG" | cut -f1))"
