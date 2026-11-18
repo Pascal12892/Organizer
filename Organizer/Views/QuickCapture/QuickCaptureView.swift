@@ -41,6 +41,8 @@ struct QuickCaptureView: View {
 
     @State private var kind: CaptureKind = .task
     @State private var text = ""
+    /// Im Menü gewähltes Fälligkeitsdatum (ein Datum im Text hat Vorrang).
+    @State private var due: Date?
     @State private var message: (text: String, isError: Bool)?
     @FocusState private var focused: Bool
 
@@ -64,6 +66,9 @@ struct QuickCaptureView: View {
                         return .handled
                     }
                     .accessibilityLabel("Schnellerfassung: \(kind.title)")
+                if kind == .task {
+                    DueMenuButton(due: $due, detected: parsed.date)
+                }
                 Picker("Art", selection: $kind) {
                     ForEach(CaptureKind.allCases, id: \.self) { kind in
                         Label(kind.title, systemImage: kind.systemImage).tag(kind)
@@ -103,7 +108,7 @@ struct QuickCaptureView: View {
         HStack(spacing: 12) {
             switch kind {
             case .task:
-                if let date = parsed.date {
+                if let date = parsed.date ?? due {
                     Label(TaskRow.relativeDay(date), systemImage: "calendar")
                     if parsed.hasTime {
                         Text("Uhrzeit wird bei Aufgaben nicht gespeichert")
@@ -142,7 +147,7 @@ struct QuickCaptureView: View {
         switch kind {
         case .task:
             model.tasks.lastError = nil
-            model.tasks.add(title: title, due: parsed.date.map { Calendar.current.startOfDay(for: $0) },
+            model.tasks.add(title: title, due: parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due,
                             priority: parsed.priority, area: area(for: parsed), topic: topic(for: parsed), undoManager: undo)
             if let error = model.tasks.lastError { return show(error, isError: true) }
             finish(L("Aufgabe „\(title)“ angelegt"))
@@ -176,6 +181,7 @@ struct QuickCaptureView: View {
 
     private func finish(_ text: String) {
         self.text = ""
+        due = nil
         show(text, isError: false)
         if let onDone {
             Task {

@@ -144,13 +144,11 @@ private struct NewTaskField: View {
 
     @State private var title = ""
     @State private var due: Date?
-    @State private var showsDuePicker = false
     @FocusState private var focused: Bool
 
     var body: some View {
         // Ein Datum im Text („bis Freitag“, „25.11.“) hat Vorrang vor der Auswahl rechts.
         let parsed = NaturalDateParser.parse(title)
-        let effectiveDue = parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due
 
         HStack(spacing: 10) {
             Image(systemName: "plus.circle.fill")
@@ -161,26 +159,7 @@ private struct NewTaskField: View {
                 .focused($focused)
                 .onSubmit(add)
 
-            Menu {
-                let calendar = Calendar.current
-                let today = calendar.startOfDay(for: .now)
-                Button("Heute") { due = today }
-                Button("Morgen") { due = calendar.date(byAdding: .day, value: 1, to: today) }
-                Button("Nächste Woche") {
-                    due = calendar.nextDate(after: today, matching: DateComponents(weekday: calendar.firstWeekday), matchingPolicy: .nextTime)
-                }
-                Button("Datum wählen …") { showsDuePicker = true }
-                Divider()
-                Button("Ohne Datum") { due = nil }
-            } label: {
-                Label(effectiveDue.map(TaskRow.relativeDay) ?? L("Ohne Datum"), systemImage: "calendar")
-            }
-            .menuStyle(.borderlessButton)
-            .fixedSize()
-            .help(parsed.date != nil ? L("Datum aus dem Text erkannt") : L("Fälligkeit"))
-            .popover(isPresented: $showsDuePicker, arrowEdge: .top) {
-                DuePicker(initial: due) { due = $0 }
-            }
+            DueMenuButton(due: $due, detected: parsed.date)
 
             if let area = model.taskAreaFilter {
                 Text(area)

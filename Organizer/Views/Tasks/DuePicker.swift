@@ -55,6 +55,39 @@ struct DuePicker: View {
     }
 }
 
+/// Datumsknopf für Eingabezeilen neuer Aufgaben (Aufgabenliste, Dashboard, Schnellerfassung).
+/// Ein im Text erkanntes Datum („bis Freitag“) hat Vorrang und wird angezeigt.
+struct DueMenuButton: View {
+    @Binding var due: Date?
+    /// Aus dem eingegebenen Text erkanntes Datum.
+    var detected: Date?
+    @State private var showsPicker = false
+
+    var body: some View {
+        let effective = detected.map { Calendar.current.startOfDay(for: $0) } ?? due
+        Menu {
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: .now)
+            Button("Heute") { due = today }
+            Button("Morgen") { due = calendar.date(byAdding: .day, value: 1, to: today) }
+            Button("Nächste Woche") {
+                due = calendar.nextDate(after: today, matching: DateComponents(weekday: calendar.firstWeekday), matchingPolicy: .nextTime)
+            }
+            Button("Datum wählen …") { showsPicker = true }
+            Divider()
+            Button("Ohne Datum") { due = nil }
+        } label: {
+            Label(effective.map(TaskRow.relativeDay) ?? L("Ohne Datum"), systemImage: "calendar")
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .help(detected != nil ? L("Datum aus dem Text erkannt") : L("Fälligkeit"))
+        .popover(isPresented: $showsPicker, arrowEdge: .bottom) {
+            DuePicker(initial: due) { due = $0 }
+        }
+    }
+}
+
 #Preview("Hell") {
     DuePicker(initial: .now) { _ in }
 }
