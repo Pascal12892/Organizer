@@ -348,6 +348,39 @@ final class AppModel {
         undoManager?.setActionName(L("Termin anlegen"))
     }
 
+    /// Termin löschen; Einzeltermine lassen sich mit ⌘Z wiederherstellen.
+    func deleteEvent(_ event: CalendarEventInfo, futureEvents: Bool = false, undoManager: UndoManager?) {
+        do {
+            if let deleted = try calendar.deleteEvent(event, futureEvents: futureEvents) {
+                registerEventRestore(deleted, undoManager: undoManager)
+            }
+        } catch {
+            writeError = L("Termin konnte nicht gelöscht werden: \(localizedMessage(error))")
+        }
+    }
+
+    private func registerEventRestore(_ deleted: CalendarService.DeletedEvent, undoManager: UndoManager?) {
+        guard let undoManager else { return }
+        undoManager.registerUndo(withTarget: self) { model in
+            do {
+                let id = try model.calendar.restore(deleted)
+                // Wiederholen löscht den wiederhergestellten Termin erneut.
+                undoManager.registerUndo(withTarget: model) { model in
+                    do {
+                        try model.calendar.removeEvent(withID: id)
+                        model.registerEventRestore(deleted, undoManager: undoManager)
+                    } catch {
+                        model.writeError = L("Termin konnte nicht gelöscht werden: \(localizedMessage(error))")
+                    }
+                }
+                undoManager.setActionName(L("Termin löschen"))
+            } catch {
+                model.writeError = L("Termin konnte nicht wiederhergestellt werden: \(localizedMessage(error))")
+            }
+        }
+        undoManager.setActionName(L("Termin löschen"))
+    }
+
     func openInObsidian(_ note: Note) {
         guard let vaultName = vault.vaultName, let url = ObsidianURL.open(vaultName: vaultName, relativePath: note.relativePath) else { return }
         guard NSWorkspace.shared.urlForApplication(toOpen: url) != nil else {

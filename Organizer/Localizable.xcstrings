@@ -637,6 +637,22 @@
         }
       }
     },
+    "Alle zukünftigen löschen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف كل المواعيد القادمة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete All Future Events"
+          }
+        }
+      }
+    },
     "Alles erledigt für heute": {
       "localizations": {
         "ar": {
@@ -1581,6 +1597,22 @@
         }
       }
     },
+    "Der Kalender „%@“ ist schreibgeschützt.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم «%@» للقراءة فقط."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The calendar “%@” is read-only."
+          }
+        }
+      }
+    },
     "Der Ordner ist leer.": {
       "localizations": {
         "ar": {
@@ -1593,6 +1625,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "The folder is empty."
+          }
+        }
+      }
+    },
+    "Der Termin existiert nicht mehr.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموعد لم يعد موجودًا."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The event no longer exists."
           }
         }
       }
@@ -3856,6 +3904,22 @@
         }
       }
     },
+    "Möchtest du nur diesen Termin oder alle zukünftigen Termine der Serie löschen?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل تريد حذف هذا الموعد فقط أم كل المواعيد القادمة في السلسلة؟"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do you want to delete only this event or all future events in the series?"
+          }
+        }
+      }
+    },
     "Nach Bereich filtern": {
       "localizations": {
         "ar": {
@@ -4636,6 +4700,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Only the folders listed below are areas and appear in the sidebar."
+          }
+        }
+      }
+    },
+    "Nur diesen Termin löschen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذا الموعد فقط"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Only This Event"
           }
         }
       }
@@ -5760,6 +5840,22 @@
         }
       }
     },
+    "Termin konnte nicht gelöscht werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر حذف الموعد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t delete the event: %@"
+          }
+        }
+      }
+    },
     "Termin konnte nicht gespeichert werden: %@": {
       "localizations": {
         "ar": {
@@ -5772,6 +5868,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "The event could not be saved: %@"
+          }
+        }
+      }
+    },
+    "Termin konnte nicht wiederhergestellt werden: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذرت استعادة الموعد: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t restore the event: %@"
+          }
+        }
+      }
+    },
+    "Termin löschen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الموعد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Event"
+          }
+        }
+      }
+    },
+    "Termin löschen (⌫)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الموعد (⌫)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Event (⌫)"
           }
         }
       }
@@ -6892,6 +7036,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "“%@” doesn’t exist in the vault yet."
+          }
+        }
+      }
+    },
+    "„%@“ ist ein wiederholter Termin. Das lässt sich nicht rückgängig machen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«%@» موعد متكرر. لا يمكن التراجع عن ذلك."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%@” is a repeating event. This can’t be undone."
           }
         }
       }

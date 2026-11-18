@@ -7,9 +7,11 @@ struct EventChip: View {
     enum Style { case compact, block }
 
     @Environment(AppModel.self) private var model
+    @Environment(\.undoManager) private var undoManager
     let event: CalendarEventInfo
     let style: Style
     @State private var showsDetails = false
+    @State private var asksRecurringDelete = false
 
     var body: some View {
         let color = model.calendar.color(for: event.calendarID)
@@ -24,13 +26,45 @@ struct EventChip: View {
         }
         .buttonStyle(.plain)
         .popover(isPresented: $showsDetails, arrowEdge: .trailing) {
-            EventDetailView(event: event) {
+            EventDetailView(event: event, createNote: {
                 showsDetails = false
                 model.createNote(for: event)
+            }, delete: model.calendar.canModify(event) ? {
+                showsDetails = false
+                delete()
+            } : nil)
+        }
+        .contextMenu {
+            Button("Notiz zum Termin anlegen …") { model.createNote(for: event) }
+                .disabled(model.vault.state != .ready)
+            Divider()
+            Button("Löschen", role: .destructive, action: delete)
+                .disabled(!model.calendar.canModify(event))
+        }
+        // Wie in Apple Kalender: Bei Serienterminen nachfragen.
+        .confirmationDialog("Möchtest du nur diesen Termin oder alle zukünftigen Termine der Serie löschen?",
+                            isPresented: $asksRecurringDelete) {
+            Button("Nur diesen Termin löschen", role: .destructive) {
+                model.deleteEvent(event, futureEvents: false, undoManager: undoManager)
             }
+            Button("Alle zukünftigen löschen", role: .destructive) {
+                model.deleteEvent(event, futureEvents: true, undoManager: undoManager)
+            }
+            Button("Abbrechen", role: .cancel) {}
+        } message: {
+            Text("„\(event.title)“ ist ein wiederholter Termin. Das lässt sich nicht rückgängig machen.")
         }
         .help(event.title)
         .accessibilityLabel(accessibilityText)
+    }
+
+    /// Einzeltermine werden sofort gelöscht (⌘Z stellt sie wieder her), Serien erst nach Rückfrage.
+    private func delete() {
+        if event.isRecurring {
+            asksRecurringDelete = true
+        } else {
+            model.deleteEvent(event, undoManager: undoManager)
+        }
     }
 
     @ViewBuilder
@@ -97,6 +131,8 @@ struct EventDetailView: View {
     @Environment(AppModel.self) private var model
     let event: CalendarEventInfo
     let createNote: () -> Void
+    /// `nil` bei schreibgeschützten Kalendern.
+    var delete: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -129,9 +165,23 @@ struct EventDetailView: View {
 
             Divider()
 
-            Button("Notiz zum Termin anlegen …", systemImage: "note.text.badge.plus", action: createNote)
-                .disabled(model.vault.state != .ready)
-                .help("Legt eine Notiz an, die im Frontmatter auf diesen Termin verweist")
+            HStack {
+                Button("Notiz zum Termin anlegen …", systemImage: "note.text.badge.plus", action: createNote)
+                    .disabled(model.vault.state != .ready)
+                    .help("Legt eine Notiz an, die im Frontmatter auf diesen Termin verweist")
+                Spacer()
+                if let delete {
+                    Button(role: .destructive, action: delete) {
+                        Label("Löschen", systemImage: "trash")
+                            .labelStyle(.iconOnly)
+                    }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.red)
+                    .keyboardShortcut(.delete, modifiers: [])
+                    .help("Termin löschen (⌫)")
+                    .accessibilityLabel("Termin löschen")
+                }
+            }
         }
         .padding(16)
         .frame(width: 300, alignment: .leading)

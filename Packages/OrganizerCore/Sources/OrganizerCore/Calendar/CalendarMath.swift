@@ -23,9 +23,12 @@ public struct CalendarEventInfo: Identifiable, Sendable, Hashable {
     public var calendarID: String
     public var location: String?
     public var notes: String?
+    /// Teil einer Terminserie (beim Löschen wird gefragt: nur dieser oder alle zukünftigen).
+    public var isRecurring: Bool
 
     public init(id: String, title: String, start: Date, end: Date, isAllDay: Bool = false,
-                calendarID: String, location: String? = nil, notes: String? = nil) {
+                calendarID: String, location: String? = nil, notes: String? = nil, isRecurring: Bool = false) {
+        self.isRecurring = isRecurring
         self.id = id
         self.title = title
         self.start = start

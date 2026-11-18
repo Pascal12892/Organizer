@@ -147,6 +147,72 @@ final class CalendarService {
         return event.eventIdentifier
     }
 
+    /// Alles, was nötig ist, um einen gelöschten Einzeltermin per Rückgängig wiederherzustellen.
+    struct DeletedEvent {
+        let title: String
+        let start: Date
+        let end: Date
+        let isAllDay: Bool
+        let calendarID: String
+        let location: String?
+        let notes: String?
+        let url: URL?
+        let alarms: [EKAlarm]
+    }
+
+    /// Löscht einen Termin – wie in Apple Kalender. Bei Serien entscheidet `futureEvents`,
+    /// ob nur dieses Vorkommen oder auch alle folgenden entfernt werden.
+    /// Gibt bei Einzelterminen den alten Stand zurück (für Rückgängig).
+    @discardableResult
+    func deleteEvent(_ info: CalendarEventInfo, futureEvents: Bool = false) throws -> DeletedEvent? {
+        guard let event = ekEvent(for: info) else {
+            throw CocoaError(.fileNoSuchFile, userInfo: [NSLocalizedDescriptionKey: L("Der Termin existiert nicht mehr.")])
+        }
+        guard event.calendar.allowsContentModifications else {
+            throw CocoaError(.fileWriteNoPermission, userInfo: [NSLocalizedDescriptionKey: L("Der Kalender „\(event.calendar.title)“ ist schreibgeschützt.")])
+        }
+        let snapshot = event.hasRecurrenceRules ? nil : DeletedEvent(
+            title: event.title ?? "", start: event.startDate, end: event.endDate, isAllDay: event.isAllDay,
+            calendarID: event.calendar.calendarIdentifier, location: event.location, notes: event.notes,
+            url: event.url, alarms: event.alarms ?? []
+        )
+        try store.remove(event, span: futureEvents ? .futureEvents : .thisEvent, commit: true)
+        return snapshot
+    }
+
+    /// Stellt einen gelöschten Einzeltermin wieder her und gibt die neue ID zurück.
+    func restore(_ deleted: DeletedEvent) throws -> String {
+        guard let calendar = store.calendar(withIdentifier: deleted.calendarID) else {
+            throw CocoaError(.fileNoSuchFile, userInfo: [NSLocalizedDescriptionKey: L("Der Kalender existiert nicht mehr.")])
+        }
+        let event = EKEvent(eventStore: store)
+        event.title = deleted.title
+        event.startDate = deleted.start
+        event.endDate = deleted.end
+        event.isAllDay = deleted.isAllDay
+        event.calendar = calendar
+        event.location = deleted.location
+        event.notes = deleted.notes
+        event.url = deleted.url
+        for alarm in deleted.alarms { event.addAlarm(alarm.copy() as! EKAlarm) }
+        try store.save(event, span: .thisEvent, commit: true)
+        return event.eventIdentifier
+    }
+
+    /// Darf der Termin geändert bzw. gelöscht werden?
+    func canModify(_ info: CalendarEventInfo) -> Bool {
+        calendar(withID: info.calendarID)?.allowsModifications ?? false
+    }
+
+    /// Das konkrete Vorkommen eines Termins (bei Serien das am angezeigten Tag).
+    private func ekEvent(for info: CalendarEventInfo) -> EKEvent? {
+        let itemID = String(info.id.split(separator: "|").first ?? "")
+        guard let calendar = store.calendar(withIdentifier: info.calendarID) else { return nil }
+        let predicate = store.predicateForEvents(withStart: info.start.addingTimeInterval(-1), end: max(info.end, info.start).addingTimeInterval(1), calendars: [calendar])
+        return store.events(matching: predicate).first { $0.calendarItemIdentifier == itemID && $0.startDate == info.start }
+            ?? store.calendarItem(withIdentifier: itemID) as? EKEvent
+    }
+
     /// Entfernt einen Termin, den Organizer selbst angelegt hat – nur für Rückgängig.
     func removeEvent(withID id: String) throws {
         guard let event = store.event(withIdentifier: id) else { return }
@@ -172,7 +238,8 @@ final class CalendarService {
             isAllDay: event.isAllDay,
             calendarID: event.calendar.calendarIdentifier,
             location: event.location.flatMap { $0.isEmpty ? nil : $0 },
-            notes: event.notes.flatMap { $0.isEmpty ? nil : $0 }
+            notes: event.notes.flatMap { $0.isEmpty ? nil : $0 },
+            isRecurring: event.hasRecurrenceRules
         )
     }
 }
