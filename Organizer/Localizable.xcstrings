@@ -234,6 +234,22 @@
         }
       }
     },
+    "%lld Treffer": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld نتيجة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld results"
+          }
+        }
+      }
+    },
     "%lld erledigt": {
       "localizations": {
         "ar": {
@@ -622,6 +638,22 @@
       }
     },
     "Alle anzeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض الكل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All"
+          }
+        }
+      }
+    },
+    "Alle zeigen": {
       "localizations": {
         "ar": {
           "stringUnit": {
@@ -2857,6 +2889,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open in Finder"
+          }
+        }
+      }
+    },
+    "Im Kalender zeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض في التقويم"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in Calendar"
           }
         }
       }
@@ -5648,6 +5696,22 @@
         }
       }
     },
+    "Suche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        }
+      }
+    },
     "Suchen": {
       "localizations": {
         "ar": {
@@ -5964,6 +6028,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Event, e.g. “Study group tomorrow 2 pm”"
+          }
+        }
+      }
+    },
+    "Termine": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المواعيد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Events"
+          }
+        }
+      }
+    },
+    "Termine, Aufgaben, Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المواعيد والمهام والملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Events, Tasks, Notes"
           }
         }
       }
@@ -6412,6 +6508,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Which version should be kept? The other one will be lost."
+          }
+        }
+      }
+    },
+    "Weniger zeigen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض أقل"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Less"
           }
         }
       }
@@ -6940,6 +7052,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open"
+          }
+        }
+      }
+    },
+    "Überall suchen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث في كل مكان"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Everywhere"
           }
         }
       }

@@ -39,8 +39,10 @@ struct OrganizerCommands: Commands {
         }
 
         CommandGroup(after: .textEditing) {
-            Button("Notizen durchsuchen") { model.focusSearch() }
+            Button("Suchen") { model.focusSearch() }
                 .keyboardShortcut("f")
+            Button("Überall suchen") { model.focusGlobalSearch() }
+                .keyboardShortcut("f", modifiers: [.command, .shift])
         }
 
         CommandGroup(before: .sidebar) {

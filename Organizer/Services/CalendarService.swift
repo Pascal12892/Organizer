@@ -116,6 +116,15 @@ final class CalendarService {
         return store.events(matching: predicate).map(Self.info)
     }
 
+    /// Termine, die die Suche durchsucht: ein Jahr zurück, zwei Jahre voraus.
+    func searchableEvents(hiddenCalendarIDs: Set<String>) -> [CalendarEventInfo] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        let interval = DateInterval(start: calendar.date(byAdding: .year, value: -1, to: today)!,
+                                    end: calendar.date(byAdding: .year, value: 2, to: today)!)
+        return events(in: interval, hiddenCalendarIDs: hiddenCalendarIDs)
+    }
+
     func color(for calendarID: String) -> Color {
         calendars.first { $0.id == calendarID }?.color ?? .accentColor
     }

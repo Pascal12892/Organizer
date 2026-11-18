@@ -257,3 +257,32 @@ struct VaultCacheTests {
         #expect(snapshot.entryCount >= 3)
     }
 }
+
+@Suite("Globale Suche")
+struct GlobalSearchTests {
+    @Test func findsTasksEventsAndNotes() {
+        let search = GlobalSearch("statistik ÜBUNG")
+        let now = Date(timeIntervalSinceReferenceDate: 800_000_000)
+
+        let tasks = [
+            TaskLine.parse("- [x] Statistik Übung 1 ✅ 2026-11-01")!,
+            TaskLine.parse("- [ ] Übung Statistik 2 📅 2026-11-20")!,
+            TaskLine.parse("- [ ] Statistik lesen")!,
+        ]
+        #expect(search.tasks(in: tasks).map(\.title) == ["Übung Statistik 2", "Statistik Übung 1"])
+
+        let events = [
+            CalendarEventInfo(id: "a", title: "Übung", start: now.addingTimeInterval(-86_400), end: now.addingTimeInterval(-82_800), calendarID: "c", location: "Statistik-Raum"),
+            CalendarEventInfo(id: "b", title: "Statistik Übung", start: now.addingTimeInterval(86_400), end: now.addingTimeInterval(90_000), calendarID: "c"),
+            CalendarEventInfo(id: "c", title: "Mensa", start: now, end: now, calendarID: "c"),
+        ]
+        #expect(search.events(in: events, now: now).map(\.id) == ["b", "a"])
+
+        let content = NoteFactory.makeNote(relativePath: "Uni/Text.md", url: URL(filePath: "/v/Uni/Text.md"),
+                                           content: "Heute Übung in Statistik", modified: now, layout: VaultLayout())
+        let titled = NoteFactory.makeNote(relativePath: "Uni/Statistik Übung.md", url: URL(filePath: "/v/Uni/Statistik Übung.md"),
+                                          content: "Inhalt", modified: now.addingTimeInterval(-1000), layout: VaultLayout())
+        #expect(search.notes(in: [content, titled]).map(\.relativePath) == ["Uni/Statistik Übung.md", "Uni/Text.md"])
+        #expect(GlobalSearch("  ").isEmpty)
+    }
+}

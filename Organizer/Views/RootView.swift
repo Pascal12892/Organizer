@@ -8,6 +8,7 @@ import SwiftUI
 /// Notizen teilen ihren Bereich darum selbst in Liste und Notiz auf (wie Apple Notizen).
 struct RootView: View {
     @Environment(AppModel.self) private var model
+    @FocusState private var globalSearchFocused: Bool
 
     var body: some View {
         NavigationSplitView {
@@ -24,16 +25,31 @@ struct RootView: View {
 
     @ViewBuilder
     private var detail: some View {
+        if let scope = model.sidebarSelection?.noteScope {
+            NotesSplitView(scope: scope)
+        } else {
+            @Bindable var search = model.search
+            Group {
+                if !search.query.isEmpty {
+                    SearchResultsView(query: search.query)
+                } else {
+                    section
+                }
+            }
+            .searchable(text: $search.text, placement: .toolbar, prompt: L("Termine, Aufgaben, Notizen"))
+            .searchFocused($globalSearchFocused)
+            .onChange(of: model.searchFocusRequest) { globalSearchFocused = true }
+        }
+    }
+
+    @ViewBuilder
+    private var section: some View {
         switch model.sidebarSelection {
         case .dashboard: DashboardView()
         case .calendar: CalendarView()
         case .tasks: TasksView()
         case .roadmap: RoadmapView()
-        case .notes, .folder:
-            if let scope = model.sidebarSelection?.noteScope {
-                NotesSplitView(scope: scope)
-            }
-        case nil:
+        case .notes, .folder, nil:
             ContentUnavailableView("Nichts ausgewählt", systemImage: "sidebar.left")
         }
     }
@@ -57,7 +73,7 @@ private struct NotesSplitView: View {
             noteDetail
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .searchable(text: $notes.searchText, placement: .toolbar, prompt: L("Suchen"))
+        .searchable(text: $notes.searchText, placement: .toolbar, prompt: L("Notizen durchsuchen"))
         .searchFocused($searchFocused)
         .onChange(of: model.searchFocusRequest) { searchFocused = true }
     }

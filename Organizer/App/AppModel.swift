@@ -24,6 +24,8 @@ final class AppModel {
     var expandedFolders: Set<String> = []
     /// Wird erhöht, wenn das Suchfeld den Fokus bekommen soll (Cmd+F).
     private(set) var searchFocusRequest = 0
+    /// Suche über Termine, Aufgaben und Notizen (Suchfeld außerhalb der Notizen).
+    let search = GlobalSearchModel()
     /// Wird erhöht, wenn das Eingabefeld für neue Aufgaben den Fokus bekommen soll (⌘N in Aufgaben).
     var taskInputFocusRequest = 0
     /// Bereichsfilter in der Aufgabenliste (`nil` = alle).
@@ -167,9 +169,24 @@ final class AppModel {
 
     // MARK: - Navigation
 
+    /// ⌘F: In den Notizen deren Suchfeld, sonst die Suche über alles.
     func focusSearch() {
-        if sidebarSelection?.noteScope == nil { sidebarSelection = .notes }
         searchFocusRequest += 1
+    }
+
+    /// ⇧⌘F: Suche über Termine, Aufgaben und Notizen – auch aus den Notizen heraus.
+    func focusGlobalSearch() {
+        if sidebarSelection?.noteScope != nil { sidebarSelection = .dashboard }
+        searchFocusRequest += 1
+    }
+
+    /// Termin aus den Suchergebnissen im Kalender zeigen.
+    func showInCalendar(_ event: CalendarEventInfo) {
+        search.clear()
+        calendarState.date = event.start
+        calendarState.select(event.start)
+        calendarState.selectedEventID = event.id
+        sidebarSelection = .calendar
     }
 
     /// Öffnet die Notiz zu einem Wikilink. Gibt `false` zurück, wenn sie nicht existiert.
@@ -187,6 +204,7 @@ final class AppModel {
 
     /// Öffnet die Notiz, in der eine Aufgabe steht.
     func openNote(atPath relativePath: String) {
+        search.clear()
         if let note = vault.notes.first(where: { $0.relativePath == relativePath }) {
             let folder = note.folderPath
             if folder.isEmpty {
