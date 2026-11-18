@@ -126,7 +126,7 @@ final class TaskService {
         do {
             let index = try writer.appendLine(path, line: line, header: header)
             registerUndo(path: path, lineNumber: index, from: line, to: nil, actionName: L("Aufgabe hinzufügen"), undoManager: undoManager)
-            refresh()
+            refresh(path)
         } catch {
             lastError = L("Aufgabe konnte nicht gespeichert werden: \(localizedMessage(error))")
         }
@@ -135,8 +135,8 @@ final class TaskService {
     // MARK: - Kern
 
     /// Sofort neu einlesen, damit die nächste Änderung auf dem aktuellen Stand der Datei arbeitet.
-    private func refresh() {
-        Task { await vault.rescan() }
+    private func refresh(_ path: String) {
+        Task { await vault.refresh(paths: [path]) }
     }
 
     private func change(_ task: TaskItem, to newLine: String?, actionName: String, undoManager: UndoManager?) {
@@ -159,10 +159,10 @@ final class TaskService {
             }
             lastError = nil
             registerUndo(path: path, lineNumber: index, from: new, to: old, actionName: actionName, undoManager: undoManager)
-            refresh()
+            refresh(path)
         } catch {
             lastError = localizedMessage(error)
-            refresh()
+            refresh(path)
         }
     }
 

@@ -198,6 +198,28 @@ struct IncrementalScanTests {
         #expect(second.tasks.map(\.title) == ["Neu"])
         #expect(second.tasks.first?.status == .done)
     }
+
+    @Test func updatesOnlyChangedPaths() throws {
+        let root = FileManager.default.temporaryDirectory.appending(path: "OrganizerUpdate-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: root) }
+        let writer = VaultWriter(root: root)
+        try writer.createFile("Uni/A.md", content: "- [ ] Alt")
+        try writer.createFile("Uni/B.md", content: "B")
+        var first = VaultScanner.scan(root: root, layout: VaultLayout())
+        // Unveränderte Notizen müssen unverändert übernommen werden (nicht neu gelesen).
+        if let index = first.notes.firstIndex(where: { $0.relativePath == "Uni/B.md" }) { first.notes[index].title = "behalten" }
+
+        _ = try writer.appendLine("Uni/A.md", line: "- [ ] Neu")
+        try writer.createFile("Privat/Neu.md", content: "- [ ] Einkaufen")
+        try writer.moveToTrash("Uni/B.md")
+        let updated = VaultScanner.updating(first, root: root, changedPaths: ["Uni/A.md", "Privat/Neu.md"], layout: VaultLayout())
+        #expect(Set(updated.tasks.map(\.title)) == ["Alt", "Neu", "Einkaufen"])
+        #expect(updated.folders.contains("Privat"))
+        #expect(updated.notes.first { $0.relativePath == "Uni/B.md" }?.title == "behalten")
+
+        let removed = VaultScanner.updating(updated, root: root, changedPaths: ["Uni/B.md"], layout: VaultLayout())
+        #expect(!removed.notes.contains { $0.relativePath == "Uni/B.md" })
+    }
 }
 
 @Suite("Zwischenspeicher")

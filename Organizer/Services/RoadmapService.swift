@@ -59,11 +59,11 @@ final class RoadmapService {
             let path = try writer.createNote(folder: RoadmapParser.folder, title: title, content: content)
             undoManager?.registerUndo(withTarget: self) { service in
                 do { try service.writer?.moveToTrash(path) } catch { service.lastError = localizedMessage(error) }
-                Task { await service.vault.rescan() }
+                Task { await service.vault.refresh(paths: [path]) }
             }
             undoManager?.setActionName(L("Projekt anlegen"))
             lastError = nil
-            Task { await vault.rescan() }
+            Task { await vault.refresh(paths: [path]) }
             return path
         } catch {
             lastError = L("Projekt konnte nicht angelegt werden: \(localizedMessage(error))")
@@ -85,7 +85,7 @@ final class RoadmapService {
         } catch {
             lastError = localizedMessage(error)
         }
-        Task { await vault.rescan() }
+        Task { await vault.refresh(paths: [path]) }
     }
 
     private func registerUndo(path: String, from current: String, to previous: String, actionName: String, undoManager: UndoManager?) {
@@ -98,7 +98,7 @@ final class RoadmapService {
             } catch {
                 service.lastError = L("Rückgängig nicht möglich: \(localizedMessage(error))")
             }
-            Task { await service.vault.rescan() }
+            Task { await service.vault.refresh(paths: [path]) }
         }
         undoManager.setActionName(actionName)
     }

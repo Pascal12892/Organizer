@@ -125,6 +125,68 @@ public enum VaultScanner {
         return snapshot
     }
 
+    /// Liest nur die angegebenen Dateien und Ordner neu und übernimmt alles andere aus `snapshot`.
+    /// Für eigene Änderungen der App: Statt den ganzen Vault zu durchlaufen, ist der neue
+    /// Stand so in wenigen Millisekunden da. Fehlende Pfade werden aus dem Stand entfernt.
+    public static func updating(_ snapshot: VaultSnapshot, root: URL, changedPaths: [String], layout: VaultLayout) -> VaultSnapshot {
+        let root = root.standardizedFileURL.resolvingSymlinksInPath()
+        let changed = Set(changedPaths.filter { !$0.isEmpty && !$0.split(separator: "/").contains(where: VaultLayout.isHidden) })
+        guard !changed.isEmpty else { return snapshot }
+
+        var notes = snapshot.notes.filter { !changed.contains($0.relativePath) }
+        var issues = snapshot.issues.filter { !changed.contains($0.relativePath) }
+        var folders = Set(snapshot.folders)
+        let keys: Set<URLResourceKey> = [.isDirectoryKey, .contentModificationDateKey, .creationDateKey, .fileSizeKey]
+
+        func addParents(of path: String) {
+            var parts = path.split(separator: "/").dropLast()
+            while !parts.isEmpty {
+                folders.insert(parts.joined(separator: "/"))
+                parts = parts.dropLast()
+            }
+        }
+
+        for relativePath in changed {
+            let url = root.appending(path: relativePath)
+            guard let values = try? url.resourceValues(forKeys: keys) else {
+                // Gelöscht oder verschoben: auch Unterordner und Notizen darin entfernen.
+                folders = folders.filter { $0 != relativePath && !$0.hasPrefix(relativePath + "/") }
+                notes.removeAll { $0.relativePath.hasPrefix(relativePath + "/") }
+                continue
+            }
+            if values.isDirectory == true {
+                folders.insert(relativePath)
+                addParents(of: relativePath)
+                continue
+            }
+            guard url.pathExtension.lowercased() == "md" else { continue }
+            addParents(of: relativePath)
+            if let size = values.fileSize, size > maxFileSize {
+                issues.append(VaultIssue(relativePath: relativePath, message: "Datei ist größer als 5 MB und wurde übersprungen."))
+                continue
+            }
+            do {
+                let content = try String(contentsOf: url, encoding: .utf8)
+                let note = NoteFactory.makeNote(
+                    relativePath: relativePath,
+                    url: url,
+                    content: content,
+                    modified: values.contentModificationDate ?? .now,
+                    fileCreated: values.creationDate,
+                    layout: layout
+                )
+                notes.append(note)
+                issues += note.issues.map { VaultIssue(relativePath: relativePath, message: $0) }
+            } catch {
+                issues.append(VaultIssue(relativePath: relativePath, message: "Datei konnte nicht gelesen werden: \(error.localizedDescription)"))
+            }
+        }
+
+        var result = assemble(notes: notes, folders: Array(folders), issues: issues, layout: layout)
+        result.entryCount = snapshot.entryCount
+        return result
+    }
+
     /// Baut aus Notizen und Ordnern den vollständigen Stand: Themen, Aufgaben (mit Bereich), Sortierung.
     /// Wird nach jedem Scan und beim Laden aus dem Zwischenspeicher verwendet.
     public static func assemble(notes: [Note], folders: [String], issues: [VaultIssue], layout: VaultLayout) -> VaultSnapshot {

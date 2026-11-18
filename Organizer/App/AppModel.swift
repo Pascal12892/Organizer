@@ -365,7 +365,7 @@ final class AppModel {
         let (area, topic) = settings.layout.classify(folder: folder)
         let content = NoteTemplate.content(area: area, topic: topic, created: .now, extraProperties: extraProperties, body: body)
         let relativePath = try writer.createNote(folder: folder, title: title, content: content)
-        await vault.rescan()
+        await vault.refresh(paths: [relativePath])
         defer {
             undoManager?.registerUndo(withTarget: self) { model in
                 model.undoCreation(of: relativePath, kind: L("Notiz"), undoManager: undoManager)
@@ -390,7 +390,7 @@ final class AppModel {
     func createFolder(named name: String, in parent: String, undoManager: UndoManager?) async throws {
         guard let writer else { return }
         let relativePath = try writer.createFolder(parent: parent, name: name)
-        await vault.rescan()
+        await vault.refresh(paths: [relativePath])
         expand(toShow: relativePath)
         sidebarSelection = .folder(relativePath)
         undoManager?.registerUndo(withTarget: self) { model in
@@ -420,7 +420,7 @@ final class AppModel {
                 sidebarSelection = parent.isEmpty ? .notes : .folder(parent)
             }
             try writer.moveToTrash(relativePath)
-            reloadVault()
+            Task { await vault.refresh(paths: [relativePath]) }
         } catch {
             writeError = L("\(kind) konnte nicht in den Papierkorb gelegt werden: \(localizedMessage(error))")
         }

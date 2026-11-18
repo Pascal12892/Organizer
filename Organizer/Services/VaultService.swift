@@ -36,6 +36,8 @@ final class VaultService {
     private var scanGeneration = 0
     /// Layout, mit dem `snapshot` erstellt wurde (nur dann dürfen Notizen wiederverwendet werden).
     private var scannedLayout: VaultLayout?
+    /// Von der App selbst geschriebene Pfade – deren Dateiereignisse lösen keinen weiteren Scan aus.
+    private var recentlyWritten: [String: Date] = [:]
 
     init(layout: VaultLayout = VaultLayout()) {
         self.layout = layout
@@ -123,6 +125,38 @@ final class VaultService {
         scheduleRescan()
     }
 
+    /// Liest nach einer eigenen Änderung nur die betroffenen Dateien neu – der neue Stand ist
+    /// damit sofort sichtbar, auch in großen Vaults. `paths` sind relativ zum Vault.
+    func refresh(paths: [String]) async {
+        guard let rootURL, !paths.isEmpty else { return }
+        let now = Date.now
+        for path in paths { recentlyWritten[path] = now }
+        await applyUpdate(paths: paths, root: rootURL)
+    }
+
+    /// Wendet ein gezieltes Update an. Ein laufender Vollscan wird verworfen (er kennt die
+    /// Änderung womöglich noch nicht) und danach still im Hintergrund wiederholt.
+    private func applyUpdate(paths: [String], root: URL) async {
+        let interruptedScan = isScanning
+        scanGeneration += 1
+        let generation = scanGeneration
+        let layout = layout
+        let current = snapshot
+        guard scannedLayout == layout else { await rescan(); return }
+        let (snapshot, index) = await Task.detached(priority: .userInitiated) {
+            let snapshot = VaultScanner.updating(current, root: root, changedPaths: paths, layout: layout)
+            return (snapshot, VaultIndex(snapshot: snapshot))
+        }.value
+        guard generation == scanGeneration, root == rootURL else { return }
+        self.snapshot = snapshot
+        self.index = index
+        version += 1
+        isScanning = false
+        isSlowScan = false
+        saveCache()
+        if interruptedScan { scheduleRescan(delay: .seconds(1)) }
+    }
+
     /// Liest den gesamten Vault neu ein (im Hintergrund).
     func rescan() async {
         guard let rootURL else { return }
@@ -154,16 +188,21 @@ final class VaultService {
         lastScan = .now
         state = .ready
 
-        // Stand für den nächsten Start sichern (im Hintergrund, Fehler sind hier unkritisch).
+        saveCache()
+    }
+
+    /// Stand für den nächsten Start sichern (im Hintergrund, Fehler sind hier unkritisch).
+    private func saveCache() {
+        guard let rootURL else { return }
         let cache = VaultCache(vaultPath: rootURL.standardizedFileURL.path(percentEncoded: false), layout: layout, snapshot: snapshot)
         Task.detached(priority: .utility) { try? cache.save(to: VaultService.cacheURL) }
     }
 
     /// Fasst schnell aufeinanderfolgende Änderungen (z. B. Tippen in Obsidian) zusammen.
-    func scheduleRescan() {
+    func scheduleRescan(delay: Duration = .milliseconds(300)) {
         rescanTask?.cancel()
         rescanTask = Task {
-            try? await Task.sleep(for: .milliseconds(300))
+            try? await Task.sleep(for: delay)
             guard !Task.isCancelled else { return }
             await rescan()
         }
@@ -172,11 +211,31 @@ final class VaultService {
     private func handleFileEvents(_ paths: [String]) {
         guard let rootURL else { return }
         let rootPath = rootURL.standardizedFileURL.resolvingSymlinksInPath().path(percentEncoded: false)
-        let relevant = paths.contains { path in
-            let relative = path.hasPrefix(rootPath) ? String(path.dropFirst(rootPath.count)) : path
-            // Änderungen in .obsidian (Workspace, Plugins) betreffen die Notizen nicht.
-            return !relative.split(separator: "/").contains { VaultLayout.isHidden($0) }
+        let prefix = rootPath.hasSuffix("/") ? rootPath : rootPath + "/"
+        // Änderungen in .obsidian (Workspace, Plugins) betreffen die Notizen nicht.
+        // Pfade außerhalb des erwarteten Präfixes (z. B. über Symlinks): sicherheitshalber alles neu.
+        guard paths.allSatisfy({ $0.hasPrefix(prefix) || $0 == rootPath }) else { scheduleRescan(); return }
+        let relevant = Set(paths.compactMap { path -> String? in
+            guard path.hasPrefix(prefix) else { return nil }
+            let relative = String(path.dropFirst(prefix.count))
+            return relative.isEmpty || relative.split(separator: "/").contains(where: { VaultLayout.isHidden($0) }) ? nil : relative
+        })
+        // Eigene Änderungen sind bereits eingelesen.
+        let cutoff = Date.now.addingTimeInterval(-3)
+        recentlyWritten = recentlyWritten.filter { $0.value > cutoff }
+        let foreign = relevant.filter { recentlyWritten[$0] == nil }
+        guard !foreign.isEmpty else { return }
+
+        // Einzelne Dateien (z. B. in Obsidian bearbeitet) gezielt neu lesen, sofort sichtbar.
+        // Ordner-Änderungen oder viele Dateien auf einmal: alles neu einlesen.
+        var isDirectory: ObjCBool = false
+        let onlyFiles = foreign.count <= 50 && foreign.allSatisfy { path in
+            !(FileManager.default.fileExists(atPath: rootURL.appending(path: path).path(percentEncoded: false), isDirectory: &isDirectory) && isDirectory.boolValue)
         }
-        if relevant { scheduleRescan() }
+        if onlyFiles, state == .ready {
+            Task { await applyUpdate(paths: Array(foreign), root: rootURL) }
+        } else {
+            scheduleRescan()
+        }
     }
 }
