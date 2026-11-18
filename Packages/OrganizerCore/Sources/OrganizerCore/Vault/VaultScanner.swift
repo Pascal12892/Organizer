@@ -9,6 +9,8 @@ public struct VaultSnapshot: Sendable, Hashable {
     public var folders: [String]
     /// Alle Aufgaben aus allen Notizen.
     public var tasks: [TaskItem]
+    /// Wie viele Dateien und Ordner der Scan durchgehen musste (für den Hinweis bei riesigen Ordnern).
+    public var entryCount = 0
 
     public static let empty = VaultSnapshot(notes: [], topics: [], issues: [])
 
@@ -30,6 +32,10 @@ public struct VaultSnapshot: Sendable, Hashable {
 public enum VaultScanner {
     /// Größere Dateien sind fast sicher keine Notizen und werden übersprungen.
     public static let maxFileSize = 5 * 1024 * 1024
+    /// Ab so vielen Einträgen ist der Ordner vermutlich kein Vault (z. B. der ganze Schreibtisch).
+    public static let largeFolderThreshold = 20_000
+    /// Ordner, die Programme anlegen und die nie Notizen enthalten – werden gar nicht erst durchsucht.
+    static let skippedFolders: Set<String> = ["node_modules", "__pycache__", "site-packages", "Pods", "DerivedData", "venv"]
 
     /// - Parameter previous: Notizen des letzten Scans (gleiches Layout). Unveränderte Dateien
     ///   (gleiches Änderungsdatum) werden übernommen statt neu gelesen – nach einer Änderung
@@ -58,11 +64,12 @@ public enum VaultScanner {
         }
 
         var notes: [Note] = []
-        var topics: [Topic] = []
         var issues: [VaultIssue] = []
         var folders: [String] = []
+        var entryCount = 0
 
         for case let url as URL in enumerator {
+            entryCount += 1
             var components = url.standardizedFileURL.pathComponents
             if !components.starts(with: rootComponents) {
                 components = url.resolvingSymlinksInPath().pathComponents
@@ -73,10 +80,11 @@ public enum VaultScanner {
             let values = try? url.resourceValues(forKeys: Set(keys))
 
             if values?.isDirectory == true {
-                folders.append(relativePath)
-                if relative.count == 2, let area = layout.area(forFolder: relative[0]) {
-                    topics.append(Topic(area: area, name: relative[1], relativePath: relativePath))
+                if skippedFolders.contains(url.lastPathComponent) {
+                    enumerator.skipDescendants()
+                    continue
                 }
+                folders.append(relativePath)
                 continue
             }
 
@@ -112,14 +120,27 @@ public enum VaultScanner {
             }
         }
 
-        notes.sort { $0.modified > $1.modified }
-        topics.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-        folders.sort { $0.localizedStandardCompare($1) == .orderedAscending }
+        var snapshot = assemble(notes: notes, folders: folders, issues: enumerationErrors.issues + issues, layout: layout)
+        snapshot.entryCount = entryCount
+        return snapshot
+    }
+
+    /// Baut aus Notizen und Ordnern den vollständigen Stand: Themen, Aufgaben (mit Bereich), Sortierung.
+    /// Wird nach jedem Scan und beim Laden aus dem Zwischenspeicher verwendet.
+    public static func assemble(notes: [Note], folders: [String], issues: [VaultIssue], layout: VaultLayout) -> VaultSnapshot {
+        let notes = notes.sorted { $0.modified > $1.modified }
+        let folders = folders.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        let topics = folders.compactMap { path -> Topic? in
+            let parts = path.split(separator: "/")
+            guard parts.count == 2, let area = layout.area(forFolder: parts[0]) else { return nil }
+            return Topic(area: area, name: String(parts[1]), relativePath: path)
+        }
+        .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         let areas = layout.automaticAreas
             ? folders.filter { !$0.contains("/") }.compactMap { layout.area(forFolder: $0) }
             : layout.areas
         let tasks = TaskExtractor.assignAreasByTags(notes.flatMap(TaskExtractor.tasks(in:)), topics: topics, areas: areas)
-        return VaultSnapshot(notes: notes, topics: topics, issues: enumerationErrors.issues + issues, folders: folders, tasks: tasks)
+        return VaultSnapshot(notes: notes, topics: topics, issues: issues, folders: folders, tasks: tasks)
     }
 }
 

@@ -159,9 +159,34 @@ private struct LanguageSection: View {
 private struct NotificationSettingsSection: View {
     @Environment(AppModel.self) private var model
     @State private var authorization: UNAuthorizationStatus = .notDetermined
+    @State private var launchAtLogin = LaunchAtLogin.isEnabled || LaunchAtLogin.needsApproval
+    @State private var loginError: String?
 
     var body: some View {
         Section {
+            Toggle("Beim Anmelden im Hintergrund starten", isOn: Binding(
+                get: { launchAtLogin },
+                set: { enabled in
+                    do {
+                        try LaunchAtLogin.set(enabled)
+                        loginError = nil
+                    } catch {
+                        loginError = localizedMessage(error)
+                    }
+                    launchAtLogin = LaunchAtLogin.isEnabled || LaunchAtLogin.needsApproval
+                }
+            ))
+            .help("Organizer lädt Vault und Kalender schon beim Hochfahren des Macs und ist dann sofort da.")
+            if LaunchAtLogin.needsApproval {
+                Text("Bitte unter Systemeinstellungen › Allgemein › Anmeldeobjekte erlauben.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
+            if let loginError {
+                Label(loginError, systemImage: "exclamationmark.triangle.fill")
+                    .symbolRenderingMode(.multicolor)
+                    .font(.callout)
+            }
             Toggle("Symbol in der Menüleiste", isOn: Binding(
                 get: { model.settings.settings.showsMenuBarIcon },
                 set: { shown in model.settings.update { $0.showsMenuBarIcon = shown } }

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Eine Markdown-Datei im Vault. Die Datei bleibt die Quelle; dieses Modell ist nur eine Momentaufnahme.
-public struct Note: Identifiable, Sendable, Hashable {
+public struct Note: Identifiable, Sendable, Hashable, Codable {
     /// Pfad relativ zum Vault, z. B. `Uni/Data Science/Vorlesung 1.md`. Dient als stabile ID.
     public let relativePath: String
     public let url: URL
@@ -59,7 +59,7 @@ public struct Note: Identifiable, Sendable, Hashable {
 }
 
 /// Ein Thema ist ein Unterordner eines Bereichs, z. B. `Uni/Data Science`.
-public struct Topic: Identifiable, Sendable, Hashable {
+public struct Topic: Identifiable, Sendable, Hashable, Codable {
     public let area: String
     public let name: String
     public let relativePath: String
@@ -74,7 +74,7 @@ public struct Topic: Identifiable, Sendable, Hashable {
 }
 
 /// Ein Problem beim Lesen des Vaults, das in der Oberfläche angezeigt wird.
-public struct VaultIssue: Identifiable, Sendable, Hashable {
+public struct VaultIssue: Identifiable, Sendable, Hashable, Codable {
     public let relativePath: String
     public let message: String
 

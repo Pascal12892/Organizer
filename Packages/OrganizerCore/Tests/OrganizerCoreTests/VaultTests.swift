@@ -199,3 +199,39 @@ struct IncrementalScanTests {
         #expect(second.tasks.first?.status == .done)
     }
 }
+
+@Suite("Zwischenspeicher")
+struct VaultCacheTests {
+    @Test func roundTripRestoresSnapshot() throws {
+        let root = FileManager.default.temporaryDirectory.appending(path: "OrganizerCache-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: root) }
+        let writer = VaultWriter(root: root)
+        try writer.createFile("Uni/Statistik/A.md", content: "---\ntags: [uni]\n---\n- [ ] Lesen 📅 2026-11-20\n")
+        try writer.createFile("_Organizer/Tasks.md", content: "- [ ] Zentral #uni\n")
+        let layout = VaultLayout(areas: [], automaticAreas: true)
+        let snapshot = VaultScanner.scan(root: root, layout: layout)
+
+        let file = root.appending(path: "cache.plist")
+        try VaultCache(vaultPath: root.path, layout: layout, snapshot: snapshot).save(to: file)
+        let cache = try #require(VaultCache.load(from: file))
+        #expect(cache.matches(vaultPath: root.path, layout: layout))
+        #expect(!cache.matches(vaultPath: "/anders", layout: layout))
+
+        let restored = cache.snapshot
+        #expect(restored.notes == snapshot.notes)
+        #expect(restored.topics == snapshot.topics)
+        #expect(restored.tasks == snapshot.tasks)
+        #expect(restored.tasks.first { $0.title == "Zentral" }?.area == "Uni")
+    }
+
+    @Test func skipsProgramFoldersAndCountsEntries() throws {
+        let root = FileManager.default.temporaryDirectory.appending(path: "OrganizerSkip-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: root) }
+        let writer = VaultWriter(root: root)
+        try writer.createFile("Projekt/node_modules/paket/README.md", content: "x")
+        try writer.createFile("Projekt/Notiz.md", content: "y")
+        let snapshot = VaultScanner.scan(root: root, layout: VaultLayout())
+        #expect(snapshot.notes.map(\.relativePath) == ["Projekt/Notiz.md"])
+        #expect(snapshot.entryCount >= 3)
+    }
+}

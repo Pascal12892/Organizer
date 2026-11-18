@@ -68,7 +68,31 @@ final class VaultService {
         watcher.start()
         self.watcher = watcher
 
+        // Letzten Stand sofort zeigen – das eigentliche Einlesen läuft danach im Hintergrund
+        // und liest nur Dateien neu, die sich seitdem geändert haben.
+        let path = url.standardizedFileURL.path(percentEncoded: false)
+        let layout = layout
+        let cached = await Task.detached(priority: .userInitiated) { () -> (VaultSnapshot, VaultIndex)? in
+            guard let cache = VaultCache.load(from: VaultService.cacheURL), cache.matches(vaultPath: path, layout: layout) else { return nil }
+            let snapshot = cache.snapshot
+            return (snapshot, VaultIndex(snapshot: snapshot))
+        }.value
+        if let (snapshot, index) = cached, rootURL == url {
+            self.snapshot = snapshot
+            self.index = index
+            scannedLayout = layout
+            version += 1
+            state = .ready
+        }
+
         await rescan()
+    }
+
+    /// Ort des Zwischenspeichers (im Container der App).
+    nonisolated static var cacheURL: URL {
+        URL.applicationSupportDirectory
+            .appending(path: "Organizer", directoryHint: .isDirectory)
+            .appending(path: "vault-cache.plist")
     }
 
     func markAccessLost(path: String?, message: String) {
@@ -129,6 +153,10 @@ final class VaultService {
         isSlowScan = false
         lastScan = .now
         state = .ready
+
+        // Stand für den nächsten Start sichern (im Hintergrund, Fehler sind hier unkritisch).
+        let cache = VaultCache(vaultPath: rootURL.standardizedFileURL.path(percentEncoded: false), layout: layout, snapshot: snapshot)
+        Task.detached(priority: .utility) { try? cache.save(to: VaultService.cacheURL) }
     }
 
     /// Fasst schnell aufeinanderfolgende Änderungen (z. B. Tippen in Obsidian) zusammen.

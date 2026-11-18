@@ -45,6 +45,18 @@ final class AppModel {
                 vault.updateLayout(settings.layout)
     }
 
+    /// Die eine Instanz der App (Previews legen eigene an).
+    static let shared = AppModel()
+    @ObservationIgnored private var started = false
+
+    /// Einmal beim App-Start: Tastenkürzel registrieren und den Vault laden – auch ohne offenes Fenster.
+    func start() {
+        guard !started else { return }
+        started = true
+        registerQuickCaptureHotKey()
+        Task { await restoreVault() }
+    }
+
     convenience init() {
         let settings = SettingsStore(fileURL: SettingsStore.defaultFileURL)
         self.init(settings: settings, vault: VaultService(layout: settings.layout), calendar: CalendarService())

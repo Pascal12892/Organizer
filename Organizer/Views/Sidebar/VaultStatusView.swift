@@ -11,7 +11,9 @@ struct VaultStatusView: View {
         let issues = model.vault.issues
         let settingsError = model.settings.lastError ?? model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError
 
-        if model.vault.isSlowScan || !issues.isEmpty || settingsError != nil {
+        let isHuge = model.vault.snapshot.entryCount > VaultScanner.largeFolderThreshold
+
+        if model.vault.isSlowScan || !issues.isEmpty || settingsError != nil || isHuge {
             HStack(spacing: 8) {
                 if let writeError = model.writeError ?? model.tasks.lastError ?? model.folderLinks.lastError ?? model.roadmap.lastError {
                     Label(writeError, systemImage: "exclamationmark.triangle.fill")
@@ -32,7 +34,13 @@ struct VaultStatusView: View {
                 } else if model.vault.isSlowScan {
                     ProgressView()
                         .controlSize(.small)
-                    Text("Vault wird gelesen …")
+                    // Mit Zwischenspeicher sind die Notizen schon da – dann wird nur abgeglichen.
+                    Text(model.vault.notes.isEmpty ? L("Vault wird gelesen …") : L("Wird aktualisiert …"))
+                } else if isHuge {
+                    Label(L("Dieser Ordner enthält \(model.vault.snapshot.entryCount) Dateien. Ist das wirklich dein Vault? Ein kleinerer Ordner lädt viel schneller."),
+                          systemImage: "tortoise")
+                        .lineLimit(4)
+                        .help("Ablage › Vault öffnen … (⇧⌘O)")
                 } else if let settingsError {
                     Label(settingsError, systemImage: "exclamationmark.triangle.fill")
                         .symbolRenderingMode(.multicolor)

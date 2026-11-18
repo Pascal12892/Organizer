@@ -4,7 +4,7 @@ import Foundation
 ///
 /// Mit `automaticAreas` ist jeder sichtbare Ordner auf oberster Ebene ein Bereich –
 /// die Struktur aus Obsidian wird also unverändert übernommen.
-public struct VaultLayout: Sendable, Hashable {
+public struct VaultLayout: Sendable, Hashable, Codable {
     public static let organizerFolderName = "_Organizer"
     public static let defaultAreas = ["Uni", "Arbeit", "Freizeit"]
 

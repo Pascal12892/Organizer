@@ -2,7 +2,7 @@ import Foundation
 
 /// Ein Wert im YAML-Frontmatter. Unterstützt wird die Teilmenge, die Obsidian
 /// in seinen „Eigenschaften“ selbst schreibt: Text und Listen.
-public enum FrontmatterValue: Sendable, Hashable {
+public enum FrontmatterValue: Sendable, Hashable, Codable {
     case string(String)
     case list([String])
 
@@ -25,8 +25,8 @@ public enum FrontmatterValue: Sendable, Hashable {
 
 /// Geordnetes Frontmatter einer Notiz. Die Reihenfolge bleibt erhalten,
 /// damit spätere Schreibvorgänge die Datei nicht umsortieren.
-public struct Frontmatter: Sendable, Hashable {
-    public struct Entry: Sendable, Hashable {
+public struct Frontmatter: Sendable, Hashable, Codable {
+    public struct Entry: Sendable, Hashable, Codable {
         public var key: String
         public var value: FrontmatterValue
 

@@ -2,7 +2,8 @@ import SwiftUI
 
 @main
 struct OrganizerApp: App {
-    @State private var model = AppModel()
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @State private var model = AppModel.shared
 
     var body: some Scene {
         Window("Organizer", id: "main") {
@@ -19,10 +20,7 @@ struct OrganizerApp: App {
                 }
                 .onChange(of: model.calendar.revision) { model.publishWidgetSnapshot() }
                 .onOpenURL { model.handle($0) }
-                .task {
-                    model.registerQuickCaptureHotKey()
-                    await model.restoreVault()
-                }
+
         }
         .defaultSize(width: 1180, height: 760)
         .commands {
