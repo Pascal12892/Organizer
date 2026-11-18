@@ -1085,6 +1085,22 @@
         }
       }
     },
+    "Ausgeklappt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موسّع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expanded"
+          }
+        }
+      }
+    },
     "Ausgewählten Bereich entfernen": {
       "localizations": {
         "ar": {
@@ -1097,6 +1113,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remove selected area"
+          }
+        }
+      }
+    },
+    "Ausklappen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توسيع"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expand"
           }
         }
       }
@@ -1897,6 +1929,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Properties"
+          }
+        }
+      }
+    },
+    "Eingeklappt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مطوي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapsed"
+          }
+        }
+      }
+    },
+    "Einklappen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse"
           }
         }
       }

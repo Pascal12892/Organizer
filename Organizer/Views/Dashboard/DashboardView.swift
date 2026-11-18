@@ -51,23 +51,52 @@ struct DashboardView: View {
 }
 
 /// Einheitliche Karte mit Titel, Symbol und optionalem „Alle anzeigen“.
+/// Mit `isExpanded` lässt sich der Inhalt über den Titel ein- und ausklappen.
 private struct DashboardCard<Content: View>: View {
     let title: String
     let systemImage: String
+    var isExpanded: Binding<Bool>?
     var showAll: (() -> Void)?
     @ViewBuilder let content: Content
 
+    private var showsContent: Bool { isExpanded?.wrappedValue ?? true }
+
     var body: some View {
         GroupBox {
-            VStack(alignment: .leading, spacing: 8) {
-                content
+            if showsContent {
+                VStack(alignment: .leading, spacing: 8) {
+                    content
+                }
+                .frame(maxWidth: .infinity, minHeight: 120, alignment: .topLeading)
+                .padding(6)
             }
-            .frame(maxWidth: .infinity, minHeight: 120, alignment: .topLeading)
-            .padding(6)
         } label: {
             HStack {
-                Label(title, systemImage: systemImage)
-                    .font(.headline)
+                if let isExpanded {
+                    Button {
+                        withAnimation(.smooth) { isExpanded.wrappedValue.toggle() }
+                    } label: {
+                        HStack(spacing: 6) {
+                            // „forward“ zeigt bei Arabisch automatisch nach links.
+                            Image(systemName: isExpanded.wrappedValue ? "chevron.down" : "chevron.forward")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                                .frame(width: 12)
+                                .contentTransition(.symbolEffect(.replace))
+                            Label(title, systemImage: systemImage)
+                                .font(.headline)
+                        }
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .help(isExpanded.wrappedValue ? L("Einklappen") : L("Ausklappen"))
+                    .accessibilityLabel(title)
+                    .accessibilityValue(isExpanded.wrappedValue ? L("Ausgeklappt") : L("Eingeklappt"))
+                    .accessibilityHint(isExpanded.wrappedValue ? L("Einklappen") : L("Ausklappen"))
+                } else {
+                    Label(title, systemImage: systemImage)
+                        .font(.headline)
+                }
                 Spacer()
                 if let showAll {
                     Button("Alle anzeigen", action: showAll)
@@ -178,9 +207,12 @@ private struct TasksCard: View {
 
 private struct RecentNotesCard: View {
     @Environment(AppModel.self) private var model
+    /// Eingeklappt, bis man sie aufklappt; der Zustand bleibt erhalten.
+    @AppStorage("dashboard.recentNotesExpanded") private var isExpanded = false
 
     var body: some View {
-        DashboardCard(title: "Zuletzt bearbeitet", systemImage: "clock", showAll: { model.sidebarSelection = .notes }) {
+        DashboardCard(title: "Zuletzt bearbeitet", systemImage: "clock", isExpanded: $isExpanded,
+                      showAll: { model.sidebarSelection = .notes }) {
             let notes = model.vault.notes.filter { !RoadmapParser.isRoadmapNote($0) }.prefix(6)
             if notes.isEmpty {
                 EmptyCardText(text: model.vault.state == .ready ? L("Noch keine Notizen.") : L("Kein Vault geöffnet."))
