@@ -30,6 +30,10 @@ final class AppModel {
     var taskInputFocusRequest = 0
     /// Bereichsfilter in der Aufgabenliste (`nil` = alle).
     var taskAreaFilter: String?
+    /// Noch nicht gespeicherte Eingaben. Bleiben beim Wechsel zwischen Bereichen erhalten,
+    /// nicht aber beim Beenden der App (nur im Arbeitsspeicher).
+    var taskDraft = EntryDraft()
+    var dashboardDraft = EntryDraft()
 
     init(settings: SettingsStore, vault: VaultService, calendar: CalendarService) {
         self.settings = settings
@@ -476,6 +480,16 @@ final class AppModel {
             writeError = L("\(kind) konnte nicht in den Papierkorb gelegt werden: \(localizedMessage(error))")
         }
     }
+}
+
+/// Angefangene Eingabe in einer Eingabezeile.
+struct EntryDraft {
+    var text = ""
+    /// Im Datumsmenü gewähltes Datum.
+    var due: Date?
+    /// `true`, sobald man das Datum selbst gewählt hat – dann gilt nicht mehr der Vorschlag der Ansicht.
+    var dueChosen = false
+    var kind: CaptureKind = .task
 }
 
 /// Vorbelegung für das Blatt „Neue Notiz“.

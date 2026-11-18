@@ -142,9 +142,18 @@ private struct NewTaskField: View {
     @Environment(\.undoManager) private var undoManager
     let defaultDue: Date?
 
-    @State private var title = ""
-    @State private var due: Date?
     @FocusState private var focused: Bool
+
+    private var draft: Binding<EntryDraft> { Bindable(model).taskDraft }
+    private var title: String { model.taskDraft.text }
+
+    /// Gewähltes Datum, sonst der Vorschlag der Ansicht (Heute bzw. ohne Datum bei „Alle“).
+    private var due: Binding<Date?> {
+        Binding(
+            get: { model.taskDraft.dueChosen ? model.taskDraft.due : defaultDue },
+            set: { model.taskDraft.due = $0; model.taskDraft.dueChosen = true }
+        )
+    }
 
     var body: some View {
         // Ein Datum im Text („bis Freitag“, „25.11.“) hat Vorrang vor der Auswahl rechts.
@@ -154,12 +163,12 @@ private struct NewTaskField: View {
             Image(systemName: "plus.circle.fill")
                 .font(.title3)
                 .foregroundStyle(.tint)
-            TextField("Neue Aufgabe", text: $title)
+            TextField("Neue Aufgabe", text: draft.text)
                 .textFieldStyle(.plain)
                 .focused($focused)
                 .onSubmit(add)
 
-            DueMenuButton(due: $due, detected: parsed.date)
+            DueMenuButton(due: due, detected: parsed.date)
 
             if let area = model.taskAreaFilter {
                 Text(area)
@@ -171,17 +180,15 @@ private struct NewTaskField: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .background(.bar)
-        .onAppear { due = defaultDue }
-        .onChange(of: defaultDue) { _, newValue in due = newValue }
         .onChange(of: model.taskInputFocusRequest) { focused = true }
     }
 
     private func add() {
         let parsed = NaturalDateParser.parse(title)
-        let dueDate = parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due
+        let dueDate = parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due.wrappedValue
         model.tasks.add(title: parsed.title.isEmpty ? title : parsed.title, due: dueDate, priority: parsed.priority,
                         area: model.taskAreaFilter, topic: nil, undoManager: undoManager)
-        title = ""
+        model.taskDraft.text = ""
         focused = true
     }
 }

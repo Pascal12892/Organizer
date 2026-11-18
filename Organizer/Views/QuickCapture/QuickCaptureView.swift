@@ -39,10 +39,15 @@ struct QuickCaptureView: View {
     var undoManager: UndoManager?
     var onDone: (() -> Void)?
 
-    @State private var kind: CaptureKind = .task
-    @State private var text = ""
-    /// Im Menü gewähltes Fälligkeitsdatum (ein Datum im Text hat Vorrang).
-    @State private var due: Date?
+    /// Eingabe des schwebenden Panels. Im Dashboard liegt sie stattdessen in `model.dashboardDraft`,
+    /// damit sie einen Wechsel des Bereichs übersteht (aber kein Beenden der App).
+    @State private var panelDraft = EntryDraft()
+
+    private var draft: Binding<EntryDraft> {
+        style == .inline ? Bindable(model).dashboardDraft : $panelDraft
+    }
+    private var text: String { draft.wrappedValue.text }
+    private var kind: CaptureKind { draft.wrappedValue.kind }
     @State private var message: (text: String, isError: Bool)?
     @FocusState private var focused: Bool
 
@@ -56,7 +61,7 @@ struct QuickCaptureView: View {
                     .foregroundStyle(.tint)
                     .frame(width: 28)
                     .contentTransition(.symbolEffect(.replace))
-                TextField(kind.placeholder, text: $text)
+                TextField(kind.placeholder, text: draft.text)
                     .textFieldStyle(.plain)
                     .font(style == .panel ? .title2 : .body)
                     .focused($focused)
@@ -67,9 +72,9 @@ struct QuickCaptureView: View {
                     }
                     .accessibilityLabel("Schnellerfassung: \(kind.title)")
                 if kind == .task {
-                    DueMenuButton(due: $due, detected: parsed.date)
+                    DueMenuButton(due: draft.due, detected: parsed.date)
                 }
-                Picker("Art", selection: $kind) {
+                Picker("Art", selection: draft.kind) {
                     ForEach(CaptureKind.allCases, id: \.self) { kind in
                         Label(kind.title, systemImage: kind.systemImage).tag(kind)
                     }
@@ -108,7 +113,7 @@ struct QuickCaptureView: View {
         HStack(spacing: 12) {
             switch kind {
             case .task:
-                if let date = parsed.date ?? due {
+                if let date = parsed.date ?? draft.wrappedValue.due {
                     Label(TaskRow.relativeDay(date), systemImage: "calendar")
                     if parsed.hasTime {
                         Text("Uhrzeit wird bei Aufgaben nicht gespeichert")
@@ -147,7 +152,7 @@ struct QuickCaptureView: View {
         switch kind {
         case .task:
             model.tasks.lastError = nil
-            model.tasks.add(title: title, due: parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? due,
+            model.tasks.add(title: title, due: parsed.date.map { Calendar.current.startOfDay(for: $0) } ?? draft.wrappedValue.due,
                             priority: parsed.priority, area: area(for: parsed), topic: topic(for: parsed), undoManager: undo)
             if let error = model.tasks.lastError { return show(error, isError: true) }
             finish(L("Aufgabe „\(title)“ angelegt"))
@@ -180,8 +185,8 @@ struct QuickCaptureView: View {
     }
 
     private func finish(_ text: String) {
-        self.text = ""
-        due = nil
+        draft.wrappedValue.text = ""
+        draft.wrappedValue.due = nil
         show(text, isError: false)
         if let onDone {
             Task {
@@ -198,7 +203,7 @@ struct QuickCaptureView: View {
 
     private func cycleKind() {
         let all = CaptureKind.allCases
-        kind = all[(all.firstIndex(of: kind)! + 1) % all.count]
+        draft.wrappedValue.kind = all[(all.firstIndex(of: kind)! + 1) % all.count]
     }
 
     /// `#uni` → Bereich „Uni“.
