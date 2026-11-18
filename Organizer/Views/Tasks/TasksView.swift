@@ -9,7 +9,8 @@ struct TasksView: View {
 
     var body: some View {
         let filter = model.settings.settings.taskFilter
-        let sections = model.tasks.sections(filter: filter, area: model.taskAreaFilter)
+        let donePeriod = model.settings.settings.donePeriod
+        let sections = model.tasks.sections(filter: filter, area: model.taskAreaFilter, donePeriod: donePeriod)
 
         List(selection: $selection) {
             ForEach(sections) { section in
@@ -42,7 +43,7 @@ struct TasksView: View {
             if let task = selectedTask { model.tasks.delete(task, undoManager: undoManager) }
         }
         .navigationTitle("Aufgaben")
-        .navigationSubtitle(subtitle)
+        .navigationSubtitle(filter == .done ? doneSubtitle(sections, period: donePeriod) : subtitle)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Picker("Ansicht", selection: Binding(
@@ -54,6 +55,22 @@ struct TasksView: View {
                     }
                 }
                 .pickerStyle(.segmented)
+            }
+            if filter == .done {
+                ToolbarItem {
+                    Picker("Zeitraum", selection: Binding(
+                        get: { donePeriod },
+                        set: { period in model.settings.update { $0.donePeriod = period } }
+                    )) {
+                        ForEach(DonePeriod.allCases, id: \.self) { period in
+                            if period == .all { Divider() }
+                            Text(period.localizedTitle).tag(period)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .fixedSize()
+                    .help("Erledigte Aufgaben nach Zeitraum filtern")
+                }
             }
             ToolbarItem {
                 Menu {
@@ -85,6 +102,12 @@ struct TasksView: View {
         return parts.joined(separator: ", ")
     }
 
+    private func doneSubtitle(_ sections: [TaskSection], period: DonePeriod) -> String {
+        let count = sections.reduce(0) { $0 + $1.tasks.count }
+        let text = L("\(count) erledigt")
+        return count >= TaskGrouping.doneLimit ? L("Die neuesten \(count)") : text
+    }
+
     @ViewBuilder
     private func emptyState(_ filter: TaskFilter) -> some View {
         if model.vault.state != .ready {
@@ -102,7 +125,12 @@ struct TasksView: View {
                 ContentUnavailableView("Keine offenen Aufgaben", systemImage: "checklist",
                                        description: Text("Jede Zeile „- [ ] …“ in einer Notiz ist eine Aufgabe."))
             case .done:
-                ContentUnavailableView("Noch nichts erledigt", systemImage: "checkmark.circle")
+                if model.settings.settings.donePeriod == .all {
+                    ContentUnavailableView("Noch nichts erledigt", systemImage: "checkmark.circle")
+                } else {
+                    ContentUnavailableView("In diesem Zeitraum nichts erledigt", systemImage: "checkmark.circle",
+                                           description: Text("Wähle in der Symbolleiste einen anderen Zeitraum."))
+                }
             }
         }
     }

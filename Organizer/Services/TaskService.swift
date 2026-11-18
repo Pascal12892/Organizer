@@ -45,12 +45,12 @@ final class TaskService {
     }
 
     /// Gruppierte Liste, zwischengespeichert pro Stand, Ansicht, Bereich und Tag.
-    func sections(filter: TaskFilter, area: String?) -> [TaskSection] {
-        let key = SectionsKey(version: vault.version, filter: filter, area: area, day: Calendar.current.startOfDay(for: .now))
-        return sectionsMemo(key) { TaskGrouping.sections(tasks, filter: filter, area: area) }
+    func sections(filter: TaskFilter, area: String?, donePeriod: DonePeriod = .all) -> [TaskSection] {
+        let key = SectionsKey(version: vault.version, filter: filter, area: area, donePeriod: donePeriod, day: Calendar.current.startOfDay(for: .now))
+        return sectionsMemo(key) { TaskGrouping.sections(tasks, filter: filter, area: area, donePeriod: donePeriod) }
     }
 
-    private struct SectionsKey: Equatable { let version: Int; let filter: TaskFilter; let area: String?; let day: Date }
+    private struct SectionsKey: Equatable { let version: Int; let filter: TaskFilter; let area: String?; let donePeriod: DonePeriod; let day: Date }
     @ObservationIgnored private let sectionsMemo = Memo<SectionsKey, [TaskSection]>()
 
     private struct CountsKey: Equatable { let version: Int; let day: Date }

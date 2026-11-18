@@ -122,6 +122,27 @@ struct TaskCollectionTests {
         #expect(TaskGrouping.sections(tasks, filter: .all, now: now, calendar: calendar).flatMap(\.tasks).count == 6)
         #expect(TaskGrouping.sections(tasks, filter: .done, now: now, calendar: calendar).first?.tasks.map(\.title) == ["Fertig"])
 
+        let lastWeekTasks = [
+            line("- [x] Montag letzte Woche ✅ 2026-11-02"),
+            line("- [x] Sonntag letzte Woche ✅ 2026-11-08"),
+            line("- [x] Diese Woche ✅ 2026-11-09"),
+            line("- [x] Heute erledigt ✅ 2026-11-11"),
+            line("- [x] Oktober ✅ 2026-10-20"),
+            line("- [x] Ohne Datum erledigt"),
+        ]
+        func done(_ period: DonePeriod) -> [String] {
+            TaskGrouping.sections(lastWeekTasks, filter: .done, donePeriod: period, now: now, calendar: calendar).flatMap(\.tasks).map(\.title)
+        }
+        #expect(done(.today) == ["Heute erledigt"])
+        #expect(done(.thisWeek) == ["Heute erledigt", "Diese Woche"])
+        #expect(done(.lastWeek) == ["Sonntag letzte Woche", "Montag letzte Woche"])
+        #expect(done(.lastMonth) == ["Oktober"])
+        #expect(done(.thisMonth).count == 4)
+        #expect(done(.all).last == "Ohne Datum erledigt")
+        let allSections = TaskGrouping.sections(lastWeekTasks, filter: .done, now: now, calendar: calendar)
+        #expect(allSections.first?.title == "Heute")
+        #expect(allSections.count == 6)
+
         let counts = TaskGrouping.counts(tasks, now: now, calendar: calendar)
         #expect(counts.open == 6 && counts.dueToday == 2 && counts.overdue == 1)
     }

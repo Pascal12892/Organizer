@@ -51,6 +51,30 @@ public enum TaskFilter: String, CaseIterable, Sendable, Hashable, Codable {
     }
 }
 
+/// Zeitraum für die Ansicht „Erledigt“ – bezogen auf das Erledigt-Datum (✅).
+public enum DonePeriod: String, CaseIterable, Sendable, Hashable, Codable {
+    case today, yesterday, thisWeek, lastWeek, thisMonth, lastMonth, thisYear, all
+
+    /// Zeitraum als halboffenes Intervall; `nil` bei „Alle“.
+    public func interval(now: Date = .now, calendar: Calendar = .current) -> DateInterval? {
+        let startOfToday = calendar.startOfDay(for: now)
+        func shifted(_ interval: DateInterval?, _ component: Calendar.Component) -> DateInterval? {
+            guard let interval, let start = calendar.date(byAdding: component, value: -1, to: interval.start) else { return nil }
+            return DateInterval(start: start, end: interval.start)
+        }
+        switch self {
+        case .today: return calendar.dateInterval(of: .day, for: startOfToday)
+        case .yesterday: return shifted(calendar.dateInterval(of: .day, for: startOfToday), .day)
+        case .thisWeek: return calendar.dateInterval(of: .weekOfYear, for: now)
+        case .lastWeek: return shifted(calendar.dateInterval(of: .weekOfYear, for: now), .weekOfYear)
+        case .thisMonth: return calendar.dateInterval(of: .month, for: now)
+        case .lastMonth: return shifted(calendar.dateInterval(of: .month, for: now), .month)
+        case .thisYear: return calendar.dateInterval(of: .year, for: now)
+        case .all: return nil
+        }
+    }
+}
+
 public struct TaskSection: Identifiable, Sendable, Hashable {
     public let id: String
     public let title: String
@@ -79,7 +103,7 @@ public enum TaskGrouping {
         return calendar.isDate(date, inSameDayAs: now)
     }
 
-    public static func sections(_ tasks: [TaskItem], filter: TaskFilter, area: String? = nil,
+    public static func sections(_ tasks: [TaskItem], filter: TaskFilter, area: String? = nil, donePeriod: DonePeriod = .all,
                                 now: Date = .now, calendar: Calendar = .current) -> [TaskSection] {
         let scoped = area.map { area in tasks.filter { $0.area == area } } ?? tasks
         let open = scoped.filter(\.isOpen)
@@ -113,10 +137,44 @@ public enum TaskGrouping {
             return sections
 
         case .done:
-            let done = scoped.filter { $0.status == .done || $0.status == .cancelled }
-                .sorted { ($0.doneDate ?? .distantPast) > ($1.doneDate ?? .distantPast) }
-            return done.isEmpty ? [] : [TaskSection(id: "done", title: "Erledigt", tasks: Array(done.prefix(300)), isOverdue: false)]
+            return doneSections(scoped, period: donePeriod, now: now, calendar: calendar)
         }
+    }
+
+    /// Höchstens so viele erledigte Aufgaben werden gezeigt (die neuesten).
+    public static let doneLimit = 500
+
+    /// Erledigte Aufgaben im Zeitraum, gruppiert nach Erledigt-Tag (neueste zuerst).
+    /// Aufgaben ohne ✅-Datum erscheinen nur bei „Alle“, ganz unten.
+    static func doneSections(_ tasks: [TaskItem], period: DonePeriod, now: Date, calendar: Calendar) -> [TaskSection] {
+        let interval = period.interval(now: now, calendar: calendar)
+        let done = tasks.filter { $0.status == .done || $0.status == .cancelled }
+        let dated = done.filter { task in
+            guard let date = task.doneDate else { return false }
+            return interval.map { date >= $0.start && date < $0.end } ?? true
+        }
+        .sorted { ($0.doneDate!, $1.title) > ($1.doneDate!, $0.title) }
+        .prefix(doneLimit)
+
+        let byDay = Dictionary(grouping: dated) { calendar.startOfDay(for: $0.doneDate!) }
+        let today = calendar.startOfDay(for: now)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)
+        var sections = byDay.keys.sorted(by: >).map { day -> TaskSection in
+            let sameYear = calendar.isDate(day, equalTo: now, toGranularity: .year)
+            let title = day == today ? "Heute"
+                : day == yesterday ? "Gestern"
+                : day.formatted(sameYear ? .dateTime.weekday(.wide).day().month(.wide) : .dateTime.weekday(.wide).day().month(.wide).year())
+            return TaskSection(id: "done-\(Int(day.timeIntervalSinceReferenceDate))", title: title, tasks: byDay[day]!, isOverdue: false)
+        }
+        if period == .all, dated.count < doneLimit {
+            let undated = done.filter { $0.doneDate == nil }
+                .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+                .prefix(doneLimit - dated.count)
+            if !undated.isEmpty {
+                sections.append(TaskSection(id: "done-undated", title: "Ohne Datum", tasks: Array(undated), isOverdue: false))
+            }
+        }
+        return sections
     }
 
     /// Zahlen für die Seitenleiste.

@@ -22,6 +22,21 @@ extension TaskFilter {
     }
 }
 
+extension DonePeriod {
+    var localizedTitle: String {
+        switch self {
+        case .today: L("Heute")
+        case .yesterday: L("Gestern")
+        case .thisWeek: L("Diese Woche")
+        case .lastWeek: L("Letzte Woche")
+        case .thisMonth: L("Dieser Monat")
+        case .lastMonth: L("Letzter Monat")
+        case .thisYear: L("Dieses Jahr")
+        case .all: L("Alle")
+        }
+    }
+}
+
 extension CalendarScope {
     var localizedTitle: String {
         switch self {
@@ -63,7 +78,14 @@ extension TaskSection {
         case "today": L("Heute")
         case "done": L("Erledigt")
         case "area-none": L("Ohne Bereich")
-        default: title == "Morgen" ? L("Morgen") : title
+        case "done-undated": L("Ohne Datum")
+        default:
+            switch title {
+            case "Morgen": L("Morgen")
+            case "Heute": L("Heute")
+            case "Gestern": L("Gestern")
+            default: title // Datumsangaben formatiert das System in der jeweiligen Sprache
+            }
         }
     }
 }

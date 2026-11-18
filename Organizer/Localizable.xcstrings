@@ -234,6 +234,22 @@
         }
       }
     },
+    "%lld erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld مكتملة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld completed"
+          }
+        }
+      }
+    },
     "%lld offen": {
       "localizations": {
         "ar": {
@@ -1709,6 +1725,22 @@
         }
       }
     },
+    "Die neuesten %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحدث %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latest %lld"
+          }
+        }
+      }
+    },
     "Diese Woche": {
       "localizations": {
         "ar": {
@@ -1741,6 +1773,22 @@
         }
       }
     },
+    "Dieser Monat": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الشهر"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Month"
+          }
+        }
+      }
+    },
     "Dieser Ordner enthält %lld Dateien. Ist das wirklich dein Vault? Ein kleinerer Ordner lädt viel schneller.": {
       "localizations": {
         "ar": {
@@ -1753,6 +1801,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "This folder contains %lld files. Is it really your vault? A smaller folder loads much faster."
+          }
+        }
+      }
+    },
+    "Dieses Jahr": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا العام"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Year"
           }
         }
       }
@@ -2057,6 +2121,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Done, reopen"
+          }
+        }
+      }
+    },
+    "Erledigte Aufgaben nach Zeitraum filtern": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصفية المهام المكتملة حسب الفترة الزمنية"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter completed tasks by time period"
           }
         }
       }
@@ -2765,6 +2845,22 @@
         }
       }
     },
+    "In diesem Zeitraum nichts erledigt": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يكتمل شيء في هذه الفترة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing Completed in This Period"
+          }
+        }
+      }
+    },
     "In „Aufgaben.md“ im Bereich bzw. Thema": {
       "localizations": {
         "ar": {
@@ -3305,6 +3401,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Creates a note that references this event in its frontmatter"
+          }
+        }
+      }
+    },
+    "Letzte Woche": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسبوع الماضي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last Week"
+          }
+        }
+      }
+    },
+    "Letzter Monat": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشهر الماضي"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last Month"
           }
         }
       }
@@ -6252,6 +6380,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose one or more folders that belong to “%@”."
+          }
+        }
+      }
+    },
+    "Wähle in der Symbolleiste einen anderen Zeitraum.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر فترة أخرى من شريط الأدوات."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a different period in the toolbar."
           }
         }
       }

@@ -16,6 +16,8 @@ struct AppSettings: Codable, Equatable {
     var calendarScope: CalendarScope = .week
     var taskStorage: TaskStorage = .central
     var taskFilter: TaskFilter = .today
+    /// Zeitraum in der Ansicht „Erledigt“.
+    var donePeriod: DonePeriod = .thisWeek
     /// Zugriffsrechte auf verknüpfte Mac-Ordner (Pfad → Security-Scoped Bookmark).
     var folderBookmarks: [String: Data] = [:]
     var quickCaptureHotKey = HotKeyPreset.controlOptionSpace.rawValue
@@ -42,6 +44,7 @@ struct AppSettings: Codable, Equatable {
         calendarScope = try container.decodeIfPresent(CalendarScope.self, forKey: .calendarScope) ?? .week
         taskStorage = try container.decodeIfPresent(TaskStorage.self, forKey: .taskStorage) ?? .central
         taskFilter = try container.decodeIfPresent(TaskFilter.self, forKey: .taskFilter) ?? .today
+        donePeriod = try container.decodeIfPresent(DonePeriod.self, forKey: .donePeriod) ?? .thisWeek
         folderBookmarks = try container.decodeIfPresent([String: Data].self, forKey: .folderBookmarks) ?? [:]
         quickCaptureHotKey = try container.decodeIfPresent(String.self, forKey: .quickCaptureHotKey) ?? HotKeyPreset.controlOptionSpace.rawValue
         quickNoteFolder = try container.decodeIfPresent(String.self, forKey: .quickNoteFolder) ?? "Inbox"
