@@ -765,6 +765,22 @@
         }
       }
     },
+    "Anderen Ordner wählen: Ablage › Vault öffnen … (⇧⌘O)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مجلدًا آخر: ملف › فتح الخزنة … (⇧⌘O)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose another folder: File › Open Vault … (⇧⌘O)"
+          }
+        }
+      }
+    },
     "Anderen Vault wählen …": {
       "localizations": {
         "ar": {

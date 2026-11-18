@@ -37,10 +37,7 @@ struct VaultStatusView: View {
                     // Mit Zwischenspeicher sind die Notizen schon da – dann wird nur abgeglichen.
                     Text(model.vault.notes.isEmpty ? L("Vault wird gelesen …") : L("Wird aktualisiert …"))
                 } else if isHuge {
-                    Label(L("Dieser Ordner enthält \(model.vault.snapshot.entryCount) Dateien. Ist das wirklich dein Vault? Ein kleinerer Ordner lädt viel schneller."),
-                          systemImage: "tortoise")
-                        .lineLimit(4)
-                        .help("Ablage › Vault öffnen … (⇧⌘O)")
+                    LargeFolderHint(entryCount: model.vault.snapshot.entryCount)
                 } else if let settingsError {
                     Label(settingsError, systemImage: "exclamationmark.triangle.fill")
                         .symbolRenderingMode(.multicolor)
@@ -66,6 +63,49 @@ struct VaultStatusView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
+    }
+}
+
+/// Nur die Schildkröte; der Hinweis erscheint beim Darüberfahren (oder per Klick).
+private struct LargeFolderHint: View {
+    let entryCount: Int
+    @State private var showsText = false
+    @State private var hoverTask: Task<Void, Never>?
+
+    private var text: String {
+        L("Dieser Ordner enthält \(entryCount) Dateien. Ist das wirklich dein Vault? Ein kleinerer Ordner lädt viel schneller.")
+    }
+
+    var body: some View {
+        Button {
+            showsText.toggle()
+        } label: {
+            Image(systemName: "tortoise")
+                .font(.body)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .onHover { inside in
+            hoverTask?.cancel()
+            // Kurz verzögert öffnen, sofort beim Verlassen schließen – flackert nicht beim Vorbeifahren.
+            hoverTask = Task {
+                if inside { try? await Task.sleep(for: .milliseconds(250)) }
+                guard !Task.isCancelled else { return }
+                showsText = inside
+            }
+        }
+        .popover(isPresented: $showsText, arrowEdge: .top) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(text)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("Anderen Ordner wählen: Ablage › Vault öffnen … (⇧⌘O)")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(12)
+            .frame(width: 260, alignment: .leading)
+        }
+        .accessibilityLabel(text)
     }
 }
 
