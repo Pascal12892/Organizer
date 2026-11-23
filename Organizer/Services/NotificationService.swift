@@ -68,7 +68,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
             guard let due = task.relevantDate, let fire = fireDate(for: due), fire > now else { continue }
             let content = UNMutableNotificationContent()
             content.title = task.due == nil ? L("Heute geplant") : L("Heute fällig")
-            content.body = task.title
+            content.body = task.displayTitle
             content.subtitle = [task.area, task.topic].compactMap { $0 }.joined(separator: " › ")
             content.sound = .default
             content.categoryIdentifier = Self.category

@@ -102,10 +102,11 @@ final class ToolBox {
                                        "area": string("Optional: Bereich"), "topic": string("Optional: Thema im Bereich")], required: ["title"]),
                        readOnly: false),
         ToolDefinition(name: "update_task", title: "Aufgabe ändern",
-                       description: "Ändert genau eine Aufgaben-Zeile: abhaken bzw. öffnen, Fälligkeit oder Priorität. Die ID stammt aus list_tasks.",
+                       description: "Ändert genau eine Aufgaben-Zeile: abhaken bzw. öffnen, Fälligkeit, Priorität oder eine verlinkte Notiz. Die ID stammt aus list_tasks.",
                        schema: object(["task_id": string("ID aus list_tasks"), "done": boolean("Optional: erledigt ja/nein"),
                                        "due": string("Optional: neue Fälligkeit YYYY-MM-DD, leer entfernt sie"),
-                                       "priority": enumString(["highest", "high", "medium", "low", "lowest", "none"], "Optional: neue Priorität")], required: ["task_id"]),
+                                       "priority": enumString(["highest", "high", "medium", "low", "lowest", "none"], "Optional: neue Priorität"),
+                                       "link_note": string("Optional: Notiz verlinken, Name oder Pfad ohne .md (wird zu [[Name]])")], required: ["task_id"]),
                        readOnly: false),
         ToolDefinition(name: "create_event", title: "Termin anlegen",
                        description: "Legt einen Termin im Apple Kalender an.",
@@ -215,6 +216,13 @@ final class ToolBox {
             if let done = arguments["done"]?.boolValue { line = TaskLine.setting(line, done: done) }
             if let due = arguments["due"]?.stringValue { line = TaskLine.setting(line, due: due.isEmpty ? nil : try parseDate(due)) }
             if let priority = s("priority") { line = TaskLine.setting(line, priority: Self.priority(priority)) }
+            if let target = s("link_note"), !target.isEmpty {
+                let notes = scan().notes
+                guard let note = WikiLinks.resolve(target, in: notes) else {
+                    throw ToolError("Notiz „\(target)“ nicht gefunden. Rufe search_notes auf, um den Namen zu prüfen.")
+                }
+                line = TaskLine.setting(line, addingLink: WikiLinks.linkTarget(for: note, in: notes))
+            }
             guard line != task.rawLine else { return ["unchanged": .string(task.title)] }
             let index = try writer.replaceLine(task.relativePath, lineNumber: task.lineNumber, expected: task.rawLine, with: line)
             // Wiederkehrende Aufgabe erledigt: nächste Wiederholung darüber einfügen, wie Organizer und das Tasks-Plugin.
@@ -325,6 +333,7 @@ final class ToolBox {
         if task.priority != .none { item["priority"] = .string(Self.priorityName(task.priority)) }
         if let area = task.area { item["area"] = .string(area) }
         if let topic = task.topic { item["topic"] = .string(topic) }
+        if !task.links.isEmpty { item["linked_notes"] = .array(task.links.map { .string($0) }) }
         return .object(item)
     }
 

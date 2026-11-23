@@ -40,6 +40,15 @@ public enum WikiLinks {
         return trimmed.lowercased().hasSuffix(".md") ? String(trimmed.dropLast(3)) : trimmed
     }
 
+    /// Link-Ziel für eine Notiz, wie Obsidian es kürzt: nur der Dateiname, wenn er im Vault eindeutig ist,
+    /// sonst der Pfad ohne `.md`.
+    public static func linkTarget(for note: Note, in notes: [Note]) -> String {
+        let sameName = notes.lazy.filter { $0.title.caseInsensitiveCompare(note.title) == .orderedSame }.prefix(2).count
+        guard sameName > 1 else { return note.title }
+        let path = note.relativePath
+        return path.lowercased().hasSuffix(".md") ? String(path.dropLast(3)) : path
+    }
+
     /// Findet die Notiz zu einem Link-Ziel wie Obsidian: zuerst Pfad, dann Dateiname.
     public static func resolve(_ target: String, in notes: [Note]) -> Note? {
         let name = noteName(fromTarget: target)

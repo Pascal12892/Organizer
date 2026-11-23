@@ -34,7 +34,7 @@ App von Apple anfühlt.
   „In Obsidian öffnen“. Änderungen aus Obsidian erscheinen sofort.
 - **Aufgaben** – jede Zeile `- [ ] …` im Vault, im Format des Obsidian-Plugins [Tasks](https://publish.obsidian.md/tasks/):
   Heute, Diese Woche, nach Bereich, Erledigt – als Liste oder als Board (Offen, In Arbeit, Erledigt).
-  Abhaken, Datum, Priorität, Wiederholung – geändert wird immer genau eine Zeile. Wiederkehrende Aufgaben (🔁) bekommen
+  Abhaken, Datum, Priorität, Wiederholung, verlinkte Notizen (`[[Notiz]]`) – geändert wird immer genau eine Zeile. Wiederkehrende Aufgaben (🔁) bekommen
   beim Abhaken wie im Tasks-Plugin automatisch die nächste Wiederholung.
 - **Kalender** – Tag, Woche, Monat aus dem Apple Kalender; Termine anlegen; fällige Aufgaben per Drag and Drop verschieben;
   Aufgaben in die Zeitleiste ziehen legt einen Zeitblock im Apple Kalender an.

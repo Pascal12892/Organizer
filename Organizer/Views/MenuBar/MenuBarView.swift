@@ -130,8 +130,8 @@ private struct MenuBarTaskRow: View {
             }
             .buttonStyle(.plain)
             .help("Als erledigt markieren")
-            .accessibilityLabel("\(task.title) erledigen")
-            Text(task.title).lineLimit(1)
+            .accessibilityLabel("\(task.displayTitle) erledigen")
+            Text(task.displayTitle).lineLimit(1)
             Spacer(minLength: 4)
             if TaskGrouping.isOverdue(task), let date = task.relevantDate {
                 Text(TaskRow.relativeDay(date))
