@@ -74,7 +74,7 @@ struct CalendarTimeline: View {
                 .dropDestination(for: String.self) { items, _ in
                     model.dropTasks(items, on: day, undoManager: undoManager)
                 }
-                .help("Doppelklick zeigt den Tag")
+                .help("Doppelklick zeigt den Tag. Aufgabe hierher ziehen setzt die Fälligkeit, in die Zeitleiste ziehen legt einen Zeitblock an.")
                 .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
             }
         }
@@ -104,6 +104,10 @@ struct CalendarTimeline: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .padding(.horizontal, 2)
+                    .contentShape(Rectangle())
+                    .dropDestination(for: String.self) { items, _ in
+                        model.dropTasks(items, on: days[index], undoManager: undoManager)
+                    }
                 }
             }
             .padding(.vertical, 4)
@@ -143,6 +147,7 @@ private struct DayColumn: View {
     let day: Date
     let events: [CalendarEventInfo]
     var isSelected = false
+    @State private var isDropTarget = false
 
     private let calendar = Calendar.current
     private var hourHeight: CGFloat { CalendarTimeline.hourHeight }
@@ -182,8 +187,20 @@ private struct DayColumn: View {
                 model.calendarState.newEventStart = calendar.date(byAdding: .hour, value: hour, to: calendar.startOfDay(for: day))
             }
             .onTapGesture { model.calendarState.select(day) }
-            .dropDestination(for: String.self) { items, _ in
-                model.dropTasks(items, on: day, undoManager: undoManager)
+            // In die Zeitleiste gezogen: Zeitblock zur Uhrzeit. In die Kopfzeile gezogen: nur Fälligkeit (siehe oben).
+            .dropDestination(for: String.self) { items, location in
+                let start = CalendarMath.timeBlockStart(on: day, hours: location.y / hourHeight,
+                                                        duration: AppModel.timeBlockDuration, calendar: calendar)
+                return model.dropTasksAsTimeBlocks(items, at: start, undoManager: undoManager)
+            } isTargeted: { targeted in
+                isDropTarget = targeted
+            }
+            .overlay {
+                if isDropTarget {
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .strokeBorder(.tint, lineWidth: 2)
+                        .accessibilityHidden(true)
+                }
             }
             .overlay(alignment: .leading) {
                 Rectangle().fill(Color(nsColor: .separatorColor)).frame(width: 0.5)

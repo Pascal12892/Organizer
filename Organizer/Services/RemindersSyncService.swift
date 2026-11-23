@@ -131,8 +131,12 @@ final class RemindersSyncService {
 
                 case .updateTask(let task, let newLine, _):
                     do {
-                        try writer.replaceLine(task.relativePath, lineNumber: task.lineNumber, expected: task.rawLine, with: newLine)
+                        let index = try writer.replaceLine(task.relativePath, lineNumber: task.lineNumber, expected: task.rawLine, with: newLine)
                         changedFiles = true
+                        // In Erinnerungen abgehakt und mit 🔁: nächste Wiederholung darüber einfügen wie beim Abhaken in Organizer.
+                        if task.isOpen, TaskLine.parse(newLine)?.status == .done, let next = TaskLine.nextOccurrence(of: newLine) {
+                            try? writer.insertLine(task.relativePath, at: index, line: next)
+                        }
                     } catch {
                         // Zeile hat sich gerade geändert: Verknüpfung auf altem Stand lassen, nächster Abgleich holt es nach.
                         if let index = links.firstIndex(where: { $0.path == task.relativePath && $0.lastLine == newLine }) {

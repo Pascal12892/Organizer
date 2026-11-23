@@ -35,7 +35,10 @@ dazu `!`/`!!`/`!!!` als Priorität und `#bereich` zur Zuordnung.
 
 ## Drag and Drop
 
-- Aufgaben auf einen Tag im Kalender ziehen → Fälligkeit.
+- Aufgaben auf einen Tag im Kalender ziehen (Monat, Kopfzeile oder Zeile „ganztägig“) → Fälligkeit.
+- Aufgaben in die Zeitleiste von Tag oder Woche ziehen → Zeitblock (1 Stunde, auf 15 Minuten gerundet) im Standardkalender.
+  Der Termin verlinkt auf die Notiz in Obsidian, die Aufgabe selbst bleibt unverändert.
+- Aufgaben im Board in eine andere Spalte ziehen → Status (`[ ]`, `[/]`, `[x]`). Ohne Maus: Kontextmenü › Status.
 - Notizen auf einen Ordner in der Seitenleiste ziehen → verschieben (Bereich/Thema im Frontmatter werden angepasst).
 - Ordner aus dem Finder auf einen Ordner in der Seitenleiste ziehen → als Mac-Ordner verknüpfen.
 

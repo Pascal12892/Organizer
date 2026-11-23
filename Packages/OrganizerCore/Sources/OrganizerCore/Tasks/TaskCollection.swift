@@ -75,6 +75,22 @@ public enum DonePeriod: String, CaseIterable, Sendable, Hashable, Codable {
     }
 }
 
+/// Spalten der Board-Ansicht. Verschieben zwischen Spalten ändert nur das Statuszeichen der Zeile.
+public enum TaskBoardColumn: String, CaseIterable, Sendable, Hashable, Identifiable {
+    case open, inProgress, done
+
+    public var id: String { rawValue }
+
+    /// Status, den eine Aufgabe beim Ablegen in dieser Spalte bekommt.
+    public var status: TaskStatus {
+        switch self {
+        case .open: .open
+        case .inProgress: .inProgress
+        case .done: .done
+        }
+    }
+}
+
 public struct TaskSection: Identifiable, Sendable, Hashable {
     public let id: String
     public let title: String
@@ -175,6 +191,27 @@ public enum TaskGrouping {
             }
         }
         return sections
+    }
+
+    /// Erledigte Aufgaben im Board: nur die der letzten Tage, damit die Spalte überschaubar bleibt.
+    public static let boardDoneDays = 7
+    public static let boardDoneLimit = 100
+
+    /// Aufgaben für das Board: offen, in Arbeit und kürzlich erledigt. Abgebrochene erscheinen nicht.
+    public static func board(_ tasks: [TaskItem], area: String? = nil, now: Date = .now,
+                             calendar: Calendar = .current) -> [TaskBoardColumn: [TaskItem]] {
+        let scoped = area.map { area in tasks.filter { $0.area == area } } ?? tasks
+        let today = calendar.startOfDay(for: now)
+        let since = calendar.date(byAdding: .day, value: -(boardDoneDays - 1), to: today) ?? today
+        let done = scoped
+            .filter { $0.status == .done && ($0.doneDate.map { $0 >= since } ?? false) }
+            .sorted { ($0.doneDate!, $1.title) > ($1.doneDate!, $0.title) }
+            .prefix(boardDoneLimit)
+        return [
+            .open: sorted(scoped.filter { $0.status == .open }),
+            .inProgress: sorted(scoped.filter { $0.status == .inProgress }),
+            .done: Array(done),
+        ]
     }
 
     /// Zahlen für die Seitenleiste.

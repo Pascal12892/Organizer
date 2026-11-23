@@ -62,8 +62,10 @@ public enum TaskLine {
         var recurrence: String?
         if let range = description.range(of: "🔁") {
             let rest = description[range.upperBound...]
-            let end = rest.firstIndex { metadataEmojis.contains($0) } ?? rest.endIndex
-            let text = rest[..<end].trimmingCharacters(in: .whitespaces)
+            // Die Regel endet am nächsten Emoji-Feld oder an den Tags am Zeilenende.
+            let emojiEnd = rest.firstIndex { metadataEmojis.contains($0) } ?? rest.endIndex
+            let end = min(emojiEnd, max(trailingTokensStart(in: description), range.upperBound))
+            let text = description[range.upperBound..<end].trimmingCharacters(in: .whitespaces)
             recurrence = text.isEmpty ? nil : text
         }
 
@@ -153,6 +155,102 @@ public enum TaskLine {
         let tail = parts.description[index...].trimmingCharacters(in: .whitespaces)
         let description = [title.trimmingCharacters(in: .whitespaces), tail].filter { !$0.isEmpty }.joined(separator: " ")
         return rebuild(parts, description: description)
+    }
+
+    /// Wiederholung setzen (`every week`) oder entfernen (`nil`). Steht wie im Tasks-Plugin vor den Datumsfeldern.
+    public static func setting(_ line: String, recurrence: String?) -> String {
+        guard let parts = parts(of: line) else { return line }
+        var description = parts.description
+        if let range = description.range(of: "🔁") {
+            let rest = description[range.upperBound...]
+            let emojiEnd = rest.firstIndex { metadataEmojis.contains($0) } ?? description.endIndex
+            let end = max(min(emojiEnd, trailingTokensStart(in: description)), range.upperBound)
+            let offset = description.distance(from: description.startIndex, to: range.lowerBound)
+            description.removeSubrange(range.lowerBound..<end)
+            // Zwei Leerzeichen an der Schnittstelle zu einem machen, den Rest der Zeile nicht anfassen.
+            let cut = description.index(description.startIndex, offsetBy: offset)
+            if cut > description.startIndex, cut < description.endIndex,
+               description[description.index(before: cut)] == " ", description[cut] == " " {
+                description.remove(at: cut)
+            }
+        }
+        if let rule = recurrence?.trimmingCharacters(in: .whitespaces), !rule.isEmpty {
+            let dateEmojis = Set(dateFieldEmojis.values.flatMap { $0 })
+            let index = min(description.firstIndex { dateEmojis.contains($0) } ?? description.endIndex,
+                            trailingTokensStart(in: description))
+            let head = description[..<index].trimmingCharacters(in: .whitespaces)
+            let tail = description[index...].trimmingCharacters(in: .whitespaces)
+            description = [head, "🔁 " + rule, tail].filter { !$0.isEmpty }.joined(separator: " ")
+        }
+        return rebuild(parts, description: description.trimmingCharacters(in: .whitespaces))
+    }
+
+    /// Status direkt setzen (offen, in Arbeit, erledigt, abgebrochen), z. B. beim Verschieben im Board.
+    /// Erledigt bekommt `✅ Datum`, alle anderen Status verlieren es wieder.
+    public static func setting(_ line: String, status: TaskStatus, on date: Date = .now, timeZone: TimeZone = .current) -> String {
+        guard var parts = parts(of: line) else { return line }
+        if status == .done { return setting(line, done: true, on: date, timeZone: timeZone) }
+        parts.status = status
+        return rebuild(parts, description: removingField(["✅"], from: parts.description))
+    }
+
+    /// Die nächste Wiederholung einer Aufgabe mit `🔁`, wie das Tasks-Plugin sie beim Abhaken anlegt:
+    /// offen, Fälligkeit, Geplant und Start um denselben Abstand verschoben, ohne Erledigt-Datum und Block-ID.
+    /// `nil`, wenn die Zeile keine verständliche Wiederholung hat.
+    public static func nextOccurrence(of line: String, completedOn: Date = .now, timeZone: TimeZone = .current) -> String? {
+        guard let task = parse(line, timeZone: timeZone), let text = task.recurrence,
+              let rule = RecurrenceRule(text), var parts = parts(of: line) else { return nil }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        calendar.firstWeekday = Calendar.current.firstWeekday
+
+        let completed = calendar.startOfDay(for: completedOn)
+        let reference = task.due ?? task.scheduled ?? task.start
+        var description = removingField(["✅", "❌"], from: parts.description)
+        if let match = description.firstMatch(of: Patterns.blockID) {
+            description.removeSubrange(match.range)
+        }
+        func string(_ date: Date) -> String {
+            OrganizerDateFormat.string(from: date, includingTime: false, timeZone: timeZone)
+        }
+
+        if let reference {
+            let base = rule.whenDone ? completed : calendar.startOfDay(for: reference)
+            let next = rule.next(after: base, calendar: calendar)
+            let shift = calendar.dateComponents([.day], from: calendar.startOfDay(for: reference), to: next).day ?? 0
+            for field in ["due", "scheduled", "start"] {
+                guard let emojis = dateFieldEmojis[field] else { continue }
+                description = replacingDate(of: emojis, in: description, timeZone: timeZone) { old in
+                    calendar.date(byAdding: .day, value: shift, to: old).map(string)
+                }
+            }
+        } else {
+            // Ohne Datum bekommt die Wiederholung eine Fälligkeit, sonst wäre sie von der alten nicht zu unterscheiden.
+            let next = rule.next(after: completed, calendar: calendar)
+            description = inserting("📅 " + string(next), into: description, beforeTrailingTags: true)
+        }
+        // Erstellt-Datum auf heute, wie im Tasks-Plugin.
+        description = replacingDate(of: dateFieldEmojis["created"] ?? [], in: description, timeZone: timeZone) { _ in string(completed) }
+
+        parts.status = .open
+        return rebuild(parts, description: description.trimmingCharacters(in: .whitespaces))
+    }
+
+    /// Ersetzt das Datum hinter dem ersten passenden Emoji an Ort und Stelle.
+    private static func replacingDate(of emojis: [Character], in description: String, timeZone: TimeZone,
+                                      _ transform: (Date) -> String?) -> String {
+        var result = description
+        for emoji in emojis {
+            guard let range = result.range(of: String(emoji)) else { continue }
+            var start = range.upperBound
+            while start < result.endIndex, result[start] == " " || result[start] == "\u{FE0F}" { start = result.index(after: start) }
+            guard let match = result[start...].prefixMatch(of: Patterns.isoDate),
+                  let old = OrganizerDateFormat.fastParse(String(result[match.range]), timeZone: timeZone),
+                  let replacement = transform(old) else { continue }
+            result.replaceSubrange(match.range, with: replacement)
+            return result
+        }
+        return result
     }
 
     /// Neue Aufgaben-Zeile.

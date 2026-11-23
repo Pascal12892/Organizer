@@ -2,6 +2,11 @@ import Foundation
 import OrganizerCore
 import Observation
 
+/// Darstellung der Aufgaben.
+enum TaskLayout: String, Codable, CaseIterable {
+    case list, board
+}
+
 /// Alle App-Einstellungen. Wird als JSON in Application Support gespeichert.
 struct AppSettings: Codable, Equatable {
     /// Security-Scoped Bookmark auf den Vault-Ordner.
@@ -16,6 +21,8 @@ struct AppSettings: Codable, Equatable {
     var calendarScope: CalendarScope = .week
     var taskStorage: TaskStorage = .central
     var taskFilter: TaskFilter = .today
+    /// Aufgaben als Liste oder als Board mit Spalten nach Status.
+    var taskLayout: TaskLayout = .list
     /// Zeitraum in der Ansicht „Erledigt“.
     var donePeriod: DonePeriod = .thisWeek
     /// Zugriffsrechte auf verknüpfte Mac-Ordner (Pfad → Security-Scoped Bookmark).
@@ -44,6 +51,7 @@ struct AppSettings: Codable, Equatable {
         calendarScope = try container.decodeIfPresent(CalendarScope.self, forKey: .calendarScope) ?? .week
         taskStorage = try container.decodeIfPresent(TaskStorage.self, forKey: .taskStorage) ?? .central
         taskFilter = try container.decodeIfPresent(TaskFilter.self, forKey: .taskFilter) ?? .today
+        taskLayout = try container.decodeIfPresent(TaskLayout.self, forKey: .taskLayout) ?? .list
         donePeriod = try container.decodeIfPresent(DonePeriod.self, forKey: .donePeriod) ?? .thisWeek
         folderBookmarks = try container.decodeIfPresent([String: Data].self, forKey: .folderBookmarks) ?? [:]
         quickCaptureHotKey = try container.decodeIfPresent(String.self, forKey: .quickCaptureHotKey) ?? HotKeyPreset.controlOptionSpace.rawValue

@@ -111,6 +111,17 @@ public enum CalendarMath {
             .filter { $0.overlaps(dayStart: dayStart, calendar: calendar) }
             .sorted { ($0.isAllDay ? 0 : 1, $0.start, $0.title) < ($1.isAllDay ? 0 : 1, $1.start, $1.title) }
     }
+
+    /// Startzeit für einen Zeitblock an einer Stelle der Zeitleiste: `hours` Stunden nach Mitternacht,
+    /// auf `step` Minuten abgerundet und so begrenzt, dass ein Block der Länge `duration` noch am selben Tag endet.
+    public static func timeBlockStart(on day: Date, hours: Double, step: Int = 15, duration: TimeInterval = 3600,
+                                      calendar: Calendar) -> Date {
+        let step = max(step, 1)
+        let latest = max(24 * 60 - Int(duration / 60), 0)
+        let minutes = min(max(Int((max(hours, 0) * 60) / Double(step)) * step, 0), latest)
+        let start = calendar.startOfDay(for: day)
+        return calendar.date(byAdding: .minute, value: minutes, to: start) ?? start
+    }
 }
 
 /// Position eines Termins in der Zeitleiste: Spalte bei Überschneidungen.

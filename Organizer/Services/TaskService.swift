@@ -50,6 +50,15 @@ final class TaskService {
         return sectionsMemo(key) { TaskGrouping.sections(tasks, filter: filter, area: area, donePeriod: donePeriod) }
     }
 
+    /// Spalten für das Board, zwischengespeichert wie `sections`.
+    func board(area: String?) -> [TaskBoardColumn: [TaskItem]] {
+        let key = BoardKey(version: vault.version, area: area, day: Calendar.current.startOfDay(for: .now))
+        return boardMemo(key) { TaskGrouping.board(tasks, area: area) }
+    }
+
+    private struct BoardKey: Equatable { let version: Int; let area: String?; let day: Date }
+    @ObservationIgnored private let boardMemo = Memo<BoardKey, [TaskBoardColumn: [TaskItem]]>()
+
     private struct SectionsKey: Equatable { let version: Int; let filter: TaskFilter; let area: String?; let donePeriod: DonePeriod; let day: Date }
     @ObservationIgnored private let sectionsMemo = Memo<SectionsKey, [TaskSection]>()
 
@@ -62,7 +71,38 @@ final class TaskService {
 
     func setDone(_ task: TaskItem, _ done: Bool, undoManager: UndoManager?) {
         if done { NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now) }
-        change(task, to: TaskLine.setting(task.rawLine, done: done), actionName: done ? L("Aufgabe erledigen") : L("Aufgabe öffnen"), undoManager: undoManager)
+        let actionName = done ? L("Aufgabe erledigen") : L("Aufgabe öffnen")
+        if done, task.isOpen {
+            complete(task, newLine: TaskLine.setting(task.rawLine, done: true), actionName: actionName, undoManager: undoManager)
+        } else {
+            change(task, to: TaskLine.setting(task.rawLine, done: done), actionName: actionName, undoManager: undoManager)
+        }
+    }
+
+    /// Status setzen, z. B. beim Verschieben im Board. Erledigt legt bei `🔁` die nächste Wiederholung an.
+    func setStatus(_ task: TaskItem, _ status: TaskStatus, undoManager: UndoManager?) {
+        guard status != task.status else { return }
+        let newLine = TaskLine.setting(task.rawLine, status: status)
+        if status == .done, task.isOpen {
+            NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+            complete(task, newLine: newLine, actionName: L("Aufgabe erledigen"), undoManager: undoManager)
+        } else {
+            change(task, to: newLine, actionName: L("Status ändern"), undoManager: undoManager)
+        }
+    }
+
+    /// Erledigt eine offene Aufgabe. Hat sie eine Wiederholung (`🔁`), kommt die nächste wie im Tasks-Plugin
+    /// als neue Zeile direkt darüber. Beide Schritte sind ein einziges Rückgängig.
+    private func complete(_ task: TaskItem, newLine: String, actionName: String, undoManager: UndoManager?) {
+        guard let next = TaskLine.nextOccurrence(of: task.rawLine) else {
+            change(task, to: newLine, actionName: actionName, undoManager: undoManager)
+            return
+        }
+        undoManager?.beginUndoGrouping()
+        defer { undoManager?.endUndoGrouping() }
+        guard let index = apply(path: task.relativePath, lineNumber: task.lineNumber, from: task.rawLine, to: newLine,
+                                actionName: actionName, undoManager: undoManager) else { return }
+        apply(path: task.relativePath, lineNumber: index, from: nil, to: next, actionName: actionName, undoManager: undoManager)
     }
 
     func setDue(_ task: TaskItem, _ due: Date?, undoManager: UndoManager?) {
@@ -71,6 +111,11 @@ final class TaskService {
 
     func setPriority(_ task: TaskItem, _ priority: TaskPriority, undoManager: UndoManager?) {
         change(task, to: TaskLine.setting(task.rawLine, priority: priority), actionName: L("Priorität ändern"), undoManager: undoManager)
+    }
+
+    /// Wiederholung im Format des Tasks-Plugins setzen (`every week`) oder entfernen.
+    func setRecurrence(_ task: TaskItem, _ rule: String?, undoManager: UndoManager?) {
+        change(task, to: TaskLine.setting(task.rawLine, recurrence: rule), actionName: L("Wiederholung ändern"), undoManager: undoManager)
     }
 
     func rename(_ task: TaskItem, to title: String, undoManager: UndoManager?) {
@@ -85,7 +130,11 @@ final class TaskService {
         if let done { line = TaskLine.setting(line, done: done) }
         if let due { line = TaskLine.setting(line, due: due) }
         if let priority { line = TaskLine.setting(line, priority: priority) }
-        change(task, to: line, actionName: L("Aufgabe ändern"), undoManager: undoManager)
+        if done == true, task.isOpen {
+            complete(task, newLine: line, actionName: L("Aufgabe ändern"), undoManager: undoManager)
+        } else {
+            change(task, to: line, actionName: L("Aufgabe ändern"), undoManager: undoManager)
+        }
     }
 
     /// Entfernt die Zeile. ⌘Z fügt sie an derselben Stelle wieder ein.
@@ -145,8 +194,10 @@ final class TaskService {
     }
 
     /// `from == nil`: Zeile einfügen; `to == nil`: Zeile entfernen; sonst ersetzen.
-    private func apply(path: String, lineNumber: Int, from old: String?, to new: String?, actionName: String, undoManager: UndoManager?) {
-        guard let writer else { return }
+    /// - Returns: die geänderte Zeilennummer, `nil` bei einem Fehler.
+    @discardableResult
+    private func apply(path: String, lineNumber: Int, from old: String?, to new: String?, actionName: String, undoManager: UndoManager?) -> Int? {
+        guard let writer else { return nil }
         do {
             let index: Int
             if let old {
@@ -155,14 +206,16 @@ final class TaskService {
                 try writer.insertLine(path, at: lineNumber, line: new)
                 index = lineNumber
             } else {
-                return
+                return nil
             }
             lastError = nil
             registerUndo(path: path, lineNumber: index, from: new, to: old, actionName: actionName, undoManager: undoManager)
             refresh(path)
+            return index
         } catch {
             lastError = localizedMessage(error)
             refresh(path)
+            return nil
         }
     }
 
@@ -171,7 +224,7 @@ final class TaskService {
     private func registerUndo(path: String, lineNumber: Int, from: String?, to: String?, actionName: String, undoManager: UndoManager?) {
         guard let undoManager else { return }
         undoManager.registerUndo(withTarget: self) { service in
-            service.apply(path: path, lineNumber: lineNumber, from: from, to: to, actionName: actionName, undoManager: undoManager)
+            _ = service.apply(path: path, lineNumber: lineNumber, from: from, to: to, actionName: actionName, undoManager: undoManager)
         }
         undoManager.setActionName(actionName)
     }

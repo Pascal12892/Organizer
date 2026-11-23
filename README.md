@@ -33,8 +33,11 @@ App von Apple anfühlt.
 - **Notizen** – der Ordnerbaum deines Vaults, Volltextsuche, Markdown-Vorschau, Bearbeiten mit automatischem Speichern,
   „In Obsidian öffnen“. Änderungen aus Obsidian erscheinen sofort.
 - **Aufgaben** – jede Zeile `- [ ] …` im Vault, im Format des Obsidian-Plugins [Tasks](https://publish.obsidian.md/tasks/):
-  Heute, Diese Woche, nach Bereich, Erledigt. Abhaken, Datum, Priorität – geändert wird immer genau eine Zeile.
-- **Kalender** – Tag, Woche, Monat aus dem Apple Kalender; Termine anlegen; fällige Aufgaben per Drag and Drop verschieben.
+  Heute, Diese Woche, nach Bereich, Erledigt – als Liste oder als Board (Offen, In Arbeit, Erledigt).
+  Abhaken, Datum, Priorität, Wiederholung – geändert wird immer genau eine Zeile. Wiederkehrende Aufgaben (🔁) bekommen
+  beim Abhaken wie im Tasks-Plugin automatisch die nächste Wiederholung.
+- **Kalender** – Tag, Woche, Monat aus dem Apple Kalender; Termine anlegen; fällige Aufgaben per Drag and Drop verschieben;
+  Aufgaben in die Zeitleiste ziehen legt einen Zeitblock im Apple Kalender an.
 - **Roadmap** – Projekte mit Meilensteinen als Zeitleiste, Fortschritt aus den Aufgaben.
 - **Mac-Ordner pro Thema** – Projektordner vom Schreibtisch mit einem Thema verknüpfen.
 - **Schnellerfassung** – mit ⌃⌥ Leertaste aus jeder App: „Hausarbeit bis Freitag #uni !!“ wird eine Aufgabe mit Datum,

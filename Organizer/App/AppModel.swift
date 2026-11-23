@@ -356,18 +356,61 @@ final class AppModel {
         }
     }
 
-    /// Legt einen Termin an; Rückgängig entfernt ihn wieder.
-    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?, undoManager: UndoManager?) throws {
-        let id = try calendar.createEvent(title: title, start: start, end: end, isAllDay: isAllDay, calendarID: calendarID, notes: notes)
+    /// Legt einen Termin an; Rückgängig entfernt ihn wieder, Wiederholen legt ihn erneut an.
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?, url: URL? = nil,
+                     actionName: String? = nil, undoManager: UndoManager?) throws {
+        let id = try calendar.createEvent(title: title, start: start, end: end, isAllDay: isAllDay, calendarID: calendarID, notes: notes, url: url)
         settings.update { $0.hiddenCalendarIDs.remove(calendarID) }
-        undoManager?.registerUndo(withTarget: self) { model in
+        let name = actionName ?? L("Termin anlegen")
+        guard let undoManager else { return }
+        undoManager.registerUndo(withTarget: self) { model in
             do {
                 try model.calendar.removeEvent(withID: id)
+                undoManager.registerUndo(withTarget: model) { model in
+                    do {
+                        try model.createEvent(title: title, start: start, end: end, isAllDay: isAllDay, calendarID: calendarID,
+                                              notes: notes, url: url, actionName: name, undoManager: undoManager)
+                    } catch {
+                        model.writeError = L("Termin konnte nicht angelegt werden: \(localizedMessage(error))")
+                    }
+                }
+                undoManager.setActionName(name)
             } catch {
                 model.writeError = L("Termin konnte nicht entfernt werden: \(localizedMessage(error))")
             }
         }
-        undoManager?.setActionName(L("Termin anlegen"))
+        undoManager.setActionName(name)
+    }
+
+    /// Dauer eines Zeitblocks, wenn eine Aufgabe in die Zeitleiste gezogen wird.
+    static let timeBlockDuration: TimeInterval = 3600
+
+    /// Aufgaben in die Zeitleiste gezogen: je Aufgabe ein Zeitblock im Apple Kalender, mehrere hintereinander.
+    /// Die Aufgabe im Vault bleibt unverändert. Der Termin verlinkt auf die Notiz in Obsidian.
+    @discardableResult
+    func dropTasksAsTimeBlocks(_ items: [String], at start: Date, undoManager: UndoManager?) -> Bool {
+        let ids = items.compactMap(DragPayload.taskID(from:))
+        let dropped = tasks.tasks.filter { ids.contains($0.id) }
+        guard !dropped.isEmpty else { return false }
+        guard calendar.access == .fullAccess, let calendarID = calendar.defaultCalendarID else {
+            writeError = L("Für Zeitblöcke braucht Organizer Zugriff auf den Kalender (Systemeinstellungen › Datenschutz & Sicherheit › Kalender).")
+            return false
+        }
+        var begin = start
+        for task in dropped {
+            let end = begin.addingTimeInterval(Self.timeBlockDuration)
+            let url = vault.vaultName.flatMap { ObsidianURL.open(vaultName: $0, relativePath: task.relativePath) }
+            do {
+                try createEvent(title: task.title.isEmpty ? L("Ohne Titel") : task.title, start: begin, end: end, isAllDay: false,
+                                calendarID: calendarID, notes: L("Aufgabe aus Organizer: \(task.relativePath)"), url: url,
+                                actionName: L("Zeitblock anlegen"), undoManager: undoManager)
+            } catch {
+                writeError = L("Zeitblock konnte nicht angelegt werden: \(localizedMessage(error))")
+                return false
+            }
+            begin = end
+        }
+        return true
     }
 
     /// Termin löschen; Einzeltermine lassen sich mit ⌘Z wiederherstellen.
