@@ -6,12 +6,15 @@ public struct VaultIndex: Sendable {
     public let folderNoteCounts: [String: Int]
     /// Projekte der Roadmap.
     public let projects: [RoadmapProject]
+    /// Rückverweise: Pfad einer Notiz → Stellen, die auf sie verlinken.
+    public let backlinks: [String: [Backlink]]
 
     public static let empty = VaultIndex(folderNoteCounts: [:], projects: [])
 
-    public init(folderNoteCounts: [String: Int], projects: [RoadmapProject]) {
+    public init(folderNoteCounts: [String: Int], projects: [RoadmapProject], backlinks: [String: [Backlink]] = [:]) {
         self.folderNoteCounts = folderNoteCounts
         self.projects = projects
+        self.backlinks = backlinks
     }
 
     public init(snapshot: VaultSnapshot) {
@@ -27,5 +30,6 @@ public struct VaultIndex: Sendable {
             .filter(RoadmapParser.isRoadmapNote)
             .map { RoadmapParser.project(from: $0, tasks: snapshot.tasks) }
             .sorted { ($0.span?.start ?? .distantFuture, $0.title) < ($1.span?.start ?? .distantFuture, $1.title) }
+        backlinks = BacklinkIndex.build(notes: snapshot.notes)
     }
 }

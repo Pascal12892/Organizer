@@ -31,6 +31,7 @@ struct NoteDetailView: View {
                             ProgressView()
                                 .frame(maxWidth: .infinity)
                         }
+                        BacklinksSection(note: note)
                     }
                     .frame(maxWidth: 720, alignment: .leading)
                     .padding(.horizontal, 32)
