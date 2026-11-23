@@ -11,6 +11,7 @@ struct NewNoteSheet: View {
     @State private var title = ""
     @State private var folder = ""
     @State private var extraProperties: [Frontmatter.Entry] = []
+    @State private var linkedTask: TaskItem?
     @State private var errorMessage: String?
     @State private var isCreating = false
     @FocusState private var titleFocused: Bool
@@ -60,6 +61,8 @@ struct NewNoteSheet: View {
             if let prefill = model.newNotePrefill {
                 title = prefill.title
                 extraProperties = prefill.extraProperties
+                if let prefillFolder = prefill.folder { folder = prefillFolder }
+                linkedTask = prefill.linkedTask
                 model.newNotePrefill = nil
             }
             titleFocused = true
@@ -77,6 +80,9 @@ struct NewNoteSheet: View {
         if let event = extraProperties.first(where: { $0.key == "termin" })?.value.stringValue {
             parts.append(L("Termin „\(event)“"))
         }
+        if let linkedTask {
+            parts.append(L("Verlinkt mit „\(linkedTask.displayTitle)“"))
+        }
         return parts.joined(separator: " · ")
     }
 
@@ -84,12 +90,17 @@ struct NewNoteSheet: View {
         isCreating = true
         Task {
             do {
-                try await model.createNote(
+                let path = try await model.createNote(
                     title: title.trimmingCharacters(in: .whitespaces),
                     folder: folder,
                     extraProperties: extraProperties,
                     undoManager: undoManager
                 )
+                // Erst nach dem Anlegen verlinken, damit der Link den tatsächlichen Dateinamen trägt („Titel 2“).
+                if let linkedTask, let note = model.vault.notes.first(where: { $0.relativePath == path }) {
+                    model.tasks.addLink(linkedTask, target: WikiLinks.linkTarget(for: note, in: model.vault.notes),
+                                        undoManager: undoManager)
+                }
                 dismiss()
             } catch {
                 errorMessage = localizedMessage(error)

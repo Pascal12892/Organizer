@@ -206,6 +206,29 @@ final class AppModel {
         return true
     }
 
+    /// Öffnet eine Notiz, die mit einer Aufgabe verlinkt ist. Fehlt sie, steht das in der Statuszeile.
+    func openLinkedNote(_ target: String) {
+        guard let note = WikiLinks.resolve(target, in: vault.notes) else {
+            writeError = L("Die verlinkte Notiz „\(TaskLine.linkName(target))“ gibt es nicht im Vault.")
+            return
+        }
+        openNote(atPath: note.relativePath)
+    }
+
+    /// Öffnet „Neue Notiz“ für eine Aufgabe: Titel und Ordner wie die Aufgabe, danach wird die Notiz verlinkt.
+    func createNote(for task: TaskItem) {
+        let folder = (task.relativePath as NSString).deletingLastPathComponent
+        newNotePrefill = NewNotePrefill(
+            title: task.displayTitle,
+            extraProperties: [],
+            folder: task.relativePath == TaskService.centralFile
+                ? [task.area, task.topic].compactMap { $0 }.joined(separator: "/")
+                : folder,
+            linkedTask: task
+        )
+        isShowingNewNote = true
+    }
+
     /// Öffnet die Notiz, in der eine Aufgabe steht.
     func openNote(atPath relativePath: String) {
         search.clear()
@@ -285,7 +308,7 @@ final class AppModel {
         let snapshot = WidgetSnapshot(
             generated: .now,
             tasks: due.prefix(20).map {
-                .init(title: $0.title, due: $0.relevantDate, isOverdue: TaskGrouping.isOverdue($0), area: $0.area, priority: $0.priority.rawValue)
+                .init(title: $0.displayTitle, due: $0.relevantDate, isOverdue: TaskGrouping.isOverdue($0), area: $0.area, priority: $0.priority.rawValue)
             },
             openTaskCount: tasks.counts.open,
             events: events.prefix(20).map { event in
@@ -401,7 +424,7 @@ final class AppModel {
             let end = begin.addingTimeInterval(Self.timeBlockDuration)
             let url = vault.vaultName.flatMap { ObsidianURL.open(vaultName: $0, relativePath: task.relativePath) }
             do {
-                try createEvent(title: task.title.isEmpty ? L("Ohne Titel") : task.title, start: begin, end: end, isAllDay: false,
+                try createEvent(title: task.title.isEmpty ? L("Ohne Titel") : task.displayTitle, start: begin, end: end, isAllDay: false,
                                 calendarID: calendarID, notes: L("Aufgabe aus Organizer: \(task.relativePath)"), url: url,
                                 actionName: L("Zeitblock anlegen"), undoManager: undoManager)
             } catch {
@@ -539,4 +562,8 @@ struct EntryDraft {
 struct NewNotePrefill: Equatable {
     var title: String
     var extraProperties: [Frontmatter.Entry]
+    /// Zielordner; `nil` = Standardordner der aktuellen Ansicht.
+    var folder: String? = nil
+    /// Aufgabe, in die nach dem Anlegen ein Link auf die neue Notiz geschrieben wird.
+    var linkedTask: TaskItem? = nil
 }

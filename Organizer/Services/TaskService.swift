@@ -118,6 +118,15 @@ final class TaskService {
         change(task, to: TaskLine.setting(task.rawLine, recurrence: rule), actionName: L("Wiederholung ändern"), undoManager: undoManager)
     }
 
+    /// Verlinkt eine Notiz mit `[[Ziel]]` in der Aufgabenzeile, so wie Obsidian es auch anzeigt.
+    func addLink(_ task: TaskItem, target: String, undoManager: UndoManager?) {
+        change(task, to: TaskLine.setting(task.rawLine, addingLink: target), actionName: L("Notiz verlinken"), undoManager: undoManager)
+    }
+
+    func removeLink(_ task: TaskItem, target: String, undoManager: UndoManager?) {
+        change(task, to: TaskLine.setting(task.rawLine, removingLink: target), actionName: L("Verlinkung entfernen"), undoManager: undoManager)
+    }
+
     func rename(_ task: TaskItem, to title: String, undoManager: UndoManager?) {
         let trimmed = title.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty, trimmed != task.title else { return }

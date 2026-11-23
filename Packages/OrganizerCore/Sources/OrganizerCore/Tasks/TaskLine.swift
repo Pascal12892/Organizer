@@ -82,7 +82,8 @@ public enum TaskLine {
             doneDate: date("done"),
             created: date("created"),
             recurrence: recurrence,
-            tags: TagExtractor.deduplicated(TagExtractor.inlineTags(in: description))
+            tags: TagExtractor.deduplicated(TagExtractor.inlineTags(in: description)),
+            links: links(in: description)
         )
     }
 
@@ -155,6 +156,65 @@ public enum TaskLine {
         let tail = parts.description[index...].trimmingCharacters(in: .whitespaces)
         let description = [title.trimmingCharacters(in: .whitespaces), tail].filter { !$0.isEmpty }.joined(separator: " ")
         return rebuild(parts, description: description)
+    }
+
+    // MARK: - Verlinkte Notizen
+
+    /// Wikilink-Ziele in einem Text, ohne Doppelte. Eingebettete Dateien (`![[Bild.png]]`) zählen nicht.
+    public static func links(in text: String) -> [String] {
+        guard text.contains("[[") else { return [] }
+        var seen = Set<String>()
+        return text.matches(of: Patterns.wikiLink).compactMap { match in
+            guard !match.output.0.hasPrefix("!") else { return nil }
+            let target = String(match.output.1).trimmingCharacters(in: .whitespaces)
+            guard !target.isEmpty, seen.insert(target.lowercased()).inserted else { return nil }
+            return target
+        }
+    }
+
+    /// Ersetzt Wikilinks durch lesbaren Text: Alias, sonst Dateiname ohne Ordner und Abschnitt.
+    public static func displayTitle(_ title: String) -> String {
+        guard title.contains("[[") else { return title }
+        return title.replacing(Patterns.wikiLink) { match in
+            if let alias = match.output.2 { return String(alias) }
+            return linkName(String(match.output.1))
+        }
+    }
+
+    /// Anzeigename eines Link-Ziels: `Uni/Gliederung#Teil 2` → `Gliederung`.
+    public static func linkName(_ target: String) -> String {
+        (WikiLinks.noteName(fromTarget: target) as NSString).lastPathComponent
+    }
+
+    /// Hängt `[[Ziel]]` an den Titel an. Ist die Notiz schon verlinkt, bleibt die Zeile gleich.
+    /// Wie im Tasks-Plugin steht der Link im Beschreibungstext, vor Datum und Tags.
+    public static func setting(_ line: String, addingLink target: String) -> String {
+        let target = target.trimmingCharacters(in: .whitespaces)
+        guard let parts = parts(of: line), !target.isEmpty else { return line }
+        let existing = links(in: parts.description).map { WikiLinks.noteName(fromTarget: $0).lowercased() }
+        guard !existing.contains(WikiLinks.noteName(fromTarget: target).lowercased()) else { return line }
+        return setting(line, title: title(of: parts.description) + " [[" + target + "]]")
+    }
+
+    /// Entfernt alle Links auf `target` (auch mit Alias oder Abschnitt). Der übrige Text bleibt unverändert.
+    public static func setting(_ line: String, removingLink target: String) -> String {
+        guard let parts = parts(of: line) else { return line }
+        let name = WikiLinks.noteName(fromTarget: target).lowercased()
+        var description = parts.description
+        let ranges = description.matches(of: Patterns.wikiLink)
+            .filter { !$0.output.0.hasPrefix("!") && WikiLinks.noteName(fromTarget: String($0.output.1)).lowercased() == name }
+            .map(\.range)
+        guard !ranges.isEmpty else { return line }
+        for range in ranges.reversed() {
+            var start = range.lowerBound
+            if start > description.startIndex, description[description.index(before: start)] == " " {
+                start = description.index(before: start)
+            }
+            description.removeSubrange(start..<range.upperBound)
+        }
+        var rebuilt = parts
+        rebuilt.description = description.trimmingCharacters(in: .whitespaces)
+        return rebuild(rebuilt, description: rebuilt.description)
     }
 
     /// Wiederholung setzen (`every week`) oder entfernen (`nil`). Steht wie im Tasks-Plugin vor den Datumsfeldern.

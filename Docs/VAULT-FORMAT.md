@@ -83,6 +83,20 @@ Jede Zeile `- [ ] …` außerhalb von Codeblöcken ist eine Aufgabe – im Forma
 - **Neue Aufgaben** landen je nach Einstellung in `_Organizer/Tasks.md` oder in `Aufgaben.md` im Bereichs- bzw. Themenordner.
 - Im Kalender erscheinen fällige Aufgaben nur in Organizer, nicht im Apple Kalender.
 
+### Verlinkte Notizen
+
+Eine Aufgabe verweist mit einem normalen Wikilink auf eine Notiz, genau wie in Obsidian:
+
+    - [ ] Kapitel 2 schreiben [[Gliederung]] ⏫ 📅 2026-11-30 #uni
+
+- Organizer zeigt den Titel ohne Klammern und darunter die verlinkten Notizen. Ein Klick öffnet die Notiz.
+- Kontextmenü › Verlinkte Notizen: **Notiz verlinken …** (Suche im Vault), **Neue Notiz zur Aufgabe …**
+  (legt die Notiz an und verlinkt sie) und **Verlinkung entfernen**.
+- Der Link steht hinter dem Titel und vor Datum und Tags. Ist der Dateiname im Vault eindeutig, steht nur der Name
+  (`[[Gliederung]]`), sonst der Pfad ohne `.md` (`[[Uni/Index]]`). Links mit Alias oder Abschnitt werden auch erkannt.
+- Fehlt die Notiz, wird der Link durchgestrichen angezeigt. Die Zeile bleibt unverändert.
+- Über Claude (MCP) setzt `update_task` mit `link_note` einen Link, `list_tasks` liefert `linked_notes`.
+
 ### Wiederholungen
 
 Organizer versteht die Regeln des Tasks-Plugins (englisch, damit Obsidian sie weiter erkennt):

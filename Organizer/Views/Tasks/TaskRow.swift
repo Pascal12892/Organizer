@@ -10,6 +10,7 @@ struct TaskRow: View {
 
     @State private var isCompleting = false
     @State private var showsDuePicker = false
+    @State private var showsLinkPicker = false
     @State private var isEditingTitle = false
     @State private var draftTitle = ""
     @FocusState private var titleFocused: Bool
@@ -44,7 +45,7 @@ struct TaskRow: View {
                             .onSubmit(commitTitle)
                             .onExitCommand { isEditingTitle = false }
                     } else {
-                        Text(task.title.isEmpty ? L("Ohne Titel") : task.title)
+                        Text(task.title.isEmpty ? L("Ohne Titel") : task.displayTitle)
                             .strikethrough(task.status == .cancelled)
                             .foregroundStyle(showsDone ? .secondary : .primary)
                             .onTapGesture(count: 2, perform: startEditing)
@@ -58,9 +59,14 @@ struct TaskRow: View {
         .padding(.vertical, 3)
         .contentShape(Rectangle())
         .draggable(DragPayload.task(task.id)) {
-            Label(task.title, systemImage: "checklist").padding(6)
+            Label(task.displayTitle, systemImage: "checklist").padding(6)
         }
-        .contextMenu { TaskMenuItems(task: task) { showsDuePicker = true } }
+        .contextMenu {
+            TaskMenuItems(task: task, chooseDate: { showsDuePicker = true }, chooseNote: { showsLinkPicker = true })
+        }
+        .sheet(isPresented: $showsLinkPicker) {
+            NoteLinkPicker(task: task)
+        }
         .popover(isPresented: $showsDuePicker, arrowEdge: .trailing) {
             DuePicker(initial: task.due) { model.tasks.setDue(task, $0, undoManager: undoManager) }
         }
@@ -110,6 +116,10 @@ struct TaskRow: View {
             .buttonStyle(.link)
             .foregroundStyle(.secondary)
             .help("Notiz „\(task.noteTitle)“ öffnen")
+
+            ForEach(task.links, id: \.self) { target in
+                LinkedNoteButton(target: target)
+            }
 
             if !task.tags.isEmpty {
                 Text(task.tags.map { "#" + $0 }.joined(separator: " "))
@@ -171,6 +181,8 @@ struct TaskMenuItems: View {
     let task: TaskItem
     /// Öffnet den Kalender zur Datumswahl (vom Aufrufer, weil ein Kontextmenü kein Popover zeigen kann).
     var chooseDate: (() -> Void)? = nil
+    /// Öffnet die Auswahl einer Notiz zum Verlinken (aus demselben Grund vom Aufrufer).
+    var chooseNote: (() -> Void)? = nil
 
     var body: some View {
         Button(task.isOpen ? L("Als erledigt markieren") : L("Wieder öffnen")) {
@@ -229,6 +241,25 @@ struct TaskMenuItems: View {
         }
 
         Divider()
+        Menu("Verlinkte Notizen") {
+            ForEach(task.links, id: \.self) { target in
+                Button(L("„\(TaskLine.linkName(target))“ öffnen")) { model.openLinkedNote(target) }
+            }
+            if !task.links.isEmpty { Divider() }
+            if let chooseNote {
+                Button("Notiz verlinken …", action: chooseNote)
+            }
+            Button("Neue Notiz zur Aufgabe …") { model.createNote(for: task) }
+            if !task.links.isEmpty {
+                Divider()
+                ForEach(task.links, id: \.self) { target in
+                    Button(L("Verlinkung zu „\(TaskLine.linkName(target))“ entfernen")) {
+                        model.tasks.removeLink(task, target: target, undoManager: undoManager)
+                    }
+                }
+            }
+        }
+
         Button("In Notiz zeigen") { model.openNote(atPath: task.relativePath) }
         if let note = model.vault.notes.first(where: { $0.relativePath == task.relativePath }) {
             Button("In Obsidian öffnen") { model.openInObsidian(note) }
@@ -257,4 +288,26 @@ struct RecurrenceChoice {
         .init(rule: "every month", title: L("Monatlich")),
         .init(rule: "every year", title: L("Jährlich")),
     ]
+}
+
+/// Verlinkte Notiz unter einer Aufgabe. Klick öffnet sie; fehlt sie im Vault, wird sie durchgestrichen.
+private struct LinkedNoteButton: View {
+    @Environment(AppModel.self) private var model
+    let target: String
+
+    var body: some View {
+        let exists = WikiLinks.resolve(target, in: model.vault.notes) != nil
+        let name = TaskLine.linkName(target)
+        Button {
+            model.openLinkedNote(target)
+        } label: {
+            Label(name, systemImage: "link")
+                .lineLimit(1)
+                .strikethrough(!exists)
+        }
+        .buttonStyle(.link)
+        .foregroundStyle(.secondary)
+        .help(exists ? L("Verlinkte Notiz „\(name)“ öffnen") : L("Die Notiz „\(name)“ gibt es nicht im Vault"))
+        .accessibilityLabel(L("Verlinkte Notiz \(name)"))
+    }
 }

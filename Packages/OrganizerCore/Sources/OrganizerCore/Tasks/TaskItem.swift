@@ -82,6 +82,8 @@ public struct TaskItem: Identifiable, Sendable, Hashable {
     public var created: Date?
     public var recurrence: String?
     public var tags: [String]
+    /// Verlinkte Notizen als Wikilink-Ziele (`[[Gliederung]]` → `Gliederung`), in der Reihenfolge der Zeile.
+    public var links: [String]
     public var area: String?
     public var topic: String?
     public var noteTitle: String
@@ -92,10 +94,13 @@ public struct TaskItem: Identifiable, Sendable, Hashable {
     /// Das Datum, das für „fällig“ zählt: Deadline, sonst geplant.
     public var relevantDate: Date? { due ?? scheduled }
 
+    /// Titel zum Anzeigen: Wikilinks als lesbarer Text (`[[Ordner/Gliederung|Plan]]` → `Plan`).
+    public var displayTitle: String { TaskLine.displayTitle(title) }
+
     public init(relativePath: String, lineNumber: Int, rawLine: String, title: String, status: TaskStatus,
                 priority: TaskPriority = .none, due: Date? = nil, scheduled: Date? = nil, start: Date? = nil,
                 doneDate: Date? = nil, created: Date? = nil, recurrence: String? = nil, tags: [String] = [],
-                area: String? = nil, topic: String? = nil, noteTitle: String = "") {
+                links: [String] = [], area: String? = nil, topic: String? = nil, noteTitle: String = "") {
         self.relativePath = relativePath
         self.lineNumber = lineNumber
         self.rawLine = rawLine
@@ -109,6 +114,7 @@ public struct TaskItem: Identifiable, Sendable, Hashable {
         self.created = created
         self.recurrence = recurrence
         self.tags = tags
+        self.links = links
         self.area = area
         self.topic = topic
         self.noteTitle = noteTitle

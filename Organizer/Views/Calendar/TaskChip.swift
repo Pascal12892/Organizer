@@ -18,9 +18,9 @@ struct TaskChip: View {
             }
             .buttonStyle(.plain)
             .help("Als erledigt markieren")
-            .accessibilityLabel("Aufgabe \(task.title) erledigen")
+            .accessibilityLabel("Aufgabe \(task.displayTitle) erledigen")
 
-            Text(task.title)
+            Text(task.displayTitle)
                 .lineLimit(1)
                 .strikethrough(!task.isOpen)
             Spacer(minLength: 0)
@@ -29,10 +29,10 @@ struct TaskChip: View {
         .padding(.horizontal, 4)
         .contentShape(Rectangle())
         .draggable(DragPayload.task(task.id)) {
-            Label(task.title, systemImage: "checklist").padding(6)
+            Label(task.displayTitle, systemImage: "checklist").padding(6)
         }
         .contextMenu { TaskMenuItems(task: task) }
         .onTapGesture(count: 2) { model.openNote(atPath: task.relativePath) }
-        .help("\(task.title) – Doppelklick öffnet die Notiz")
+        .help("\(task.displayTitle) – Doppelklick öffnet die Notiz")
     }
 }

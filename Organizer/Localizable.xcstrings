@@ -1981,6 +1981,22 @@
         }
       }
     },
+    "Die Notiz „%@“ gibt es nicht im Vault": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظة „%@“ غير موجودة في الخزنة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note “%@” doesn’t exist in the vault"
+          }
+        }
+      }
+    },
     "Die neue Sprache gilt nach einem Neustart von Organizer.": {
       "localizations": {
         "ar": {
@@ -2009,6 +2025,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Latest %lld"
+          }
+        }
+      }
+    },
+    "Die verlinkte Notiz „%@“ gibt es nicht im Vault.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظة المرتبطة „%@“ غير موجودة في الخزنة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The linked note “%@” doesn’t exist in the vault."
           }
         }
       }
@@ -4368,6 +4400,22 @@
         }
       }
     },
+    "Neue Notiz zur Aufgabe …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة جديدة للمهمة…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note for Task…"
+          }
+        }
+      }
+    },
     "Neue Notiz …": {
       "localizations": {
         "ar": {
@@ -4828,6 +4876,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "The note could not be moved: %@"
+          }
+        }
+      }
+    },
+    "Notiz suchen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث في الملاحظات"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search Notes"
+          }
+        }
+      }
+    },
+    "Notiz verlinken": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط ملاحظة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Note"
+          }
+        }
+      }
+    },
+    "Notiz verlinken …": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط ملاحظة…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Note…"
           }
         }
       }
@@ -6400,6 +6496,22 @@
         }
       }
     },
+    "Titel oder Ordner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العنوان أو المجلد"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title or folder"
+          }
+        }
+      }
+    },
     "Täglich": {
       "localizations": {
         "ar": {
@@ -6588,6 +6700,118 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remove Link"
+          }
+        }
+      }
+    },
+    "Verlinken": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ربط"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link"
+          }
+        }
+      }
+    },
+    "Verlinkt mit „%@“": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرتبطة بـ „%@“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked to “%@”"
+          }
+        }
+      }
+    },
+    "Verlinkte Notiz %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة مرتبطة %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked note %@"
+          }
+        }
+      }
+    },
+    "Verlinkte Notiz „%@“ öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح الملاحظة المرتبطة „%@“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open linked note “%@”"
+          }
+        }
+      }
+    },
+    "Verlinkte Notizen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملاحظات المرتبطة"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked Notes"
+          }
+        }
+      }
+    },
+    "Verlinkung entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الرابط"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Link"
+          }
+        }
+      }
+    },
+    "Verlinkung zu „%@“ entfernen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الرابط إلى „%@“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Link to “%@”"
           }
         }
       }
@@ -7580,6 +7804,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "“%1$@” could not be written: %2$@"
+          }
+        }
+      }
+    },
+    "„%@“ öffnen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح „%@“"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open “%@”"
           }
         }
       }
