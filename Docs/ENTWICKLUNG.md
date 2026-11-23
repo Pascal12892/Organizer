@@ -18,6 +18,7 @@ Technische Details für alle, die Organizer selbst bauen oder weiterentwickeln w
     Scripts/install-app.sh                                      # optimierter Build nach /Applications – für den Alltag
     Scripts/package-app.sh                                      # DMG zum Weitergeben → dist/Organizer-<Version>.dmg
     cd Packages/OrganizerCore && swift test                     # Parser-Tests
+    Scripts/claude-project.sh                                   # Wissensdateien für ein Claude-Projekt → dist/claude-project/
 
 Die App läuft in der Sandbox. Der Zugriff auf den Vault wird als Security-Scoped Bookmark gespeichert.
 Bei lokaler Ad-hoc-Signierung kann ein Bookmark nach einem Neubuild ungültig werden. Organizer fragt dann nach dem Ordner.
