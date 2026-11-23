@@ -216,7 +216,12 @@ final class ToolBox {
             if let due = arguments["due"]?.stringValue { line = TaskLine.setting(line, due: due.isEmpty ? nil : try parseDate(due)) }
             if let priority = s("priority") { line = TaskLine.setting(line, priority: Self.priority(priority)) }
             guard line != task.rawLine else { return ["unchanged": .string(task.title)] }
-            try writer.replaceLine(task.relativePath, lineNumber: task.lineNumber, expected: task.rawLine, with: line)
+            let index = try writer.replaceLine(task.relativePath, lineNumber: task.lineNumber, expected: task.rawLine, with: line)
+            // Wiederkehrende Aufgabe erledigt: nächste Wiederholung darüber einfügen, wie Organizer und das Tasks-Plugin.
+            if task.isOpen, TaskLine.parse(line)?.status == .done, let next = TaskLine.nextOccurrence(of: line) {
+                try writer.insertLine(task.relativePath, at: index, line: next)
+                return ["updated": .string(line), "next": .string(next)]
+            }
             return ["updated": .string(line)]
 
         case "create_event":

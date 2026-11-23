@@ -22,6 +22,30 @@ extension TaskFilter {
     }
 }
 
+extension TaskStatus {
+    var localizedTitle: String {
+        switch self {
+        case .open: L("Offen")
+        case .inProgress: L("In Arbeit")
+        case .done: L("Erledigt")
+        case .cancelled: L("Abgebrochen")
+        case .other(let character): String(character)
+        }
+    }
+}
+
+extension TaskBoardColumn {
+    var localizedTitle: String { status.localizedTitle }
+
+    var symbol: String {
+        switch self {
+        case .open: "circle"
+        case .inProgress: "circle.lefthalf.filled"
+        case .done: "checkmark.circle"
+        }
+    }
+}
+
 extension DonePeriod {
     var localizedTitle: String {
         switch self {

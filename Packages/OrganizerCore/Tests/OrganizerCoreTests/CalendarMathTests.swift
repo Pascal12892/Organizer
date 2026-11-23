@@ -68,4 +68,14 @@ struct CalendarMathTests {
         #expect(placements["c"] == TimelinePlacement(column: 0, columnCount: 2))
         #expect(placements["d"] == TimelinePlacement(column: 0, columnCount: 1))
     }
+
+    @Test func timeBlockSnapsToQuarterHours() {
+        let day = date(2026, 11, 23)
+        #expect(CalendarMath.timeBlockStart(on: day, hours: 9.4, calendar: calendar) == date(2026, 11, 23, 9, 15))
+        #expect(CalendarMath.timeBlockStart(on: day, hours: 14, calendar: calendar) == date(2026, 11, 23, 14))
+        #expect(CalendarMath.timeBlockStart(on: day, hours: -1, calendar: calendar) == date(2026, 11, 23))
+        // Ganz unten: der Block endet noch vor Mitternacht.
+        #expect(CalendarMath.timeBlockStart(on: day, hours: 23.9, calendar: calendar) == date(2026, 11, 23, 23))
+        #expect(CalendarMath.timeBlockStart(on: day, hours: 23.9, duration: 1800, calendar: calendar) == date(2026, 11, 23, 23, 30))
+    }
 }

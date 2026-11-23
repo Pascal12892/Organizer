@@ -141,7 +141,7 @@ final class CalendarService {
 
     /// Legt einen Termin an und gibt seine ID zurück (für Rückgängig).
     @discardableResult
-    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?) throws -> String {
+    func createEvent(title: String, start: Date, end: Date, isAllDay: Bool, calendarID: String, notes: String?, url: URL? = nil) throws -> String {
         guard let calendar = store.calendar(withIdentifier: calendarID) else {
             throw CocoaError(.fileNoSuchFile, userInfo: [NSLocalizedDescriptionKey: L("Der Kalender existiert nicht mehr.")])
         }
@@ -152,6 +152,7 @@ final class CalendarService {
         event.isAllDay = isAllDay
         event.calendar = calendar
         if let notes, !notes.isEmpty { event.notes = notes }
+        event.url = url
         try store.save(event, span: .thisEvent, commit: true)
         return event.eventIdentifier
     }

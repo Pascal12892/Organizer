@@ -10,6 +10,86 @@ struct TasksView: View {
     var body: some View {
         let filter = model.settings.settings.taskFilter
         let donePeriod = model.settings.settings.donePeriod
+        let layout = model.settings.settings.taskLayout
+
+        Group {
+            if layout == .board {
+                TaskBoardView()
+            } else {
+                list(filter: filter, donePeriod: donePeriod)
+            }
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if layout == .board || filter != .done, model.vault.state == .ready {
+                NewTaskField(defaultDue: layout == .board || filter == .all ? nil : Calendar.current.startOfDay(for: .now))
+            }
+        }
+        .navigationTitle("Aufgaben")
+        .navigationSubtitle(layout == .list && filter == .done ? doneSubtitle(model.tasks.sections(filter: filter, area: model.taskAreaFilter, donePeriod: donePeriod), period: donePeriod) : subtitle)
+        .toolbar {
+            if layout == .list {
+                ToolbarItem(placement: .principal) {
+                    Picker("Ansicht", selection: Binding(
+                        get: { filter },
+                        set: { newFilter in model.settings.update { $0.taskFilter = newFilter } }
+                    )) {
+                        ForEach(TaskFilter.allCases, id: \.self) { filter in
+                            Text(filter.localizedTitle).tag(filter)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                if filter == .done {
+                    ToolbarItem {
+                        Picker("Zeitraum", selection: Binding(
+                            get: { donePeriod },
+                            set: { period in model.settings.update { $0.donePeriod = period } }
+                        )) {
+                            ForEach(DonePeriod.allCases, id: \.self) { period in
+                                if period == .all { Divider() }
+                                Text(period.localizedTitle).tag(period)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .fixedSize()
+                        .help("Erledigte Aufgaben nach Zeitraum filtern")
+                    }
+                }
+            }
+            ToolbarItem {
+                Picker("Darstellung", selection: Binding(
+                    get: { layout },
+                    set: { newLayout in model.settings.update { $0.taskLayout = newLayout } }
+                )) {
+                    Label("Liste", systemImage: "list.bullet").tag(TaskLayout.list)
+                    Label("Board", systemImage: "rectangle.split.3x1").tag(TaskLayout.board)
+                }
+                .pickerStyle(.segmented)
+                .labelStyle(.iconOnly)
+                .help("Als Liste oder als Board nach Status anzeigen")
+            }
+            ToolbarItem {
+                Menu {
+                    Picker("Bereich", selection: Bindable(model).taskAreaFilter) {
+                        Text("Alle Bereiche").tag(String?.none)
+                        Divider()
+                        ForEach(model.areas, id: \.self) { area in
+                            Label(area, systemImage: SidebarItem.areaSymbol(for: area)).tag(String?.some(area))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    Label("Nach Bereich filtern", systemImage: model.taskAreaFilter == nil
+                          ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+                }
+                .help(model.taskAreaFilter.map { L("Nur \($0)") } ?? L("Nach Bereich filtern"))
+            }
+        }
+    }
+
+    /// Die bisherige Listenansicht mit Heute, Diese Woche, Alle und Erledigt.
+    @ViewBuilder
+    private func list(filter: TaskFilter, donePeriod: DonePeriod) -> some View {
         let sections = model.tasks.sections(filter: filter, area: model.taskAreaFilter, donePeriod: donePeriod)
 
         List(selection: $selection) {
@@ -29,11 +109,6 @@ struct TasksView: View {
         .overlay {
             if sections.isEmpty { emptyState(filter) }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if filter != .done, model.vault.state == .ready {
-                NewTaskField(defaultDue: filter == .all ? nil : Calendar.current.startOfDay(for: .now))
-            }
-        }
         .onKeyPress(.space) {
             guard let task = selectedTask else { return .ignored }
             model.tasks.setDone(task, task.isOpen, undoManager: undoManager)
@@ -41,53 +116,6 @@ struct TasksView: View {
         }
         .onDeleteCommand {
             if let task = selectedTask { model.tasks.delete(task, undoManager: undoManager) }
-        }
-        .navigationTitle("Aufgaben")
-        .navigationSubtitle(filter == .done ? doneSubtitle(sections, period: donePeriod) : subtitle)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Picker("Ansicht", selection: Binding(
-                    get: { filter },
-                    set: { newFilter in model.settings.update { $0.taskFilter = newFilter } }
-                )) {
-                    ForEach(TaskFilter.allCases, id: \.self) { filter in
-                        Text(filter.localizedTitle).tag(filter)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
-            if filter == .done {
-                ToolbarItem {
-                    Picker("Zeitraum", selection: Binding(
-                        get: { donePeriod },
-                        set: { period in model.settings.update { $0.donePeriod = period } }
-                    )) {
-                        ForEach(DonePeriod.allCases, id: \.self) { period in
-                            if period == .all { Divider() }
-                            Text(period.localizedTitle).tag(period)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .fixedSize()
-                    .help("Erledigte Aufgaben nach Zeitraum filtern")
-                }
-            }
-            ToolbarItem {
-                Menu {
-                    Picker("Bereich", selection: Bindable(model).taskAreaFilter) {
-                        Text("Alle Bereiche").tag(String?.none)
-                        Divider()
-                        ForEach(model.areas, id: \.self) { area in
-                            Label(area, systemImage: SidebarItem.areaSymbol(for: area)).tag(String?.some(area))
-                        }
-                    }
-                    .pickerStyle(.inline)
-                } label: {
-                    Label("Nach Bereich filtern", systemImage: model.taskAreaFilter == nil
-                          ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
-                }
-                .help(model.taskAreaFilter.map { L("Nur \($0)") } ?? L("Nach Bereich filtern"))
-            }
         }
     }
 

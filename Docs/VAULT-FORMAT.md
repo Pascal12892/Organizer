@@ -74,7 +74,7 @@ Jede Zeile `- [ ] …` außerhalb von Codeblöcken ist eine Aufgabe – im Forma
 | `[ ]` `[x]` `[/]` `[-]` | offen, erledigt, in Arbeit, abgebrochen |
 | 🔺 ⏫ 🔼 🔽 ⏬ | Priorität (höchste … niedrigste) |
 | 📅 / ⏳ / 🛫 / ➕ / ✅ | fällig / geplant / Start / erstellt / erledigt am |
-| 🔁 | Wiederholung (nur Anzeige) |
+| 🔁 | Wiederholung, z. B. `🔁 every week` (siehe unten) |
 
 - **Bereich und Thema** kommen vom Speicherort der Notiz. Aufgaben in `_Organizer/Tasks.md` werden über Tags
   zugeordnet (`#uni` → Uni, `#data-science` → Thema „Data Science“).
@@ -82,6 +82,25 @@ Jede Zeile `- [ ] …` außerhalb von Codeblöcken ist eine Aufgabe – im Forma
   dass die Zeile noch so in der Datei steht; sonst wird nichts geschrieben. Jede Änderung ist mit ⌘Z rückgängig zu machen.
 - **Neue Aufgaben** landen je nach Einstellung in `_Organizer/Tasks.md` oder in `Aufgaben.md` im Bereichs- bzw. Themenordner.
 - Im Kalender erscheinen fällige Aufgaben nur in Organizer, nicht im Apple Kalender.
+
+### Wiederholungen
+
+Organizer versteht die Regeln des Tasks-Plugins (englisch, damit Obsidian sie weiter erkennt):
+`every day`, `every 3 days`, `every weekday`, `every Monday`, `every week on Monday, Thursday`, `every 2 weeks`,
+`every month`, `every month on the 15th`, `every month on the last`, `every year`, jeweils optional mit `when done`.
+Im Kontextmenü einer Aufgabe gibt es dafür „Wiederholen“.
+
+Beim Abhaken (in Organizer, im Board, in Apple Erinnerungen oder über Claude) passiert dasselbe wie im Tasks-Plugin:
+
+    - [ ] Wäsche 🔁 every week 📅 2026-11-27 #haushalt
+    - [x] Wäsche 🔁 every week 📅 2026-11-20 #haushalt ✅ 2026-11-21
+
+- Die neue Zeile kommt **direkt über** die erledigte. Fällig, geplant und Start verschieben sich um denselben Abstand.
+- `when done` rechnet vom Tag des Abhakens statt vom Fälligkeitsdatum.
+- Erledigt-Datum und Block-ID (`^id`) werden nicht übernommen, ein Erstellt-Datum (➕) wird auf heute gesetzt.
+- Hat die Aufgabe kein Datum, bekommt die Wiederholung eine Fälligkeit ab heute.
+- Unbekannte Regeln bleiben stehen; die Aufgabe wird dann nur abgehakt.
+- ⌘Z nimmt Abhaken und neue Zeile in einem Schritt zurück.
 
 ## Mac-Ordner pro Thema (ab Phase 5)
 

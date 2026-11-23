@@ -20,7 +20,7 @@ struct TaskRow: View {
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             Button(action: toggle) {
-                Image(systemName: showsDone ? "checkmark.circle.fill" : "circle")
+                Image(systemName: showsDone ? "checkmark.circle.fill" : task.status == .inProgress ? "circle.lefthalf.filled" : "circle")
                     .font(.title3)
                     .foregroundStyle(showsDone ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
                     .contentTransition(.symbolEffect(.replace))
@@ -194,12 +194,37 @@ struct TaskMenuItems: View {
             }
         }
 
+        Picker("Status", selection: Binding(
+            get: { task.status },
+            set: { model.tasks.setStatus(task, $0, undoManager: undoManager) }
+        )) {
+            ForEach([TaskStatus.open, .inProgress, .done, .cancelled], id: \.self) { status in
+                Text(status.localizedTitle).tag(status)
+            }
+        }
+
         Picker("Priorität", selection: Binding(
             get: { task.priority },
             set: { model.tasks.setPriority(task, $0, undoManager: undoManager) }
         )) {
             ForEach(TaskPriority.allCases.reversed(), id: \.self) { priority in
                 Text(priority.localizedTitle).tag(priority)
+            }
+        }
+
+        Picker("Wiederholen", selection: Binding(
+            get: { task.recurrence ?? "" },
+            set: { model.tasks.setRecurrence(task, $0.isEmpty ? nil : $0, undoManager: undoManager) }
+        )) {
+            Text("Nie").tag("")
+            Divider()
+            ForEach(RecurrenceChoice.all, id: \.rule) { choice in
+                Text(choice.title).tag(choice.rule)
+            }
+            // Eigene Regeln aus Obsidian bleiben wählbar, damit der Picker sie anzeigt.
+            if let rule = task.recurrence, !RecurrenceChoice.all.contains(where: { $0.rule == rule }) {
+                Divider()
+                Text(verbatim: rule).tag(rule)
             }
         }
 
@@ -217,4 +242,19 @@ struct TaskMenuItems: View {
     private func setDue(_ date: Date?) {
         model.tasks.setDue(task, date, undoManager: undoManager)
     }
+}
+
+/// Vorgaben für das Menü „Wiederholen“. Die Regel bleibt englisch, damit das Tasks-Plugin sie versteht.
+struct RecurrenceChoice {
+    let rule: String
+    let title: String
+
+    static let all: [RecurrenceChoice] = [
+        .init(rule: "every day", title: L("Täglich")),
+        .init(rule: "every weekday", title: L("An Werktagen")),
+        .init(rule: "every week", title: L("Wöchentlich")),
+        .init(rule: "every 2 weeks", title: L("Alle zwei Wochen")),
+        .init(rule: "every month", title: L("Monatlich")),
+        .init(rule: "every year", title: L("Jährlich")),
+    ]
 }
