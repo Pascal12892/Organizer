@@ -42,6 +42,10 @@ Aus `tags:` im Frontmatter und `#tag` im Text (nicht in Code, nicht reine Zahlen
 `[[Notiz]]`, `[[Ordner/Notiz|Alias]]` und `[[Notiz#Abschnitt]]` sind in der Vorschau anklickbar.
 Aufgelöst wird wie in Obsidian: zuerst über den Pfad, dann über den Dateinamen.
 
+**Rückverweise:** Unter jeder Notiz steht „Verlinkt von“ mit allen Zeilen anderer Notizen, die auf sie verlinken.
+Aufgaben erscheinen dort mit Checkbox und lassen sich direkt abhaken. Links in Codeblöcken, eingebettete Dateien
+(`![[…]]`) und Verweise einer Notiz auf sich selbst zählen nicht. Organizer schreibt dafür nichts in den Vault.
+
 ## Schreiben (ab Phase 2)
 
 - **Neue Notiz:** `<Bereich>/<Thema>/<Titel>.md` mit dem Frontmatter oben. Gibt es den Namen schon,

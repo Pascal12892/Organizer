@@ -31,7 +31,7 @@ App von Apple anfühlt.
 
 - **Dashboard** – Termine heute und morgen, fällige Aufgaben, zuletzt bearbeitete Notizen, nächste Meilensteine.
 - **Notizen** – der Ordnerbaum deines Vaults, Volltextsuche, Markdown-Vorschau, Bearbeiten mit automatischem Speichern,
-  „In Obsidian öffnen“. Änderungen aus Obsidian erscheinen sofort.
+  „In Obsidian öffnen“, Rückverweise („Verlinkt von“). Änderungen aus Obsidian erscheinen sofort.
 - **Aufgaben** – jede Zeile `- [ ] …` im Vault, im Format des Obsidian-Plugins [Tasks](https://publish.obsidian.md/tasks/):
   Heute, Diese Woche, nach Bereich, Erledigt – als Liste oder als Board (Offen, In Arbeit, Erledigt).
   Abhaken, Datum, Priorität, Wiederholung, verlinkte Notizen (`[[Notiz]]`) – geändert wird immer genau eine Zeile. Wiederkehrende Aufgaben (🔁) bekommen

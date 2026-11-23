@@ -3693,6 +3693,22 @@
         }
       }
     },
+    "Keine andere Notiz und keine Aufgabe verlinkt auf diese Notiz.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد ملاحظة أو مهمة أخرى ترتبط بهذه الملاحظة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No other note or task links to this note."
+          }
+        }
+      }
+    },
     "Keine offenen Aufgaben": {
       "localizations": {
         "ar": {
@@ -6732,6 +6748,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Linked to “%@”"
+          }
+        }
+      }
+    },
+    "Verlinkt von (%lld)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرتبطة من (%lld)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked from (%lld)"
           }
         }
       }
